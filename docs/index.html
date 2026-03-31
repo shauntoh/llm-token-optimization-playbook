@@ -7,13 +7,15 @@
     <title>Why LLM Code Tools Burn Your Limits (and How to Fix It)</title>
     <style>
       :root {
-        --bg: #f3f6fb;
+        --bg: #f9fafb;
         --surface: #ffffff;
-        --surface-soft: #f8fafc;
-        --text: #0f172a;
-        --muted: #475569;
         --border: #e5e7eb;
-        --shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+        --text: #111827;
+        --muted: #6b7280;
+        --space-1: 8px;
+        --space-2: 16px;
+        --space-3: 24px;
+        --space-4: 32px;
       }
 
       * {
@@ -28,174 +30,173 @@
         margin: 0;
         background: var(--bg);
         color: var(--text);
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        line-height: 1.72;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        font-size: 15px;
+        line-height: 1.7;
       }
 
       .page {
-        width: min(980px, calc(100% - 28px));
-        margin: 26px auto 64px;
+        max-width: 900px;
+        margin: var(--space-4) auto;
+        padding: 0 var(--space-2);
       }
 
-      .article {
-        display: grid;
-        gap: 16px;
-      }
-
-      .hero,
-      .section {
+      .section-card {
         background: var(--surface);
         border: 1px solid var(--border);
-        border-radius: 14px;
-        box-shadow: var(--shadow);
-        padding: clamp(18px, 2.8vw, 30px);
+        border-radius: 12px;
+        padding: var(--space-3);
+        margin-bottom: var(--space-3);
       }
 
       h1,
       h2,
-      h3,
-      h4 {
+      h3 {
         margin: 0;
-        line-height: 1.2;
+        line-height: 1.25;
         letter-spacing: -0.02em;
       }
 
       h1 {
-        font-size: clamp(2rem, 4vw, 2.8rem);
-        font-weight: 780;
-        margin-bottom: 14px;
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: var(--space-2);
       }
 
       h2 {
-        font-size: clamp(1.28rem, 2.3vw, 1.68rem);
-        font-weight: 710;
-        margin-bottom: 13px;
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: var(--space-2);
       }
 
       h3 {
-        font-size: 1.04rem;
-        font-weight: 680;
-        color: #1f2937;
-        margin-bottom: 8px;
-      }
-
-      h4 {
-        font-size: 0.95rem;
-        font-weight: 670;
-        color: #334155;
-        margin: 0 0 6px;
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: var(--space-1);
       }
 
       p {
-        margin: 0 0 13px;
-        color: #1f2937;
+        margin: 0 0 var(--space-2);
       }
 
       ul,
       ol {
-        margin: 0 0 13px;
-        padding-left: 1.1rem;
+        margin: 0 0 var(--space-2);
+        padding-left: 1.15rem;
       }
 
       li + li {
-        margin-top: 5px;
+        margin-top: 4px;
       }
 
-      .lead {
+      .caption {
+        font-size: 13px;
         color: var(--muted);
-        font-size: 1.05rem;
-        margin-bottom: 18px;
+        margin-top: var(--space-1);
+        margin-bottom: 0;
       }
 
-      .toc {
-        background: var(--surface-soft);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 16px;
-        margin-top: 16px;
-      }
-
-      .toc-title {
-        font-size: 0.82rem;
-        color: #334155;
-        text-transform: uppercase;
-        letter-spacing: 0.07em;
-        margin: 0 0 8px;
-        font-weight: 660;
-      }
-
-      .toc-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 2px 16px;
-      }
-
-      .toc a {
-        color: #334155;
-        text-decoration: none;
-        font-size: 0.92rem;
-        display: inline-block;
-        padding: 3px 0;
-      }
-
-      .toc a:hover {
-        color: #0f172a;
+      .muted {
+        color: var(--muted);
       }
 
       .callout {
-        background: var(--surface-soft);
+        background: #f8fafc;
         border: 1px solid var(--border);
         border-left: 4px solid #94a3b8;
-        border-radius: 12px;
+        border-radius: 10px;
         padding: 14px 16px;
-        margin: 14px 0;
+        margin-top: var(--space-2);
       }
 
-      .callout.start {
-        border-left-color: #64748b;
-      }
-
-      .callout.tip {
-        border-left-color: #60a5fa;
-      }
-
-      .callout.warn {
-        border-left-color: #f59e0b;
-      }
-
-      .callout.rule {
-        border-left-color: #ef4444;
-      }
-
-      .formula {
-        font-weight: 680;
-        font-size: 1.02rem;
-      }
-
-      .cards {
+      .toc-list {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
+        gap: 6px 16px;
       }
 
-      .card {
-        background: var(--surface-soft);
+      .toc-list a {
+        color: #374151;
+        text-decoration: none;
+      }
+
+      .toc-list a:hover {
+        color: #111827;
+      }
+
+      .visual {
+        background: #f8fafc;
         border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 14px;
+        border-radius: 10px;
+        padding: var(--space-2);
+        margin-top: var(--space-2);
       }
 
-      .card p:last-child,
-      .card ul:last-child,
-      .card ol:last-child {
-        margin-bottom: 0;
+      .visual-label {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #374151;
+        margin-bottom: var(--space-1);
+      }
+
+      .flow-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 10px;
+        white-space: nowrap;
+        padding-bottom: 4px;
+      }
+
+      .flow-row + .flow-row,
+      .flow-group + .flow-group {
+        margin-top: var(--space-2);
+      }
+
+      .node {
+        background: #ffffff;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 8px 12px;
+        white-space: nowrap;
+        font-size: 14px;
+      }
+
+      .arrow {
+        color: #6b7280;
+      }
+
+      .compare-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-2);
+      }
+
+      .compare-col {
+        background: #f8fafc;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: var(--space-2);
+      }
+
+      .tag {
+        display: inline-block;
+        font-size: 11px;
+        color: #4b5563;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 6px;
+        font-weight: 600;
       }
 
       table {
         width: 100%;
         border-collapse: collapse;
-        margin: 12px 0;
-        font-size: 0.95rem;
+        margin-top: var(--space-2);
       }
 
       th,
@@ -208,667 +209,331 @@
 
       th {
         background: #f8fafc;
-        font-weight: 660;
-      }
-      .comparison {
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        overflow: hidden;
-        margin-top: 12px;
+        font-weight: 600;
       }
 
-      .comparison-grid {
+      .claude-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-2);
       }
 
-      .comparison-col {
-        padding: 14px;
-      }
-
-      .comparison-col + .comparison-col {
-        border-left: 1px solid var(--border);
-      }
-
-      .comparison-col.bad {
-        background: #fff7f7;
-      }
-
-      .comparison-col.good {
-        background: #f7fcf7;
-      }
-
-      .comparison-label {
-        display: inline-block;
-        margin-bottom: 8px;
-        font-size: 0.78rem;
-        font-weight: 660;
-        color: #475569;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-      }
-
-      .workflow-card {
+      .claude-card {
         background: #f8fafc;
-        border: 1px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 18px;
-        margin: 18px 0;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-      }
-
-      .workflow-title {
-        margin-bottom: 12px;
-      }
-
-      .flow-group + .flow-group {
-        margin-top: 16px;
-      }
-
-      .flow-label {
-        margin: 0 0 10px;
-        color: #374151;
-        font-size: 0.8rem;
-        font-weight: 660;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-      }
-
-      .flow-track {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 10px;
-        overflow-x: auto;
-        white-space: nowrap;
-        padding-bottom: 4px;
-      }
-
-      .node {
-        background: #fff;
-        border: 1px solid #e5e7eb;
-        border-radius: 8px;
-        padding: 8px 12px;
-        font-size: 14px;
-        color: #1f2937;
-        white-space: nowrap;
-      }
-
-      .arrow {
-        color: #64748b;
-        font-size: 15px;
-      }
-
-      .caption {
-        margin: 9px 0 0;
-        color: var(--muted);
-        font-size: 0.9rem;
-      }
-
-      .guide-steps {
-        counter-reset: step;
-        list-style: none;
-        padding: 0;
-        margin: 12px 0 0;
-        display: grid;
-        gap: 10px;
-      }
-
-      .guide-steps li {
-        background: var(--surface-soft);
         border: 1px solid var(--border);
         border-radius: 10px;
-        padding: 12px 12px 12px 42px;
-        position: relative;
-      }
-
-      .guide-steps li::before {
-        counter-increment: step;
-        content: counter(step);
-        position: absolute;
-        left: 12px;
-        top: 12px;
-        width: 20px;
-        height: 20px;
-        border-radius: 999px;
-        background: #e2e8f0;
-        color: #334155;
-        display: grid;
-        place-items: center;
-        font-size: 12px;
-        font-weight: 700;
-      }
-
-      .dual-panel {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-        margin-top: 12px;
-      }
-
-      .panel {
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 14px;
-        background: #f8fafc;
-      }
-
-      .panel h4 {
-        margin-bottom: 8px;
+        padding: var(--space-2);
       }
 
       pre {
-        margin: 8px 0 0;
+        margin: var(--space-1) 0 0;
         background: #f8fafc;
         border: 1px solid var(--border);
-        border-radius: 10px;
+        border-radius: 8px;
         padding: 12px;
         overflow-x: auto;
       }
 
       code {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
       }
 
-      @media (max-width: 900px) {
-        .toc-grid {
+      @media (max-width: 840px) {
+        .toc-list,
+        .compare-grid,
+        .claude-grid {
           grid-template-columns: 1fr;
-        }
-      }
-
-      @media (max-width: 760px) {
-        .page {
-          width: min(100%, calc(100% - 14px));
-          margin-top: 12px;
-        }
-
-        .hero,
-        .section {
-          padding: 16px;
-          border-radius: 12px;
-        }
-
-        .cards,
-        .comparison-grid,
-        .dual-panel {
-          grid-template-columns: 1fr;
-        }
-
-        .comparison-col + .comparison-col {
-          border-left: 0;
-          border-top: 1px solid var(--border);
         }
       }
     </style>
   </head>
   <body>
     <main class="page">
-      <article class="article">
-        <header class="hero">
-          <h1>Why LLM Code Tools Burn Your Limits (and How to Fix It)</h1>
-          <p class="lead">
-            A practical playbook for engineers hitting usage limits in Claude, Codex, and GPT workflows.
-            The focus is not using less AI. The focus is structuring work so tokens are spent where they matter.
-          </p>
+      <section class="section-card">
+        <h1>Why LLM Code Tools Burn Your Limits (and How to Fix It)</h1>
+        <p class="muted">A practical guide for teams hitting LLM usage limits and needing immediate operational fixes.</p>
+        <div class="callout">
+          <p><strong>If you are suddenly hitting Claude limits, do these 3 things first</strong></p>
+          <ul>
+            <li>plan in chat first</li>
+            <li>tighten context aggressively</li>
+            <li>stop rerunning full workflows</li>
+          </ul>
+        </div>
+      </section>
 
-          <div class="callout start">
-            <p><strong>If you are suddenly hitting Claude limits, do these 3 things first</strong></p>
+      <nav class="section-card" aria-label="Table of contents">
+        <h2>Table of Contents</h2>
+        <div class="toc-list">
+          <a href="#the-problem">The Problem</a>
+          <a href="#the-real-reason-youre-hitting-limits">The Real Reason You’re Hitting Limits</a>
+          <a href="#chat-vs-code">Chat vs Code</a>
+          <a href="#the-fix-practical-playbook">The Fix — Practical Playbook</a>
+          <a href="#a-better-workflow">A Better Workflow</a>
+          <a href="#real-example-before-vs-after">Real Example (Before vs After)</a>
+          <a href="#token-explosion-loop">Token Explosion Loop</a>
+          <a href="#claude-specific-optimization">Claude-Specific Optimization</a>
+          <a href="#skills-vs-mcp">Skills vs MCP</a>
+          <a href="#operating-rules">Operating Rules</a>
+        </div>
+      </nav>
+
+      <section id="the-problem" class="section-card">
+        <h2>The Problem</h2>
+        <p>Chat often feels cheap at first. Then coding sessions begin, context grows, retries pile up, and limits appear much faster than expected.</p>
+        <p>The model quality did not suddenly drop. The workflow became more expensive.</p>
+      </section>
+
+      <section id="the-real-reason-youre-hitting-limits" class="section-card">
+        <h2>The Real Reason You’re Hitting Limits</h2>
+        <p><strong>Token usage = Context Size x Iteration Count</strong></p>
+        <p>Context size sets your base cost. Iteration count multiplies it. When both rise together, usage compounds quickly.</p>
+      </section>
+      <section id="chat-vs-code" class="section-card">
+        <h2>Chat vs Code</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Mode</th>
+              <th>Token Usage</th>
+              <th>Why</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Chat</td>
+              <td>Low</td>
+              <td>Scoped, single-pass</td>
+            </tr>
+            <tr>
+              <td>Code</td>
+              <td>High</td>
+              <td>Context + iteration</td>
+            </tr>
+            <tr>
+              <td>Agents</td>
+              <td>Extreme</td>
+              <td>Recursive workflows</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="visual" aria-label="Workflow shape visual">
+          <h3>Workflow Shape</h3>
+          <div class="flow-group">
+            <p class="visual-label">Chat (Fast Path)</p>
+            <div class="flow-row">
+              <span class="node">User</span><span class="arrow">→</span><span class="node">Model</span><span class="arrow">→</span><span class="node">Response</span>
+            </div>
+          </div>
+          <div class="flow-group">
+            <p class="visual-label">Coding (Full Execution Path)</p>
+            <div class="flow-row">
+              <span class="node">User</span><span class="arrow">→</span><span class="node">Model</span><span class="arrow">→</span><span class="node">Load Files</span><span class="arrow">→</span><span class="node">Analyze Code</span><span class="arrow">→</span><span class="node">Generate Patch</span><span class="arrow">→</span><span class="node">Run Tests</span><span class="arrow">→</span><span class="node">Process Logs</span><span class="arrow">→</span><span class="node">Response</span>
+            </div>
+          </div>
+          <p class="caption">Chat is a single-pass flow. Coding introduces multiple tool-driven steps and extra context.</p>
+        </div>
+      </section>
+
+      <section id="the-fix-practical-playbook" class="section-card">
+        <h2>The Fix — Practical Playbook</h2>
+        <p>Treat this as a guided sequence:</p>
+        <ol>
+          <li>Separate thinking from execution. Decide in chat before touching the code tool.</li>
+          <li>Control context aggressively. Send only required files, functions, and logs.</li>
+          <li>Reduce iteration count. Define success criteria before the first run.</li>
+          <li>Use the right tool by phase. Chat for design, code tool for edits, local for validation.</li>
+        </ol>
+
+        <div class="visual" aria-label="Bad vs good workflow visual">
+          <h3>Bad vs Good Workflow</h3>
+          <div class="compare-grid">
+            <div class="compare-col">
+              <span class="tag">Bad</span>
+              <ul>
+                <li>think inside code</li>
+                <li>explore repo</li>
+                <li>retry loops</li>
+              </ul>
+              <p><strong>High token usage</strong></p>
+            </div>
+            <div class="compare-col">
+              <span class="tag">Good</span>
+              <ul>
+                <li>plan in chat</li>
+                <li>scoped input</li>
+                <li>execute once</li>
+              </ul>
+              <p><strong>Low token usage</strong></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="a-better-workflow" class="section-card">
+        <h2>A Better Workflow</h2>
+        <div class="visual">
+          <h3>Think vs Execute</h3>
+          <div class="flow-row" style="justify-content: center; overflow-x: visible; white-space: normal; flex-direction: column; gap: 12px;">
+            <div class="node">Chat<br /><span class="muted">Think / Plan</span></div>
+            <div class="arrow">↓</div>
+            <div class="node">Code Tool<br /><span class="muted">Execute</span></div>
+            <div class="arrow">↓</div>
+            <div class="node">Local<br /><span class="muted">Run + Validate</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="real-example-before-vs-after" class="section-card">
+        <h2>Real Example (Before vs After)</h2>
+        <div class="compare-grid">
+          <div class="compare-col">
+            <span class="tag">Naive workflow</span>
             <ul>
-              <li>plan in chat first</li>
-              <li>tighten context aggressively</li>
-              <li>stop rerunning full workflows</li>
+              <li>full-repo load</li>
+              <li>broad prompt</li>
+              <li>multiple full reruns</li>
             </ul>
+            <p><strong>~200k tokens</strong></p>
           </div>
-
-          <nav class="toc" aria-label="Table of contents">
-            <p class="toc-title">Table of Contents</p>
-            <div class="toc-grid">
-              <a href="#the-problem">The Problem</a>
-              <a href="#the-real-reason-youre-hitting-limits">The Real Reason You’re Hitting Limits</a>
-              <a href="#chat-vs-code">Chat vs Code</a>
-              <a href="#whats-actually-burning-your-tokens">What’s Actually Burning Your Tokens</a>
-              <a href="#the-biggest-mistakes-people-make">The Biggest Mistakes People Make</a>
-              <a href="#the-fix-practical-playbook">The Fix — Practical Playbook</a>
-              <a href="#a-better-workflow">A Better Workflow</a>
-              <a href="#real-example-before-vs-after">Real Example (Before vs After)</a>
-              <a href="#context-control-techniques">Context Control Techniques</a>
-              <a href="#pipeline-optimization">Pipeline Optimization</a>
-              <a href="#prompt-efficiency-patterns">Prompt Efficiency Patterns</a>
-              <a href="#signs-youre-about-to-hit-limits">Signs You’re About to Hit Limits</a>
-              <a href="#agent-token-explosion">Agent Token Explosion</a>
-              <a href="#claude-specific-optimization">Claude-Specific Optimization</a>
-              <a href="#operating-rules">Operating Rules</a>
-              <a href="#final-principle">Final Principle</a>
-              <a href="#about-this-playbook">About This Playbook</a>
-            </div>
-          </nav>
-        </header>
-
-        <section id="the-problem" class="section">
-          <h2>The Problem</h2>
-          <p>You start in chat, ask a few questions, and everything feels cheap.</p>
-          <p>Then you switch to Claude Code, Codex, or an agent workflow. Usage spikes, responses slow down, and limits appear faster than expected.</p>
-          <p>The work did not feel 10x bigger, but the token model changed.</p>
-        </section>
-
-        <section id="the-real-reason-youre-hitting-limits" class="section">
-          <h2>The Real Reason You’re Hitting Limits</h2>
-          <p class="formula">Token usage = Context Size x Iteration Count</p>
-          <div class="cards">
-            <div class="card">
-              <h3>Context Size</h3>
-              <p>How much text the model processes per step: files, logs, instructions, and tool output.</p>
-            </div>
-            <div class="card">
-              <h3>Iteration Count</h3>
-              <p>How many times you rerun the loop: analyze, edit, validate, retry.</p>
-            </div>
-          </div>
-          <div class="callout rule">
-            <p><strong>Core operating principle:</strong> token usage compounds when context and retries grow together.</p>
-          </div>
-        </section>
-        <section id="chat-vs-code" class="section">
-          <h2>Chat vs Code</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Mode</th>
-                <th>Token Usage</th>
-                <th>Why</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Chat</td>
-                <td>Low</td>
-                <td>Scoped, single-pass</td>
-              </tr>
-              <tr>
-                <td>Code</td>
-                <td>High</td>
-                <td>Context + iteration</td>
-              </tr>
-              <tr>
-                <td>Agents</td>
-                <td>Extreme</td>
-                <td>Recursive workflows</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div class="workflow-card" aria-label="Workflow Shape">
-            <h3 class="workflow-title">Workflow Shape</h3>
-            <div class="flow-group">
-              <p class="flow-label">Chat (Fast Path)</p>
-              <div class="flow-track">
-                <span class="node">User</span><span class="arrow">→</span><span class="node">Model</span><span class="arrow">→</span><span class="node">Response</span>
-              </div>
-            </div>
-            <div class="flow-group">
-              <p class="flow-label">Coding (Full Execution Path)</p>
-              <div class="flow-track">
-                <span class="node">User</span><span class="arrow">→</span><span class="node">Model</span><span class="arrow">→</span><span class="node">Load Files</span><span class="arrow">→</span><span class="node">Analyze Code</span><span class="arrow">→</span><span class="node">Generate Patch</span><span class="arrow">→</span><span class="node">Run Tests</span><span class="arrow">→</span><span class="node">Process Logs</span><span class="arrow">→</span><span class="node">Response</span>
-              </div>
-            </div>
-            <p class="caption">Chat is a single-pass flow. Coding introduces multiple tool-driven steps and extra context.</p>
-          </div>
-
-          <div class="callout tip">
-            <p><strong>Takeaway:</strong> LLMs are cheap for thinking, but expensive for execution.</p>
-          </div>
-        </section>
-
-        <section id="whats-actually-burning-your-tokens" class="section">
-          <h2>What’s Actually Burning Your Tokens</h2>
-          <ul>
-            <li>loading large files or many files</li>
-            <li>repeated plan-edit-validate loops</li>
-            <li>hidden system/tool overhead</li>
-            <li>retries caused by ambiguous prompts</li>
-          </ul>
-          <p>A realistic coding step:</p>
-          <ul>
-            <li>context load: <code>15k-30k</code> tokens</li>
-            <li>reasoning/planning: <code>5k-10k</code> tokens</li>
-            <li>edit + validation: <code>5k-10k</code> tokens</li>
-          </ul>
-          <p>Total per step: <strong><code>25k-50k</code> tokens</strong>.</p>
-          <p>Run that loop 4-6 times and you are in <strong><code>100k-250k+</code></strong> quickly.</p>
-        </section>
-
-        <section id="the-biggest-mistakes-people-make" class="section">
-          <h2>The Biggest Mistakes People Make</h2>
-          <ul>
-            <li>dumping the full repo for a local change</li>
-            <li>using vague prompts</li>
-            <li>doing exploration inside code tools</li>
-            <li>rerunning full pipelines for one-stage edits</li>
-            <li>letting agents run without hard boundaries</li>
-          </ul>
-        </section>
-
-        <section id="the-fix-practical-playbook" class="section">
-          <h2>The Fix — Practical Playbook</h2>
-          <p>Use this as an execution sequence, not a checklist you apply randomly.</p>
-          <ol class="guide-steps">
-            <li><strong>Separate thinking from execution.</strong> Decide approach in chat, then execute once with concrete scope in code tools.</li>
-            <li><strong>Control context aggressively.</strong> Pass only relevant files/functions/logs so each call starts from a smaller base cost.</li>
-            <li><strong>Reduce iteration count.</strong> Set clear success criteria up front so you avoid ambiguous retries.</li>
-            <li><strong>Use the right tool for each phase.</strong> Chat for planning, code tools for patching, local tooling for deterministic validation.</li>
-          </ol>
-          <div class="callout tip">
-            <p><strong>Operator tip:</strong> If you cannot describe the exact target file/function, you are still in planning mode, not execution mode.</p>
-          </div>
-        </section>
-
-        <section id="a-better-workflow" class="section">
-          <h2>A Better Workflow</h2>
-          <ol>
-            <li>Plan in chat</li>
-            <li>Execute in code tools</li>
-            <li>Avoid unnecessary loops</li>
-          </ol>
-          <div class="callout tip">
-            <p><strong>Impact:</strong> this separation alone can reduce usage by 5-10x.</p>
-          </div>
-        </section>
-
-        <section id="real-example-before-vs-after" class="section">
-          <h2>Real Example (Before vs After)</h2>
-          <div class="comparison">
-            <div class="comparison-grid">
-              <div class="comparison-col bad">
-                <span class="comparison-label">Naive Workflow</span>
-                <ul>
-                  <li>load broad repo context</li>
-                  <li>explore architecture while patching</li>
-                  <li>rerun full checks on each attempt</li>
-                  <li>keep adding logs/files each retry</li>
-                </ul>
-                <p><strong>Estimated token impact:</strong> ~200k per task cycle</p>
-              </div>
-              <div class="comparison-col good">
-                <span class="comparison-label">Optimized Workflow</span>
-                <ul>
-                  <li>plan once in chat before execution</li>
-                  <li>send only relevant files/functions</li>
-                  <li>run targeted checks first, full checks last</li>
-                  <li>reuse concise summaries between steps</li>
-                </ul>
-                <p><strong>Estimated token impact:</strong> ~15k-40k per task cycle</p>
-              </div>
-            </div>
-          </div>
-          <p class="caption">Typical savings are 5-10x when scope and loop count are controlled.</p>
-        </section>
-        <section id="context-control-techniques" class="section">
-          <h2>Context Control Techniques</h2>
-          <ul>
-            <li>Pass only required files, functions, and logs.</li>
-            <li>Summarize non-critical context before handoff.</li>
-            <li>Avoid full repository ingestion for localized edits.</li>
-            <li>Keep instruction files concise to avoid overhead.</li>
-          </ul>
-        </section>
-
-        <section id="pipeline-optimization" class="section">
-          <h2>Pipeline Optimization</h2>
-          <ul>
-            <li>Break workflows into stages and rerun only changed stages.</li>
-            <li>Avoid end-to-end reruns for local fixes.</li>
-            <li>Cache stable intermediate artifacts.</li>
-          </ul>
-          <p>Example stage split: extraction, classification, field extraction, publishing.</p>
-          <div class="callout warn">
-            <p><strong>Rule:</strong> if one stage changes, rerun from that stage forward only.</p>
-          </div>
-        </section>
-
-        <section id="prompt-efficiency-patterns" class="section">
-          <h2>Prompt Efficiency Patterns</h2>
-          <div class="comparison">
-            <div class="comparison-grid">
-              <div class="comparison-col bad">
-                <span class="comparison-label">Bad</span>
-                <pre><code>Improve this code.</code></pre>
-              </div>
-              <div class="comparison-col good">
-                <span class="comparison-label">Good</span>
-                <pre><code>Update function X to handle edge case Y.
-Do not modify other parts.</code></pre>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="signs-youre-about-to-hit-limits" class="section">
-          <h2>Signs You’re About to Hit Limits</h2>
-          <ul>
-            <li>responses slow down each turn</li>
-            <li>repeated retries on the same task</li>
-            <li>larger inputs on each step</li>
-            <li>repeated runs of near-identical workflows</li>
-          </ul>
-        </section>
-
-        <section id="agent-token-explosion" class="section">
-          <h2>Agent Token Explosion</h2>
-          <div class="cards">
-            <div class="card">
-              <h3>Pressure Points</h3>
-              <ul>
-                <li>recursive calls stack context</li>
-                <li>multi-step flows add overhead per handoff</li>
-                <li>persistent memory inflates prompt size</li>
-              </ul>
-            </div>
-            <div class="card">
-              <h3>Controls</h3>
-              <ul>
-                <li>set hard step boundaries and stop conditions</li>
-                <li>cache intermediate outputs</li>
-                <li>cap recursion depth and retry count</li>
-                <li>summarize or reset memory between phases</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <section id="claude-specific-optimization" class="section">
-          <h2>Claude-Specific Optimization</h2>
-          <p>Claude performance usually degrades for two reasons: repeated instruction overhead and bloated context payloads. Use CLAUDE.md, Skills, and MCP together to fix both.</p>
-
-          <h3>CLAUDE.md</h3>
-          <div class="cards">
-            <div class="card">
-              <h4>What it is</h4>
-              <p>A stable project instruction file that encodes persistent behavior rules for Claude.</p>
-              <h4>What problem it solves</h4>
-              <p>Prevents repeating baseline instructions every session.</p>
-              <h4>When to use</h4>
-              <p>Long-lived projects with shared standards.</p>
-              <h4>When not to use</h4>
-              <p>Temporary, task-specific requirements that change every run.</p>
-            </div>
-            <div class="card">
-              <h4>How it helps token optimization</h4>
-              <p>Reduces repeated setup prompt tokens and lowers retry rate through consistent behavior.</p>
-              <h4>Common mistakes</h4>
-              <ul>
-                <li>turning it into a giant policy dump</li>
-                <li>including unstable task details</li>
-                <li>duplicating tool output instructions</li>
-              </ul>
-              <h4>Practical example</h4>
-              <p>Define output style, testing expectations, and file-edit boundaries once instead of restating each session.</p>
-            </div>
-          </div>
-
-          <div class="workflow-card" aria-label="CLAUDE.md visual">
-            <h4>Visual 1 — CLAUDE.md</h4>
-            <div class="flow-track" style="justify-content: center;">
-              <span class="node">User Workflow</span><span class="arrow">↓</span><span class="node">CLAUDE.md</span><span class="arrow">↓</span><span class="node">Consistent Claude Behavior</span>
-            </div>
-            <p class="caption">CLAUDE.md provides stable, reusable project instructions so you do not restate them every session.</p>
-          </div>
-
-          <div class="card" style="margin-top: 12px;">
-            <h4>What should go into CLAUDE.md</h4>
+          <div class="compare-col">
+            <span class="tag">Optimized workflow</span>
             <ul>
-              <li>project purpose</li>
-              <li>stable rules and boundaries</li>
-              <li>coding conventions</li>
-              <li>workflow preferences</li>
-              <li>things to avoid</li>
+              <li>chat-first planning</li>
+              <li>scoped context only</li>
+              <li>targeted reruns</li>
             </ul>
-            <h4>What should NOT go into CLAUDE.md</h4>
-            <ul>
-              <li>task-specific one-off instructions</li>
-              <li>large copied reference docs</li>
-              <li>volatile issue-by-issue context</li>
-            </ul>
-            <h4>Suggested CLAUDE.md snippet</h4>
-            <pre><code># Project Purpose
-Build and maintain token-efficient LLM workflows.
-
-# Stable Rules / Boundaries
-- Prefer scoped context over full-repo context.
-- Validate only impacted components before full runs.
-
-# Coding Conventions
-- Keep changes minimal and testable.
-- Use explicit acceptance criteria in prompts.
-
-# Workflow Preferences
-- Plan in chat, execute in code tool.
-
-# Things to Avoid
-- Broad exploratory prompts during execution.
-- Re-running full workflows without stage-level need.</code></pre>
+            <p><strong>~15k-40k tokens</strong></p>
           </div>
+        </div>
+        <p class="caption">Savings often reach 5-10x when context scope and loop count are controlled together.</p>
+      </section>
 
-          <h3 style="margin-top: 18px;">Skills</h3>
-          <div class="cards">
-            <div class="card">
-              <h4>What it is</h4>
-              <p>Reusable task patterns that package instructions for repeated workflows.</p>
-              <h4>What problem it solves</h4>
-              <p>Reduces prompt repetition and inconsistent outputs across repeated tasks.</p>
-              <h4>When to use</h4>
-              <p>Recurring operations like extraction, review, refactor, and summarization.</p>
-              <h4>When not to use</h4>
-              <p>Ad hoc tasks that are unique and unlikely to repeat.</p>
-            </div>
-            <div class="card">
-              <h4>How it helps token optimization</h4>
-              <p>Shorter prompts + lower retries because expected structure is pre-defined.</p>
-              <h4>Common mistakes</h4>
-              <ul>
-                <li>overloading one skill with unrelated task types</li>
-                <li>keeping skill outputs underspecified</li>
-                <li>using skills where external retrieval is the real bottleneck</li>
-              </ul>
-              <h4>Practical example</h4>
-              <p>Create separate skills for extraction, code review, and refactor suggestions instead of one giant generic skill.</p>
-            </div>
+      <section id="token-explosion-loop" class="section-card">
+        <h2>Token Explosion Loop</h2>
+        <div class="visual">
+          <div class="flow-row">
+            <span class="node">Large Context</span><span class="arrow">→</span><span class="node">Model Call</span><span class="arrow">→</span><span class="node">Retry</span><span class="arrow">→</span><span class="node">More Context</span><span class="arrow">→</span><span class="node">More Calls</span>
           </div>
+          <p class="caption">Token usage compounds when each retry adds context and triggers additional model calls.</p>
+        </div>
+      </section>
+      <section id="claude-specific-optimization" class="section-card">
+        <h2>Claude-Specific Optimization</h2>
+        <p>For most teams, Claude usage spikes come from repeated instruction overhead and oversized context payloads. Use CLAUDE.md, Skills, and MCP together to control both.</p>
 
-          <div class="workflow-card" aria-label="Skills visual">
-            <h4>Visual 2 — Skills</h4>
-            <div class="flow-track" style="justify-content: center;">
-              <span class="node">Repeated Task</span><span class="arrow">↓</span><span class="node">Skill</span><span class="arrow">↓</span><span class="node">Structured Output</span>
-            </div>
-            <p class="caption">Skills package recurring task patterns so prompts can stay shorter and more consistent.</p>
+        <div class="claude-grid">
+          <article class="claude-card">
+            <h3>CLAUDE.md</h3>
+            <p><strong>What it is:</strong> a stable instruction layer for project-level behavior.</p>
+            <p><strong>When to use:</strong> long-lived projects with shared quality rules.</p>
+            <p><strong>When NOT to use:</strong> one-off ticket details that change every run.</p>
+            <p><strong>Token impact:</strong> cuts repeated setup prompts and reduces drift retries.</p>
+            <p><strong>Example:</strong> define style, guardrails, test expectations once.</p>
+          </article>
+
+          <article class="claude-card">
+            <h3>Skills</h3>
+            <p><strong>What it is:</strong> reusable task logic for repeated workflows.</p>
+            <p><strong>When to use:</strong> extraction, review, refactor, summarization patterns.</p>
+            <p><strong>When NOT to use:</strong> external data retrieval or tool connectivity.</p>
+            <p><strong>Token impact:</strong> reduces prompt repetition and retry variance.</p>
+            <p><strong>Example:</strong> one skill for review format, one for structured extraction.</p>
+          </article>
+
+          <article class="claude-card">
+            <h3>MCP</h3>
+            <p><strong>What it is:</strong> external access layer for targeted retrieval and tools.</p>
+            <p><strong>When to use:</strong> querying files, DBs, APIs, or local tools on demand.</p>
+            <p><strong>When NOT to use:</strong> storing reusable task behavior rules.</p>
+            <p><strong>Token impact:</strong> avoids context bloat by fetching only needed slices.</p>
+            <p><strong>Example:</strong> fetch exact logs/time range instead of pasting full dumps.</p>
+          </article>
+        </div>
+
+        <div class="visual">
+          <h3>CLAUDE.md Visual</h3>
+          <div class="flow-row" style="justify-content: center; overflow-x: visible; white-space: normal; flex-direction: column; gap: 10px;">
+            <div class="node">User Workflow</div>
+            <div class="arrow">↓</div>
+            <div class="node">CLAUDE.md</div>
+            <div class="arrow">↓</div>
+            <div class="node">Consistent Claude Behavior</div>
           </div>
+          <p class="caption">CLAUDE.md provides stable project instructions so you do not restate them every session.</p>
+        </div>
 
-          <div class="callout tip">
-            <p><strong>When Skill is better than CLAUDE.md:</strong> Use CLAUDE.md for stable global behavior. Use Skills for recurring task-specific execution patterns.</p>
+        <div class="visual">
+          <h3>Skills Visual</h3>
+          <div class="flow-row" style="justify-content: center; overflow-x: visible; white-space: normal; flex-direction: column; gap: 10px;">
+            <div class="node">Repeated Task</div>
+            <div class="arrow">↓</div>
+            <div class="node">Skill</div>
+            <div class="arrow">↓</div>
+            <div class="node">Structured Output</div>
           </div>
+          <p class="caption">Skills package recurring task patterns so prompts stay shorter and more consistent.</p>
+        </div>
 
-          <h3>MCP</h3>
-          <div class="cards">
-            <div class="card">
-              <h4>What it is</h4>
-              <p>An access layer for tools and targeted retrieval from files, databases, APIs, and local systems.</p>
-              <h4>What problem it solves</h4>
-              <p>Prevents dumping large context blocks into prompts when precise retrieval is possible.</p>
-              <h4>When to use</h4>
-              <p>When required context can be fetched on demand from external systems or local tooling.</p>
-              <h4>When not to use</h4>
-              <p>When the task needs only short static context already available in prompt scope.</p>
-            </div>
-            <div class="card">
-              <h4>How it helps token optimization</h4>
-              <p>Replaces broad prompt context with targeted tool results, reducing context window pressure.</p>
-              <h4>Common mistakes</h4>
-              <ul>
-                <li>returning oversized tool payloads without filtering</li>
-                <li>calling tools repeatedly without caching results</li>
-                <li>using MCP for logic that should be encoded in a skill</li>
-              </ul>
-              <h4>Practical example</h4>
-              <p>Query only the exact table rows or log slices needed instead of pasting full datasets into the prompt.</p>
-            </div>
+        <div class="visual">
+          <h3>MCP Visual</h3>
+          <div class="flow-row" style="justify-content: center; overflow-x: visible; white-space: normal; flex-direction: column; gap: 10px;">
+            <div class="node">Claude</div>
+            <div class="arrow">↓</div>
+            <div class="node">MCP Tool Call</div>
+            <div class="arrow">↓</div>
+            <div class="node">Targeted Context / Tool Result</div>
           </div>
+          <p class="caption">MCP replaces prompt bloat with targeted retrieval and tool access.</p>
+        </div>
 
-          <div class="workflow-card" aria-label="MCP visual">
-            <h4>Visual 3 — MCP</h4>
-            <div class="flow-track" style="justify-content: center;">
-              <span class="node">Claude</span><span class="arrow">↓</span><span class="node">MCP Tool Call</span><span class="arrow">↓</span><span class="node">Targeted Context / Tool Result</span>
-            </div>
-            <p class="caption">MCP replaces prompt bloat with targeted retrieval and tool access.</p>
-          </div>
+        <h3 id="skills-vs-mcp" style="margin-top: 24px;">Skills vs MCP</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Dimension</th>
+              <th>Skills</th>
+              <th>MCP</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Purpose</td>
+              <td>reusable task logic</td>
+              <td>external access</td>
+            </tr>
+            <tr>
+              <td>Token impact</td>
+              <td>reduces repetition</td>
+              <td>reduces context</td>
+            </tr>
+            <tr>
+              <td>Best for</td>
+              <td>repeated tasks</td>
+              <td>large data access</td>
+            </tr>
+            <tr>
+              <td>Not for</td>
+              <td>data retrieval</td>
+              <td>task logic</td>
+            </tr>
+          </tbody>
+        </table>
 
-          <h3 id="skills-vs-mcp">Skills vs MCP</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Dimension</th>
-                <th>Skills</th>
-                <th>MCP</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Primary purpose</td>
-                <td>Reusable task behavior pattern</td>
-                <td>Reusable access to external context and tools</td>
-              </tr>
-              <tr>
-                <td>Best for</td>
-                <td>Repeated execution patterns (extract, review, refactor, summarize)</td>
-                <td>Targeted retrieval from files, DBs, APIs, local tools</td>
-              </tr>
-              <tr>
-                <td>Token optimization mechanism</td>
-                <td>Reduces prompt repetition and retry loops</td>
-                <td>Reduces context size by fetching only what is needed</td>
-              </tr>
-              <tr>
-                <td>Typical examples</td>
-                <td>Standardized code review format, extraction template</td>
-                <td>Query logs by time range, fetch schema subset</td>
-              </tr>
-              <tr>
-                <td>What it should not be used for</td>
-                <td>Dynamic external data access</td>
-                <td>Defining recurring behavioral patterns</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div class="dual-panel">
-            <div class="panel">
-              <h4>Visual 4 — Skills</h4>
+        <div class="visual">
+          <h3>Skills vs MCP Visual</h3>
+          <div class="compare-grid">
+            <div class="compare-col">
+              <span class="tag">Skills</span>
               <ul>
                 <li>reusable task pattern</li>
                 <li>prompt efficiency</li>
                 <li>behavior consistency</li>
               </ul>
             </div>
-            <div class="panel">
-              <h4>Visual 4 — MCP</h4>
+            <div class="compare-col">
+              <span class="tag">MCP</span>
               <ul>
                 <li>external access layer</li>
                 <li>targeted retrieval</li>
@@ -876,33 +541,20 @@ Build and maintain token-efficient LLM workflows.
               </ul>
             </div>
           </div>
-          <p class="caption">Skills define reusable ways of working. MCP defines reusable ways of accessing context and tools.</p>
-          <div class="callout rule">
-            <p><strong>Takeaway:</strong> Skills shape how Claude works. MCP shapes what Claude can access.</p>
-          </div>
-        </section>
+          <p class="caption">Skills define HOW Claude works. MCP defines WHAT Claude can access.</p>
+        </div>
+      </section>
 
-        <section id="operating-rules" class="section">
-          <h2>Operating Rules</h2>
-          <ol>
-            <li>Never send more context than needed.</li>
-            <li>Never rerun full workflows unnecessarily.</li>
-            <li>Separate planning from execution.</li>
-            <li>Scope prompts tightly.</li>
-            <li>Cache intermediate results.</li>
-          </ol>
-        </section>
-
-        <section id="final-principle" class="section">
-          <h2>Final Principle</h2>
-          <p>LLM usage is not about how much you use. It is about how efficiently you structure the work.</p>
-        </section>
-
-        <section id="about-this-playbook" class="section">
-          <h2>About This Playbook</h2>
-          <p>This guide is for practitioners hitting usage limits in real workflows. It focuses on operational controls that reduce token burn without reducing output quality.</p>
-        </section>
-      </article>
+      <section id="operating-rules" class="section-card">
+        <h2>Operating Rules</h2>
+        <ol>
+          <li>Never send more context than needed.</li>
+          <li>Never rerun full workflows unnecessarily.</li>
+          <li>Separate planning from execution.</li>
+          <li>Scope prompts tightly.</li>
+          <li>Cache intermediate results.</li>
+        </ol>
+      </section>
     </main>
   </body>
 </html>
