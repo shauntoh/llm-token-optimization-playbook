@@ -1,108 +1,172 @@
 ﻿# LLM Token Optimization Playbook
 
-A practical playbook for reducing token cost and latency while improving answer quality across prompt-engineered and agentic AI systems.
+## 🔥 Why Code Burns Tokens Faster Than Chat
 
-## Why Code Burns Tokens Faster Than Chat
+Chat usage feels cheap because interaction is usually scoped, single-pass, and context-light. Code tools (Claude Code, Codex, GPT coding agents) consume more tokens because they repeatedly load code context, reason over it, and re-run execution loops.
 
-Chat feels cheap because each turn is usually scoped to a narrow question with minimal context. Code tools are expensive because they repeatedly process larger context (files, diffs, logs, instructions) across iterative loops.
-
-**Token usage scales with `Context Size × Iteration Count`.**
+**Token usage scales with Context Size × Iteration Count.**
 
 | Mode | Token Usage | Why |
-|---|---|---|
+|------|------------|-----|
 | Chat | Low | Scoped, minimal context |
 | Code | High | Full file context + iteration loops |
 | Agents | Extreme | Recursive multi-step execution |
 
-**Takeaway:** LLMs are cheap for thinking, but expensive for execution.
+**LLMs are cheap for thinking, but expensive for execution.**
 
-## Executive Summary
+## 🧠 Core Mental Model
 
-Token optimization is high leverage for production LLM systems.
+- **Context size drives base cost**: every extra file, log block, and instruction adds fixed token load.
+- **Iteration loops multiply cost**: retrying, revalidating, and re-running workflows compound usage.
+- **Hidden overhead is real**: system prompts, tool wrappers, and orchestration metadata quietly consume budget.
 
-| Objective | Why It Matters | Typical Impact |
+**Token usage does not scale linearly — it compounds.**
+
+## 💸 How Tokens Actually Accumulate
+
+Example: one realistic Claude Code step on a medium codebase.
+
+- Load large file(s) and adjacent context: `15k-30k` tokens
+- Reasoning and planning pass: `5k-10k` tokens
+- Edit + validation + follow-up checks: `5k-10k` tokens
+
+**Total per step: `25k-50k` tokens**
+
+What this means in practice:
+
+- 4 iterations can consume `100k-200k` tokens
+- 5-6 iterations can consume `125k-250k+` tokens
+- Adding broad context each retry pushes usage higher than expected
+
+**You don’t hit limits because of usage — you hit limits because of repetition.**
+
+## 📊 Real Optimization Example
+
+| Scenario | Tokens Used |
+|----------|------------|
+| Full repo edit (naive) | ~200k |
+| Scoped file edit | ~40k |
+| Chat -> plan -> targeted edit | ~15k |
+
+Result: practical workflows commonly achieve **5-10x efficiency gains** by reducing context and retries.
+
+## ⚙️ Decision Framework: Which Tool to Use
+
+Use the tool that matches the phase of work.
+
+| Task Type | Best Tool | Rule |
 |---|---|---|
-| Reduce input tokens | Lowers request cost and latency | 20-60% prompt reduction |
-| Reduce output tokens | Improves response consistency and budget control | 15-40% output reduction |
-| Improve context quality | Increases relevance and lowers hallucination risk | Higher answer precision |
-| Standardize patterns | Enables repeatable quality across teams | Faster onboarding |
+| Problem framing, architecture tradeoffs, decomposition | Chat | Keep it conceptual and context-light |
+| Targeted implementation, precise patching, test fixes | Code tools | Pass only required files/functions |
+| Repeatable transformations, bulk validation, deterministic runs | CLI/scripts | Automate and reuse outputs |
 
-## Core Principles
+Operational rules:
 
-1. Keep prompts intentional, not verbose.
-2. Move static instructions to reusable system templates.
-3. Retrieve only relevant context instead of full documents.
-4. Constrain output format to prevent token sprawl.
-5. Measure token usage continuously and optimize iteratively.
+- Use **chat** to decide what to do.
+- Use **code tools** to do exactly that scoped change.
+- Use **CLI/scripts** when work is repetitive or pipeline-based.
+- **NEVER use code tools for exploration** when a short planning turn in chat would suffice.
 
-## Recommended Workflow
+## 🧠 Recommended Workflow
 
-Use each mode for what it does best:
+1. Plan in chat.
+2. Execute in code tools.
+3. Avoid mixing both in the same loop unless strictly necessary.
 
-1. Use chat for planning and thinking.
-2. Use code tools for execution and concrete edits.
-3. Avoid mixing both unnecessarily in the same loop.
+Why this works:
 
-| Phase | Preferred Mode | Goal |
+- Planning in chat minimizes exploratory token burn.
+- Execution in code tools focuses spend on deterministic output.
+- Clear handoff reduces retries and context drift.
+
+**This separation alone can reduce token usage by 5-10x.**
+
+## 📦 Context Control Techniques
+
+Actionable controls:
+
+- Trim large files before sending context.
+- Include only relevant functions/classes/sections.
+- Avoid full-repo ingestion unless absolutely required.
+- Summarize upstream context before passing it downstream.
+
+Bad vs good patterns:
+
+| Pattern | Bad | Good |
 |---|---|---|
-| Problem framing | Chat | Clarify requirements and constraints |
-| Solution design | Chat | Compare approaches before execution |
-| Implementation | Code tools | Apply deterministic changes |
-| Verification | Code tools | Run tests, validate outputs |
-| Optimization pass | Chat + targeted code run | Tighten prompts and workflow |
+| Code context | "Analyze entire repo and fix bug" | "Analyze `auth/session.ts` and `auth/cache.ts` only" |
+| Prompt scope | "Refactor this module" | "Update `parseToken()` to handle empty header; no other changes" |
+| Handoff | Paste full logs + full file + full history | Provide 10-line summary + exact failing test + target function |
 
-## Common Token Waste Patterns
+## 🔄 Pipeline Optimization
 
-Avoid these high-cost behaviors:
+Do not rerun full systems for local changes. Split workflows into stages and re-execute only affected stages.
 
-- Dumping entire repositories into context when only a few files are needed.
-- Re-running full pipelines for small localized changes.
-- Using vague prompts that trigger retries and rework loops.
-- Using code tools for exploration that should happen in chat planning first.
+Example pipeline (`M1-M4`):
 
-## Quick Start
+- `M1` Extraction
+- `M2` Classification
+- `M3` Field extraction
+- `M4` Publishing
 
-1. Baseline prompt, latency, and quality metrics.
-2. Apply prompt compression and retrieval filtering.
-3. Introduce strict output schemas and stopping criteria.
-4. Re-test on representative eval cases.
-5. Roll out behind flags and monitor regressions.
+If a bug is in `M3`, rerun `M3-M4`, not `M1-M4`.
 
-## Playbook Sections
+**Only rerun the stage that changed.**
 
-- [Token Fundamentals](./docs/token-fundamentals.md)
-- [Claude Optimization](./docs/claude-optimization.md)
-- [Agent Optimization](./docs/agent-optimization.md)
-- [Real-World Examples](./docs/real-world-examples.md)
+## ✍️ Prompt Efficiency Patterns
 
-## Suggested Repository Structure
+Bad prompt:
 
 ```text
-llm-token-optimization-playbook/
-|-- README.md
-`-- docs/
-    |-- token-fundamentals.md
-    |-- claude-optimization.md
-    |-- agent-optimization.md
-    `-- real-world-examples.md
+Improve this code.
 ```
 
-## KPI Dashboard Template
+Good prompt:
 
-| KPI | Definition | Target |
-|---|---|---|
-| Avg input tokens | Mean tokens sent per request | Downward trend |
-| Avg output tokens | Mean tokens generated per request | Controlled variance |
-| Cost per successful task | Total model cost / successful outcomes | 20%+ reduction |
-| P95 latency | 95th percentile end-to-end time | Stable or improved |
-| Task success rate | Pass rate on eval set | No regression |
+```text
+Update function X to handle edge case Y. Do not modify other parts.
+```
 
-## Contributing
+Impact:
 
-- Add optimization techniques with benchmark evidence.
-- Include before/after prompts with token deltas.
-- Document constraints and quality tradeoffs.
+- Tight prompts reduce ambiguity.
+- Lower ambiguity reduces retries.
+- Fewer retries directly reduce token waste.
 
-## License
+## ❌ Common Token Waste Patterns
 
-MIT (recommended; update as needed).
+- Dumping entire repo into context for a localized change.
+- Re-running full pipelines instead of stage-level reruns.
+- Vague prompts that force clarification loops.
+- Using code tools for thinking/exploration.
+- Uncontrolled agent loops with no stop boundaries.
+
+## 🚨 Signs You Are About to Hit Limits
+
+- Responses are getting slower per turn.
+- The same task requires repeated retries.
+- Context payloads are large and growing each step.
+- You are re-running identical workflows frequently.
+
+## 🤖 Agent Token Explosion
+
+Why it happens:
+
+- Recursive calls stack context across steps.
+- Multi-step workflows add orchestration overhead.
+- Memory accumulation keeps expanding prompt payload.
+
+Fixes:
+
+- Enforce step boundaries with explicit stop conditions.
+- Cache intermediate outputs and reuse them.
+- Limit recursion depth and retry count.
+- Reset or summarize memory between major phases.
+
+## 📌 Operating Rules
+
+1. Never send more context than needed.
+2. Never rerun full workflows unnecessarily.
+3. Separate planning from execution.
+4. Scope prompts tightly.
+5. Cache intermediate results.
