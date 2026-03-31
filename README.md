@@ -1,172 +1,189 @@
-﻿# LLM Token Optimization Playbook
+﻿# Why LLM Code Tools Burn Your Limits (and How to Fix It)
 
-## 🔥 Why Code Burns Tokens Faster Than Chat
+## Opening Hook
 
-Chat usage feels cheap because interaction is usually scoped, single-pass, and context-light. Code tools (Claude Code, Codex, GPT coding agents) consume more tokens because they repeatedly load code context, reason over it, and re-run execution loops.
+You start in chat, ask a few questions, and everything feels cheap and fast.
 
-**Token usage scales with Context Size × Iteration Count.**
+Then you switch to Claude Code, Codex, or a coding agent. Suddenly, usage spikes, responses slow down, and limits appear much earlier than expected.
+
+That jump feels confusing at first because your workload did not feel 10x bigger. But under the hood, token economics changed completely.
+
+## Section 1 — The Real Reason You’re Hitting Limits
+
+The core model is simple:
+
+**Token usage = Context Size x Iteration Count**
+
+- **Context Size** is how much text the model must process each step.
+- **Iteration Count** is how many times you repeat that process.
+
+In code workflows, both numbers tend to grow at the same time. That is why limits arrive faster than intuition suggests.
+
+## Section 2 — Chat vs Code (The Big Difference)
+
+Chat is usually a scoped, single-pass interaction. Code tools are iterative systems with heavier context and repeated validation loops.
 
 | Mode | Token Usage | Why |
 |------|------------|-----|
-| Chat | Low | Scoped, minimal context |
-| Code | High | Full file context + iteration loops |
-| Agents | Extreme | Recursive multi-step execution |
+| Chat | Low | Scoped, single-pass |
+| Code | High | Context + iteration |
+| Agents | Extreme | Recursive workflows |
 
 **LLMs are cheap for thinking, but expensive for execution.**
 
-## 🧠 Core Mental Model
+## Section 3 — What’s Actually Burning Your Tokens
 
-- **Context size drives base cost**: every extra file, log block, and instruction adds fixed token load.
-- **Iteration loops multiply cost**: retrying, revalidating, and re-running workflows compound usage.
-- **Hidden overhead is real**: system prompts, tool wrappers, and orchestration metadata quietly consume budget.
+Most token burn comes from a few repeatable mechanics:
 
-**Token usage does not scale linearly — it compounds.**
+- Large file or multi-file loading
+- Repeated plan-edit-validate cycles
+- Hidden overhead (system/tool prompts, wrappers)
+- Retries caused by unclear scope
 
-## 💸 How Tokens Actually Accumulate
+A realistic coding step often looks like this:
 
-Example: one realistic Claude Code step on a medium codebase.
+- Load files/context: `15k-30k` tokens
+- Reasoning/planning: `5k-10k` tokens
+- Edit + validation: `5k-10k` tokens
 
-- Load large file(s) and adjacent context: `15k-30k` tokens
-- Reasoning and planning pass: `5k-10k` tokens
-- Edit + validation + follow-up checks: `5k-10k` tokens
+Total per step: **`25k-50k` tokens**.
 
-**Total per step: `25k-50k` tokens**
+Run that loop 4-6 times and you are already in **`100k-250k+`** territory.
 
-What this means in practice:
+## Section 4 — The Biggest Mistakes People Make
 
-- 4 iterations can consume `100k-200k` tokens
-- 5-6 iterations can consume `125k-250k+` tokens
-- Adding broad context each retry pushes usage higher than expected
+- Dumping the full repository into context for a local change
+- Using vague prompts that force retries
+- Doing exploratory thinking inside code tools
+- Re-running entire pipelines for one-stage edits
+- Letting agents loop without strict boundaries
 
-**You don’t hit limits because of usage — you hit limits because of repetition.**
+These are workflow problems, not model problems.
 
-## 📊 Real Optimization Example
+## Section 5 — The Fix (Practical Playbook)
+
+### 1. Separate thinking from execution
+
+Do architecture, decomposition, and tradeoff analysis in chat. Move to code tools only when the task is concrete.
+
+### 2. Control context aggressively
+
+Pass only the files, functions, and logs required for the current step. Summarize everything else.
+
+### 3. Reduce iterations
+
+Use precise prompts and clear acceptance criteria so the first pass is closer to done.
+
+### 4. Use the right tool
+
+- Chat for planning
+- Code tools for precise implementation
+- CLI/scripts for repeatable transformations
+
+## Section 6 — A Better Workflow (VERY IMPORTANT)
+
+Use this sequence consistently:
+
+1. Plan in chat
+2. Execute in code tools
+3. Avoid unnecessary loops
+
+Why it works:
+
+- Planning remains low-cost and high-clarity
+- Execution stays scoped and deterministic
+- Fewer retries means less token compounding
+
+**This alone can reduce usage by 5-10x.**
+
+## Section 7 — Real Example (Before vs After)
 
 | Scenario | Tokens Used |
 |----------|------------|
-| Full repo edit (naive) | ~200k |
-| Scoped file edit | ~40k |
-| Chat -> plan -> targeted edit | ~15k |
+| Naive approach | ~200k |
+| Optimized approach | ~15k-40k |
 
-Result: practical workflows commonly achieve **5-10x efficiency gains** by reducing context and retries.
+Typical difference:
 
-## ⚙️ Decision Framework: Which Tool to Use
+- Naive: full repo context + broad prompts + repeated reruns
+- Optimized: targeted files + explicit task boundaries + stage-level reruns
 
-Use the tool that matches the phase of work.
+## Section 8 — Warning Signs You’re About to Hit Limits
 
-| Task Type | Best Tool | Rule |
-|---|---|---|
-| Problem framing, architecture tradeoffs, decomposition | Chat | Keep it conceptual and context-light |
-| Targeted implementation, precise patching, test fixes | Code tools | Pass only required files/functions |
-| Repeatable transformations, bulk validation, deterministic runs | CLI/scripts | Automate and reuse outputs |
+Watch for these early signals:
 
-Operational rules:
+- Responses are getting slower each turn
+- You are retrying the same task repeatedly
+- Inputs are getting larger every step
+- You keep rerunning near-identical workflows
 
-- Use **chat** to decide what to do.
-- Use **code tools** to do exactly that scoped change.
-- Use **CLI/scripts** when work is repetitive or pipeline-based.
-- **NEVER use code tools for exploration** when a short planning turn in chat would suffice.
+If you see two or more signals, tighten scope immediately.
 
-## 🧠 Recommended Workflow
+## Section 9 — If You’re Using Agents (Advanced)
 
-1. Plan in chat.
-2. Execute in code tools.
-3. Avoid mixing both in the same loop unless strictly necessary.
+Agents can multiply token usage quickly because they combine recursion, orchestration, and memory growth.
 
-Why this works:
+Main pressure points:
 
-- Planning in chat minimizes exploratory token burn.
-- Execution in code tools focuses spend on deterministic output.
-- Clear handoff reduces retries and context drift.
+- Recursive calls stack context each step
+- Multi-step flows add overhead per handoff
+- Persistent memory increases prompt size over time
 
-**This separation alone can reduce token usage by 5-10x.**
+Practical fixes:
 
-## 📦 Context Control Techniques
+- Define hard step boundaries and stop conditions
+- Cache intermediate outputs and reuse them
+- Limit recursion depth and retry count
+- Reset or summarize memory between phases
 
-Actionable controls:
+## Claude-Specific Optimization (Advanced)
 
-- Trim large files before sending context.
-- Include only relevant functions/classes/sections.
-- Avoid full-repo ingestion unless absolutely required.
-- Summarize upstream context before passing it downstream.
+### 1. CLAUDE.md usage
 
-Bad vs good patterns:
+`CLAUDE.md` centralizes stable instructions so you do not repeat long policy/setup prompts every turn.
 
-| Pattern | Bad | Good |
-|---|---|---|
-| Code context | "Analyze entire repo and fix bug" | "Analyze `auth/session.ts` and `auth/cache.ts` only" |
-| Prompt scope | "Refactor this module" | "Update `parseToken()` to handle empty header; no other changes" |
-| Handoff | Paste full logs + full file + full history | Provide 10-line summary + exact failing test + target function |
+Token impact:
 
-## 🔄 Pipeline Optimization
+- Reduces repeated instruction payload
+- Lowers per-turn overhead in long sessions
+- Improves consistency, which reduces retries
 
-Do not rerun full systems for local changes. Split workflows into stages and re-execute only affected stages.
+Keep it concise. If `CLAUDE.md` becomes bloated, token savings disappear.
 
-Example pipeline (`M1-M4`):
+### 2. Skills
 
-- `M1` Extraction
-- `M2` Classification
-- `M3` Field extraction
-- `M4` Publishing
+Skills package reusable capabilities into structured, repeatable patterns.
 
-If a bug is in `M3`, rerun `M3-M4`, not `M1-M4`.
+Token impact:
 
-**Only rerun the stage that changed.**
+- Shrinks prompt size by replacing repeated instructions
+- Improves task precision, which lowers back-and-forth retries
+- Standardizes outputs for easier downstream handling
 
-## ✍️ Prompt Efficiency Patterns
+### 3. MCP (Model Context Protocol)
 
-Bad prompt:
+MCP lets tools fetch precise external context on demand instead of pasting large blocks into prompts.
 
-```text
-Improve this code.
-```
+Token impact:
 
-Good prompt:
+- Replaces broad context loading with targeted retrieval
+- Reduces context window pressure significantly
+- Keeps prompts focused on decision-relevant information
 
-```text
-Update function X to handle edge case Y. Do not modify other parts.
-```
+| Technique | What It Optimizes |
+|----------|------------------|
+| CLAUDE.md | Instruction overhead |
+| Skills | Prompt repetition |
+| MCP | Context size |
 
-Impact:
-
-- Tight prompts reduce ambiguity.
-- Lower ambiguity reduces retries.
-- Fewer retries directly reduce token waste.
-
-## ❌ Common Token Waste Patterns
-
-- Dumping entire repo into context for a localized change.
-- Re-running full pipelines instead of stage-level reruns.
-- Vague prompts that force clarification loops.
-- Using code tools for thinking/exploration.
-- Uncontrolled agent loops with no stop boundaries.
-
-## 🚨 Signs You Are About to Hit Limits
-
-- Responses are getting slower per turn.
-- The same task requires repeated retries.
-- Context payloads are large and growing each step.
-- You are re-running identical workflows frequently.
-
-## 🤖 Agent Token Explosion
-
-Why it happens:
-
-- Recursive calls stack context across steps.
-- Multi-step workflows add orchestration overhead.
-- Memory accumulation keeps expanding prompt payload.
-
-Fixes:
-
-- Enforce step boundaries with explicit stop conditions.
-- Cache intermediate outputs and reuse them.
-- Limit recursion depth and retry count.
-- Reset or summarize memory between major phases.
-
-## 📌 Operating Rules
+## Section 10 — Operating Rules (Strong Ending)
 
 1. Never send more context than needed.
 2. Never rerun full workflows unnecessarily.
 3. Separate planning from execution.
 4. Scope prompts tightly.
 5. Cache intermediate results.
+
+## Closing
+
+LLM usage isn’t about how much you use — it’s about how efficiently you structure the work.
