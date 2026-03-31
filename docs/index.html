@@ -8,14 +8,10 @@
     <style>
       :root {
         --bg: #f9fafb;
-        --surface: #ffffff;
+        --card: #ffffff;
         --border: #e5e7eb;
         --text: #111827;
         --muted: #6b7280;
-        --space-1: 8px;
-        --space-2: 16px;
-        --space-3: 24px;
-        --space-4: 32px;
       }
 
       * {
@@ -30,140 +26,134 @@
         margin: 0;
         background: var(--bg);
         color: var(--text);
-        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         font-size: 15px;
         line-height: 1.7;
       }
 
       .page {
         max-width: 900px;
-        margin: var(--space-4) auto;
-        padding: 0 var(--space-2);
+        margin: 40px auto;
+        padding: 0 16px;
       }
 
-      .section-card {
-        background: var(--surface);
-        border: 1px solid var(--border);
+      .card {
+        background: white;
+        border: 1px solid #e5e7eb;
         border-radius: 12px;
-        padding: var(--space-3);
-        margin-bottom: var(--space-3);
+        padding: 24px;
+        margin-bottom: 32px;
       }
 
       h1,
       h2,
       h3 {
         margin: 0;
-        line-height: 1.25;
+        line-height: 1.2;
         letter-spacing: -0.02em;
       }
 
       h1 {
         font-size: 32px;
         font-weight: 700;
-        margin-bottom: var(--space-2);
+        margin-bottom: 16px;
       }
 
       h2 {
         font-size: 24px;
         font-weight: 600;
-        margin-bottom: var(--space-2);
+        margin-bottom: 16px;
       }
 
       h3 {
         font-size: 18px;
         font-weight: 600;
-        margin-bottom: var(--space-1);
+        margin-bottom: 10px;
       }
 
       p {
-        margin: 0 0 var(--space-2);
+        margin: 0 0 16px;
       }
 
       ul,
       ol {
-        margin: 0 0 var(--space-2);
-        padding-left: 1.15rem;
-      }
-
-      li + li {
-        margin-top: 4px;
+        margin: 0 0 16px;
+        padding-left: 1.2rem;
       }
 
       .caption {
         font-size: 13px;
-        color: var(--muted);
-        margin-top: var(--space-1);
+        color: #6b7280;
+        margin-top: 8px;
         margin-bottom: 0;
       }
 
       .muted {
-        color: var(--muted);
+        color: #6b7280;
       }
 
-      .callout {
-        background: #f8fafc;
-        border: 1px solid var(--border);
-        border-left: 4px solid #94a3b8;
-        border-radius: 10px;
-        padding: 14px 16px;
-        margin-top: var(--space-2);
-      }
-
-      .toc-list {
+      .toc-links {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 6px 16px;
+        gap: 6px 20px;
       }
 
-      .toc-list a {
+      .toc-links a {
         color: #374151;
         text-decoration: none;
       }
 
-      .toc-list a:hover {
+      .toc-links a:hover {
         color: #111827;
+      }
+
+      .start-box {
+        background: #f8fafc;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 16px;
       }
 
       .visual {
         background: #f8fafc;
         border: 1px solid var(--border);
         border-radius: 10px;
-        padding: var(--space-2);
-        margin-top: var(--space-2);
+        padding: 16px;
+        margin-top: 16px;
       }
 
       .visual-label {
         font-size: 12px;
-        font-weight: 600;
+        color: #374151;
         letter-spacing: 0.06em;
         text-transform: uppercase;
-        color: #374151;
-        margin-bottom: var(--space-1);
+        font-weight: 600;
+        margin-bottom: 8px;
       }
 
       .flow-row {
         display: flex;
         flex-direction: row;
         align-items: center;
+        gap: 10px;
         flex-wrap: nowrap;
         overflow-x: auto;
-        gap: 10px;
         white-space: nowrap;
-        padding-bottom: 4px;
+        padding-bottom: 2px;
       }
 
       .flow-row + .flow-row,
       .flow-group + .flow-group {
-        margin-top: var(--space-2);
+        margin-top: 16px;
       }
 
       .node {
-        background: #ffffff;
-        border: 1px solid var(--border);
+        border: 1px solid #e5e7eb;
+        background: white;
         border-radius: 8px;
         padding: 8px 12px;
-        white-space: nowrap;
         font-size: 14px;
+        white-space: nowrap;
       }
 
       .arrow {
@@ -173,35 +163,56 @@
       .compare-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: var(--space-2);
+        gap: 16px;
       }
 
       .compare-col {
+        border: 1px solid #e5e7eb;
         background: #f8fafc;
-        border: 1px solid var(--border);
         border-radius: 10px;
-        padding: var(--space-2);
+        padding: 16px;
       }
 
       .tag {
         display: inline-block;
+        margin-bottom: 8px;
         font-size: 11px;
         color: #4b5563;
         text-transform: uppercase;
         letter-spacing: 0.06em;
-        margin-bottom: 6px;
         font-weight: 600;
+      }
+
+      .stack {
+        display: grid;
+        justify-items: center;
+        gap: 10px;
+      }
+
+      .stack-item {
+        width: min(340px, 100%);
+        border: 1px solid #e5e7eb;
+        background: white;
+        border-radius: 8px;
+        padding: 10px 12px;
+        text-align: center;
+      }
+
+      .stack-sep {
+        width: 1px;
+        height: 20px;
+        background: #d1d5db;
       }
 
       table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: var(--space-2);
+        margin-top: 12px;
       }
 
       th,
       td {
-        border: 1px solid var(--border);
+        border: 1px solid #e5e7eb;
         padding: 10px 12px;
         text-align: left;
         vertical-align: top;
@@ -215,31 +226,18 @@
       .claude-grid {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: var(--space-2);
+        gap: 16px;
       }
 
       .claude-card {
-        background: #f8fafc;
-        border: 1px solid var(--border);
+        border: 1px solid #e5e7eb;
         border-radius: 10px;
-        padding: var(--space-2);
-      }
-
-      pre {
-        margin: var(--space-1) 0 0;
         background: #f8fafc;
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 12px;
-        overflow-x: auto;
+        padding: 16px;
       }
 
-      code {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
-      }
-
-      @media (max-width: 840px) {
-        .toc-list,
+      @media (max-width: 860px) {
+        .toc-links,
         .compare-grid,
         .claude-grid {
           grid-template-columns: 1fr;
@@ -249,117 +247,85 @@
   </head>
   <body>
     <main class="page">
-      <section class="section-card">
+      <section class="card">
         <h1>Why LLM Code Tools Burn Your Limits (and How to Fix It)</h1>
-        <p class="muted">A practical guide for teams hitting LLM usage limits and needing immediate operational fixes.</p>
-        <div class="callout">
-          <p><strong>If you are suddenly hitting Claude limits, do these 3 things first</strong></p>
+        <p class="muted">A practical guide for teams that are just starting to hit LLM usage limits in real coding workflows.</p>
+
+        <div class="start-box">
+          <p><strong>If you are hitting limits, do these first:</strong></p>
           <ul>
-            <li>plan in chat first</li>
-            <li>tighten context aggressively</li>
-            <li>stop rerunning full workflows</li>
+            <li>plan in chat</li>
+            <li>reduce context</li>
+            <li>stop rerunning workflows</li>
           </ul>
         </div>
       </section>
 
-      <nav class="section-card" aria-label="Table of contents">
+      <nav class="card" aria-label="Table of contents">
         <h2>Table of Contents</h2>
-        <div class="toc-list">
+        <div class="toc-links">
           <a href="#the-problem">The Problem</a>
-          <a href="#the-real-reason-youre-hitting-limits">The Real Reason You’re Hitting Limits</a>
           <a href="#chat-vs-code">Chat vs Code</a>
-          <a href="#the-fix-practical-playbook">The Fix — Practical Playbook</a>
-          <a href="#a-better-workflow">A Better Workflow</a>
-          <a href="#real-example-before-vs-after">Real Example (Before vs After)</a>
-          <a href="#token-explosion-loop">Token Explosion Loop</a>
-          <a href="#claude-specific-optimization">Claude-Specific Optimization</a>
+          <a href="#the-fix">The Fix — Practical Playbook</a>
+          <a href="#think-vs-execute">Think vs Execute</a>
+          <a href="#real-example">Real Example (Before vs After)</a>
+          <a href="#token-explosion">Token Explosion Loop</a>
+          <a href="#claude">Claude-Specific Optimization</a>
           <a href="#skills-vs-mcp">Skills vs MCP</a>
-          <a href="#operating-rules">Operating Rules</a>
         </div>
       </nav>
-
-      <section id="the-problem" class="section-card">
+      <section id="the-problem" class="card">
         <h2>The Problem</h2>
-        <p>Chat often feels cheap at first. Then coding sessions begin, context grows, retries pile up, and limits appear much faster than expected.</p>
-        <p>The model quality did not suddenly drop. The workflow became more expensive.</p>
+        <p>Most teams start with chat and feel fine. Then coding sessions begin, context gets larger, retries accumulate, and usage limits appear unexpectedly fast.</p>
+        <p>It is usually not a model issue. It is a workflow shape issue.</p>
       </section>
 
-      <section id="the-real-reason-youre-hitting-limits" class="section-card">
-        <h2>The Real Reason You’re Hitting Limits</h2>
-        <p><strong>Token usage = Context Size x Iteration Count</strong></p>
-        <p>Context size sets your base cost. Iteration count multiplies it. When both rise together, usage compounds quickly.</p>
-      </section>
-      <section id="chat-vs-code" class="section-card">
+      <section id="chat-vs-code" class="card">
         <h2>Chat vs Code</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Mode</th>
-              <th>Token Usage</th>
-              <th>Why</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Chat</td>
-              <td>Low</td>
-              <td>Scoped, single-pass</td>
-            </tr>
-            <tr>
-              <td>Code</td>
-              <td>High</td>
-              <td>Context + iteration</td>
-            </tr>
-            <tr>
-              <td>Agents</td>
-              <td>Extreme</td>
-              <td>Recursive workflows</td>
-            </tr>
-          </tbody>
-        </table>
 
-        <div class="visual" aria-label="Workflow shape visual">
-          <h3>Workflow Shape</h3>
+        <div class="visual">
+          <h3>Chat vs Code</h3>
           <div class="flow-group">
             <p class="visual-label">Chat (Fast Path)</p>
             <div class="flow-row">
               <span class="node">User</span><span class="arrow">→</span><span class="node">Model</span><span class="arrow">→</span><span class="node">Response</span>
             </div>
           </div>
+
           <div class="flow-group">
             <p class="visual-label">Coding (Full Execution Path)</p>
             <div class="flow-row">
               <span class="node">User</span><span class="arrow">→</span><span class="node">Model</span><span class="arrow">→</span><span class="node">Load Files</span><span class="arrow">→</span><span class="node">Analyze Code</span><span class="arrow">→</span><span class="node">Generate Patch</span><span class="arrow">→</span><span class="node">Run Tests</span><span class="arrow">→</span><span class="node">Process Logs</span><span class="arrow">→</span><span class="node">Response</span>
             </div>
           </div>
-          <p class="caption">Chat is a single-pass flow. Coding introduces multiple tool-driven steps and extra context.</p>
+
+          <p class="caption">Chat is short and scoped. Coding adds tool-driven steps and context overhead.</p>
         </div>
       </section>
 
-      <section id="the-fix-practical-playbook" class="section-card">
+      <section id="the-fix" class="card">
         <h2>The Fix — Practical Playbook</h2>
-        <p>Treat this as a guided sequence:</p>
         <ol>
-          <li>Separate thinking from execution. Decide in chat before touching the code tool.</li>
-          <li>Control context aggressively. Send only required files, functions, and logs.</li>
-          <li>Reduce iteration count. Define success criteria before the first run.</li>
-          <li>Use the right tool by phase. Chat for design, code tool for edits, local for validation.</li>
+          <li>Separate thinking and execution.</li>
+          <li>Scope context tightly before each run.</li>
+          <li>Define done criteria to reduce retries.</li>
+          <li>Use chat, code tools, and local validation in sequence.</li>
         </ol>
 
-        <div class="visual" aria-label="Bad vs good workflow visual">
+        <div class="visual">
           <h3>Bad vs Good Workflow</h3>
           <div class="compare-grid">
             <div class="compare-col">
-              <span class="tag">Bad</span>
+              <span class="tag">Bad workflow</span>
               <ul>
-                <li>think inside code</li>
+                <li>think in code</li>
                 <li>explore repo</li>
                 <li>retry loops</li>
               </ul>
               <p><strong>High token usage</strong></p>
             </div>
             <div class="compare-col">
-              <span class="tag">Good</span>
+              <span class="tag">Good workflow</span>
               <ul>
                 <li>plan in chat</li>
                 <li>scoped input</li>
@@ -371,124 +337,86 @@
         </div>
       </section>
 
-      <section id="a-better-workflow" class="section-card">
-        <h2>A Better Workflow</h2>
+      <section id="think-vs-execute" class="card">
+        <h2>Think vs Execute</h2>
         <div class="visual">
-          <h3>Think vs Execute</h3>
-          <div class="flow-row" style="justify-content: center; overflow-x: visible; white-space: normal; flex-direction: column; gap: 12px;">
-            <div class="node">Chat<br /><span class="muted">Think / Plan</span></div>
-            <div class="arrow">↓</div>
-            <div class="node">Code Tool<br /><span class="muted">Execute</span></div>
-            <div class="arrow">↓</div>
-            <div class="node">Local<br /><span class="muted">Run + Validate</span></div>
+          <div class="stack">
+            <div class="stack-item"><strong>Chat</strong><br />Think / Plan</div>
+            <div class="stack-sep" aria-hidden="true"></div>
+            <div class="stack-item"><strong>Code Tool</strong><br />Execute</div>
+            <div class="stack-sep" aria-hidden="true"></div>
+            <div class="stack-item"><strong>Local</strong><br />Run + Validate</div>
           </div>
         </div>
       </section>
 
-      <section id="real-example-before-vs-after" class="section-card">
+      <section id="real-example" class="card">
         <h2>Real Example (Before vs After)</h2>
         <div class="compare-grid">
           <div class="compare-col">
-            <span class="tag">Naive workflow</span>
+            <span class="tag">Naive</span>
             <ul>
-              <li>full-repo load</li>
-              <li>broad prompt</li>
-              <li>multiple full reruns</li>
+              <li>full repo context</li>
+              <li>broad prompts</li>
+              <li>full reruns</li>
             </ul>
             <p><strong>~200k tokens</strong></p>
           </div>
           <div class="compare-col">
-            <span class="tag">Optimized workflow</span>
+            <span class="tag">Optimized</span>
             <ul>
               <li>chat-first planning</li>
-              <li>scoped context only</li>
+              <li>scoped files only</li>
               <li>targeted reruns</li>
             </ul>
             <p><strong>~15k-40k tokens</strong></p>
           </div>
         </div>
-        <p class="caption">Savings often reach 5-10x when context scope and loop count are controlled together.</p>
       </section>
 
-      <section id="token-explosion-loop" class="section-card">
+      <section id="token-explosion" class="card">
         <h2>Token Explosion Loop</h2>
         <div class="visual">
           <div class="flow-row">
             <span class="node">Large Context</span><span class="arrow">→</span><span class="node">Model Call</span><span class="arrow">→</span><span class="node">Retry</span><span class="arrow">→</span><span class="node">More Context</span><span class="arrow">→</span><span class="node">More Calls</span>
           </div>
-          <p class="caption">Token usage compounds when each retry adds context and triggers additional model calls.</p>
+          <p class="caption">Token usage compounds through context + retries.</p>
         </div>
       </section>
-      <section id="claude-specific-optimization" class="section-card">
+      <section id="claude" class="card">
         <h2>Claude-Specific Optimization</h2>
-        <p>For most teams, Claude usage spikes come from repeated instruction overhead and oversized context payloads. Use CLAUDE.md, Skills, and MCP together to control both.</p>
-
         <div class="claude-grid">
           <article class="claude-card">
             <h3>CLAUDE.md</h3>
-            <p><strong>What it is:</strong> a stable instruction layer for project-level behavior.</p>
-            <p><strong>When to use:</strong> long-lived projects with shared quality rules.</p>
-            <p><strong>When NOT to use:</strong> one-off ticket details that change every run.</p>
-            <p><strong>Token impact:</strong> cuts repeated setup prompts and reduces drift retries.</p>
-            <p><strong>Example:</strong> define style, guardrails, test expectations once.</p>
+            <p><strong>What it is:</strong> stable project-level instruction layer.</p>
+            <p><strong>When to use:</strong> repeated work in the same project.</p>
+            <p><strong>When NOT to use:</strong> one-off ticket-specific details.</p>
+            <p><strong>Token impact:</strong> reduces repeated instruction overhead.</p>
+            <p><strong>Example:</strong> define code style, boundaries, and validation standards once.</p>
           </article>
 
           <article class="claude-card">
             <h3>Skills</h3>
-            <p><strong>What it is:</strong> reusable task logic for repeated workflows.</p>
-            <p><strong>When to use:</strong> extraction, review, refactor, summarization patterns.</p>
-            <p><strong>When NOT to use:</strong> external data retrieval or tool connectivity.</p>
-            <p><strong>Token impact:</strong> reduces prompt repetition and retry variance.</p>
-            <p><strong>Example:</strong> one skill for review format, one for structured extraction.</p>
+            <p><strong>What it is:</strong> reusable task logic for repeat patterns.</p>
+            <p><strong>When to use:</strong> extraction, review, refactor, summarization.</p>
+            <p><strong>When NOT to use:</strong> external data access or tool queries.</p>
+            <p><strong>Token impact:</strong> reduces prompt repetition and retry loops.</p>
+            <p><strong>Example:</strong> a standard review skill that always returns the same structure.</p>
           </article>
 
           <article class="claude-card">
             <h3>MCP</h3>
-            <p><strong>What it is:</strong> external access layer for targeted retrieval and tools.</p>
-            <p><strong>When to use:</strong> querying files, DBs, APIs, or local tools on demand.</p>
-            <p><strong>When NOT to use:</strong> storing reusable task behavior rules.</p>
-            <p><strong>Token impact:</strong> avoids context bloat by fetching only needed slices.</p>
-            <p><strong>Example:</strong> fetch exact logs/time range instead of pasting full dumps.</p>
+            <p><strong>What it is:</strong> external access layer for targeted retrieval.</p>
+            <p><strong>When to use:</strong> querying files, DBs, APIs, local tools.</p>
+            <p><strong>When NOT to use:</strong> reusable task behavior logic.</p>
+            <p><strong>Token impact:</strong> reduces context bloat from pasted data.</p>
+            <p><strong>Example:</strong> fetch only relevant logs instead of pasting full trace dumps.</p>
           </article>
         </div>
+      </section>
 
-        <div class="visual">
-          <h3>CLAUDE.md Visual</h3>
-          <div class="flow-row" style="justify-content: center; overflow-x: visible; white-space: normal; flex-direction: column; gap: 10px;">
-            <div class="node">User Workflow</div>
-            <div class="arrow">↓</div>
-            <div class="node">CLAUDE.md</div>
-            <div class="arrow">↓</div>
-            <div class="node">Consistent Claude Behavior</div>
-          </div>
-          <p class="caption">CLAUDE.md provides stable project instructions so you do not restate them every session.</p>
-        </div>
-
-        <div class="visual">
-          <h3>Skills Visual</h3>
-          <div class="flow-row" style="justify-content: center; overflow-x: visible; white-space: normal; flex-direction: column; gap: 10px;">
-            <div class="node">Repeated Task</div>
-            <div class="arrow">↓</div>
-            <div class="node">Skill</div>
-            <div class="arrow">↓</div>
-            <div class="node">Structured Output</div>
-          </div>
-          <p class="caption">Skills package recurring task patterns so prompts stay shorter and more consistent.</p>
-        </div>
-
-        <div class="visual">
-          <h3>MCP Visual</h3>
-          <div class="flow-row" style="justify-content: center; overflow-x: visible; white-space: normal; flex-direction: column; gap: 10px;">
-            <div class="node">Claude</div>
-            <div class="arrow">↓</div>
-            <div class="node">MCP Tool Call</div>
-            <div class="arrow">↓</div>
-            <div class="node">Targeted Context / Tool Result</div>
-          </div>
-          <p class="caption">MCP replaces prompt bloat with targeted retrieval and tool access.</p>
-        </div>
-
-        <h3 id="skills-vs-mcp" style="margin-top: 24px;">Skills vs MCP</h3>
+      <section id="skills-vs-mcp" class="card">
+        <h2>Skills vs MCP</h2>
         <table>
           <thead>
             <tr>
@@ -511,7 +439,7 @@
             <tr>
               <td>Best for</td>
               <td>repeated tasks</td>
-              <td>large data access</td>
+              <td>large data</td>
             </tr>
             <tr>
               <td>Not for</td>
@@ -520,40 +448,7 @@
             </tr>
           </tbody>
         </table>
-
-        <div class="visual">
-          <h3>Skills vs MCP Visual</h3>
-          <div class="compare-grid">
-            <div class="compare-col">
-              <span class="tag">Skills</span>
-              <ul>
-                <li>reusable task pattern</li>
-                <li>prompt efficiency</li>
-                <li>behavior consistency</li>
-              </ul>
-            </div>
-            <div class="compare-col">
-              <span class="tag">MCP</span>
-              <ul>
-                <li>external access layer</li>
-                <li>targeted retrieval</li>
-                <li>context reduction</li>
-              </ul>
-            </div>
-          </div>
-          <p class="caption">Skills define HOW Claude works. MCP defines WHAT Claude can access.</p>
-        </div>
-      </section>
-
-      <section id="operating-rules" class="section-card">
-        <h2>Operating Rules</h2>
-        <ol>
-          <li>Never send more context than needed.</li>
-          <li>Never rerun full workflows unnecessarily.</li>
-          <li>Separate planning from execution.</li>
-          <li>Scope prompts tightly.</li>
-          <li>Cache intermediate results.</li>
-        </ol>
+        <p class="caption">Skills define HOW Claude works. MCP defines WHAT Claude can access.</p>
       </section>
     </main>
   </body>
