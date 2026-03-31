@@ -86,7 +86,7 @@
       }
 
       section {
-        padding: 30px 0;
+        padding: 38px 0;
         border-top: 1px solid var(--border);
       }
 
@@ -159,6 +159,11 @@
         border-left-color: #ef6673;
       }
 
+      .callout.start {
+        background: #f4f8ff;
+        border-left-color: #739dff;
+      }
+
       .principle {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -191,6 +196,11 @@
         margin-bottom: 0;
       }
 
+      .card .sub {
+        color: var(--muted);
+        margin-top: -2px;
+      }
+
       .compare {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -220,6 +230,91 @@
         letter-spacing: 0.06em;
         margin-bottom: 8px;
         color: #475569;
+      }
+
+      .diagram {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px;
+        background: #fbfcfe;
+        margin-top: 14px;
+      }
+
+      .diagram h3 {
+        margin-bottom: 8px;
+      }
+
+      .flow-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+
+      .node {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: #fff;
+        padding: 8px 10px;
+        font-size: 0.9rem;
+        color: #1f2937;
+      }
+
+      .arrow {
+        color: #7b8798;
+        font-size: 0.95rem;
+      }
+
+      .workflow-stack {
+        display: grid;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .stack-row {
+        display: grid;
+        justify-items: center;
+        gap: 6px;
+      }
+
+      .down {
+        color: #7b8798;
+      }
+
+      .caption {
+        margin-top: 8px;
+        margin-bottom: 0;
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      .impact-compare {
+        margin-top: 14px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .impact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .impact-col {
+        padding: 14px;
+      }
+
+      .impact-col + .impact-col {
+        border-left: 1px solid var(--border);
+      }
+
+      .impact-col.bad {
+        background: #fff8f8;
+      }
+
+      .impact-col.good {
+        background: #f7fcf7;
       }
 
       table {
@@ -289,8 +384,14 @@
 
         .cards,
         .principle,
-        .compare {
+        .compare,
+        .impact-grid {
           grid-template-columns: 1fr;
+        }
+
+        .impact-col + .impact-col {
+          border-left: none;
+          border-top: 1px solid var(--border);
         }
       }
     </style>
@@ -304,6 +405,14 @@
             A practical playbook for engineers hitting usage limits in Claude, Codex, and GPT workflows.
             The focus is simple: preserve output quality while reducing token waste.
           </p>
+          <div class="callout start">
+            <p><strong>Start Here:</strong> If you are suddenly hitting limits, do these 3 things first.</p>
+            <ul>
+              <li>plan in chat first</li>
+              <li>scope context tightly</li>
+              <li>avoid rerunning full workflows</li>
+            </ul>
+          </div>
         </header>
 
         <section id="the-problem">
@@ -369,6 +478,16 @@
           <div class="callout tip">
             <p><strong>💡 Takeaway:</strong> LLMs are cheap for thinking, but expensive for execution.</p>
           </div>
+          <div class="diagram" aria-label="Chat vs coding workflow diagram">
+            <h3>Workflow Shape</h3>
+            <div class="flow-row">
+              <span class="node">User</span><span class="arrow">→</span><span class="node">Model</span><span class="arrow">→</span><span class="node">Response</span>
+            </div>
+            <div class="flow-row">
+              <span class="node">User</span><span class="arrow">→</span><span class="node">Model</span><span class="arrow">→</span><span class="node">Load files</span><span class="arrow">→</span><span class="node">Analyze code</span><span class="arrow">→</span><span class="node">Generate patch</span><span class="arrow">→</span><span class="node">Run tests</span><span class="arrow">→</span><span class="node">Process logs</span><span class="arrow">→</span><span class="node">Response</span>
+            </div>
+            <p class="caption">Visual 1: chat is short path; coding loops through tool steps and extra context.</p>
+          </div>
         </section>
 
         <section id="whats-actually-burning-your-tokens">
@@ -387,6 +506,13 @@
           </ul>
           <p>Total per step: <strong><code>25k-50k</code> tokens</strong>.</p>
           <p>Run that loop 4-6 times and you are in <strong><code>100k-250k+</code></strong> quickly.</p>
+          <div class="diagram" aria-label="Token compounding loop diagram">
+            <h3>Token Compounding Loop</h3>
+            <div class="flow-row">
+              <span class="node">Large Context</span><span class="arrow">→</span><span class="node">Model Call</span><span class="arrow">→</span><span class="node">Retry / Validation</span><span class="arrow">→</span><span class="node">More Context</span><span class="arrow">→</span><span class="node">More Model Calls</span>
+            </div>
+            <p class="caption">Visual 4: Token usage compounds when context and retries grow together.</p>
+          </div>
         </section>
 
         <section id="the-biggest-mistakes-people-make">
@@ -407,19 +533,46 @@
             <div class="card">
               <h3>Separate thinking from execution</h3>
               <p>Do decomposition and tradeoff decisions in chat. Move to code tools only when the task is concrete.</p>
+              <p class="sub">This removes exploratory chatter from expensive coding loops.</p>
             </div>
             <div class="card">
               <h3>Control context aggressively</h3>
               <p>Pass only required files, functions, and logs. Summarize everything else.</p>
+              <p class="sub">Smaller context lowers base token cost before any iterations begin.</p>
             </div>
             <div class="card">
               <h3>Reduce iterations</h3>
               <p>Use precise prompts and clear acceptance criteria to avoid expensive retry loops.</p>
+              <p class="sub">Fewer retries prevents compounding usage and keeps feedback tight.</p>
             </div>
             <div class="card">
               <h3>Use the right tool</h3>
               <p>Use chat for planning, code tools for targeted implementation, and scripts for repeatable runs.</p>
+              <p class="sub">Tool-phase alignment improves quality while minimizing wasted calls.</p>
             </div>
+          </div>
+          <div class="impact-compare" aria-label="Bad vs good workflow comparison">
+            <div class="impact-grid">
+              <div class="impact-col bad">
+                <span class="label">Bad Workflow</span>
+                <ul>
+                  <li>think in code tool</li>
+                  <li>explore repo broadly</li>
+                  <li>retry repeatedly</li>
+                  <li>high token usage</li>
+                </ul>
+              </div>
+              <div class="impact-col good">
+                <span class="label">Good Workflow</span>
+                <ul>
+                  <li>plan in chat</li>
+                  <li>send scoped context</li>
+                  <li>execute once with clear constraints</li>
+                  <li>lower token usage</li>
+                </ul>
+              </div>
+            </div>
+            <p class="caption">Visual 3: Better sequencing reduces retries and model-call volume.</p>
           </div>
         </section>
 
@@ -437,6 +590,23 @@
           </ul>
           <div class="callout tip">
             <p><strong>💡 Impact:</strong> this separation alone can reduce usage by 5-10x.</p>
+          </div>
+          <div class="diagram" aria-label="Recommended workflow diagram">
+            <h3>Recommended Flow</h3>
+            <div class="workflow-stack">
+              <div class="stack-row">
+                <span class="node">ChatGPT / Chat</span>
+                <span class="down">↓</span>
+                <span class="node">Prompt Design / Plan</span>
+                <span class="down">↓</span>
+                <span class="node">Claude Code / Codex</span>
+                <span class="down">↓</span>
+                <span class="node">Local Execution</span>
+                <span class="down">↓</span>
+                <span class="node">Validation</span>
+              </div>
+            </div>
+            <p class="caption">Visual 2: Chat = Think / Design, Code = Execute, Local = Run + verify.</p>
           </div>
         </section>
 
@@ -462,6 +632,29 @@
           </table>
           <p class="muted">Naive: full repo context + broad prompts + repeated reruns.</p>
           <p class="muted">Optimized: targeted files + explicit boundaries + stage-level reruns.</p>
+          <div class="impact-compare">
+            <div class="impact-grid">
+              <div class="impact-col bad">
+                <span class="label">Naive Workflow</span>
+                <ul>
+                  <li>Load broad repo context</li>
+                  <li>Explore while implementing</li>
+                  <li>Repeat retry + validation cycle</li>
+                </ul>
+                <p><strong>Estimated token impact:</strong> ~200k per task cycle</p>
+              </div>
+              <div class="impact-col good">
+                <span class="label">Optimized Workflow</span>
+                <ul>
+                  <li>Plan in chat before execution</li>
+                  <li>Send only relevant files/functions</li>
+                  <li>Run targeted validation once</li>
+                </ul>
+                <p><strong>Estimated token impact:</strong> ~15k-40k per task cycle</p>
+              </div>
+            </div>
+            <p class="caption">Estimated savings are commonly 5-10x when scope and loop count are controlled.</p>
+          </div>
         </section>
 
         <section id="context-control-techniques">
@@ -552,6 +745,7 @@ Do not modify other parts.</code></pre>
             <li>improves consistency, reducing retries</li>
           </ul>
           <p>Keep it short. Bloated instruction files erase the benefit.</p>
+          <p><strong>Best used when:</strong> team-level rules are stable and repeated across many coding sessions.</p>
 
           <h3>2. Skills</h3>
           <p>Skills package reusable capabilities into structured patterns.</p>
@@ -560,6 +754,7 @@ Do not modify other parts.</code></pre>
             <li>improves task precision and lowers retries</li>
             <li>standardizes outputs for downstream steps</li>
           </ul>
+          <p><strong>Best used when:</strong> recurring task types need consistent structure and lower prompt overhead.</p>
 
           <h3>3. MCP (Model Context Protocol)</h3>
           <p>MCP fetches precise context on demand instead of pasting large blocks into prompts.</p>
@@ -568,6 +763,7 @@ Do not modify other parts.</code></pre>
             <li>reduces context window pressure</li>
             <li>keeps prompts focused on decision-relevant data</li>
           </ul>
+          <p><strong>Best used when:</strong> important context lives in tools or systems that can be queried precisely.</p>
 
           <table>
             <thead>
