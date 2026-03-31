@@ -1,6 +1,26 @@
 ﻿# Why LLM Code Tools Burn Your Limits (and How to Fix It)
 
-## Opening Hook
+## Table of Contents
+
+- [The Problem](#the-problem)
+- [The Real Reason You’re Hitting Limits](#the-real-reason-youre-hitting-limits)
+- [Chat vs Code](#chat-vs-code)
+- [What’s Actually Burning Your Tokens](#whats-actually-burning-your-tokens)
+- [The Biggest Mistakes People Make](#the-biggest-mistakes-people-make)
+- [The Fix — Practical Playbook](#the-fix-practical-playbook)
+- [A Better Workflow](#a-better-workflow)
+- [Real Example (Before vs After)](#real-example-before-vs-after)
+- [Context Control Techniques](#context-control-techniques)
+- [Pipeline Optimization](#pipeline-optimization)
+- [Prompt Efficiency Patterns](#prompt-efficiency-patterns)
+- [Signs You’re About to Hit Limits](#signs-youre-about-to-hit-limits)
+- [Agent Token Explosion](#agent-token-explosion)
+- [Claude-Specific Optimization](#claude-specific-optimization)
+- [Operating Rules](#operating-rules)
+- [Final Principle](#final-principle)
+- [About This Playbook](#about-this-playbook)
+
+## The Problem
 
 You start in chat, ask a few questions, and everything feels cheap.
 
@@ -48,7 +68,7 @@ Total per step: **`25k-50k` tokens**.
 
 Run that loop 4-6 times and you are in **`100k-250k+`** quickly.
 
-## Biggest Mistakes
+## The Biggest Mistakes People Make
 
 - dumping the full repo for a local change
 - using vague prompts
@@ -58,25 +78,14 @@ Run that loop 4-6 times and you are in **`100k-250k+`** quickly.
 
 These are workflow issues, not model defects.
 
-## The Fix
+## The Fix Practical Playbook
 
-### 1. Separate thinking from execution
+Use four controls together:
 
-Do decomposition and tradeoff decisions in chat. Move to code tools only when the task is concrete.
-
-### 2. Control context aggressively
-
-Pass only required files, functions, and logs. Summarize everything else.
-
-### 3. Reduce iterations
-
-Use precise prompts and clear acceptance criteria.
-
-### 4. Use the right tool
-
-- chat for planning
-- code tools for targeted implementation
-- CLI/scripts for repeatable transformations
+- separate thinking from execution
+- control context aggressively
+- reduce iteration count
+- use the right tool for each phase
 
 ## A Better Workflow
 
@@ -104,7 +113,49 @@ Typical shift:
 - naive: full repo context + broad prompts + repeated reruns
 - optimized: targeted files + explicit boundaries + stage-level reruns
 
-## Warning Signs You’re About to Hit Limits
+## Context Control Techniques
+
+- Pass only required files, functions, and logs.
+- Summarize non-critical context before handoff.
+- Avoid full repository ingestion for localized edits.
+- Keep instruction files concise to avoid overhead.
+
+## Pipeline Optimization
+
+- Break workflows into stages and rerun only changed stages.
+- Avoid end-to-end reruns for local fixes.
+- Cache stable intermediate artifacts.
+
+Example stage split:
+
+- extraction
+- classification
+- field extraction
+- publishing
+
+If one stage changes, rerun from that stage forward only.
+
+## Prompt Efficiency Patterns
+
+Bad:
+
+```text
+Improve this code.
+```
+
+Good:
+
+```text
+Update function X to handle edge case Y. Do not modify other parts.
+```
+
+Why it matters:
+
+- tighter prompts reduce ambiguity
+- lower ambiguity reduces retries
+- fewer retries reduce token waste
+
+## Signs You’re About to Hit Limits
 
 - responses slow down each turn
 - repeated retries on the same task
@@ -113,7 +164,7 @@ Typical shift:
 
 If two or more appear, tighten scope immediately.
 
-## If You’re Using Agents
+## Agent Token Explosion
 
 Agents multiply token usage through recursion, orchestration, and memory growth.
 
@@ -178,6 +229,10 @@ Token impact:
 4. Scope prompts tightly.
 5. Cache intermediate results.
 
-## Closing
+## Final Principle
 
-LLM usage isn’t about how much you use — it’s about how efficiently you structure the work.
+LLM usage isn’t about how much you use - it’s about how efficiently you structure the work.
+
+## About This Playbook
+
+This guide is for practitioners hitting usage limits in real workflows. It focuses on operational controls that reduce token burn without reducing output quality.
