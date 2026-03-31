@@ -236,3 +236,5 @@ LLM usage isn’t about how much you use - it’s about how efficiently you stru
 ## About This Playbook
 
 This guide is for practitioners hitting usage limits in real workflows. It focuses on operational controls that reduce token burn without reducing output quality.
+
+GitHub Pages URL: [https://shauntoh.github.io/llm-token-optimization-playbook/](https://shauntoh.github.io/llm-token-optimization-playbook/)
