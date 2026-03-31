@@ -1,0 +1,647 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Why LLM Code Tools Burn Your Limits (and How to Fix It)</title>
+    <style>
+      :root {
+        --bg: #fcfcfd;
+        --panel: #ffffff;
+        --text: #121926;
+        --muted: #5f6b7a;
+        --border: #e6eaf0;
+        --code-bg: #f6f8fb;
+        --tip: #eef7ff;
+        --warn: #fff8ec;
+        --rule: #fff1f2;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        line-height: 1.75;
+      }
+
+      .shell {
+        width: min(1240px, 100% - 40px);
+        margin: 0 auto;
+        padding: 48px 0 80px;
+        display: grid;
+        gap: 36px;
+        grid-template-columns: minmax(0, 780px) 280px;
+        align-items: start;
+      }
+
+      article {
+        background: var(--panel);
+      }
+
+      h1,
+      h2,
+      h3 {
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 3.8vw, 3rem);
+        font-weight: 780;
+        margin-bottom: 20px;
+      }
+
+      h2 {
+        font-size: clamp(1.35rem, 2.2vw, 1.8rem);
+        font-weight: 700;
+        margin-bottom: 18px;
+      }
+
+      h3 {
+        font-size: 1.08rem;
+        font-weight: 640;
+        color: #273446;
+        margin-bottom: 10px;
+      }
+
+      p {
+        margin: 0 0 16px;
+        color: #1f2a37;
+      }
+
+      .lead {
+        color: var(--muted);
+        font-size: 1.1rem;
+        margin-bottom: 34px;
+      }
+
+      section {
+        padding: 30px 0;
+        border-top: 1px solid var(--border);
+      }
+
+      section:first-of-type {
+        border-top: none;
+        padding-top: 0;
+      }
+
+      .toc {
+        position: sticky;
+        top: 22px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 16px 16px 14px;
+      }
+
+      .toc h2 {
+        font-size: 0.88rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 10px;
+      }
+
+      .toc ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .toc li + li {
+        margin-top: 7px;
+      }
+
+      .toc a {
+        color: #334155;
+        text-decoration: none;
+        font-size: 0.92rem;
+      }
+
+      .toc a:hover {
+        color: #0f172a;
+      }
+
+      .callout {
+        border: 1px solid var(--border);
+        border-left-width: 4px;
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin: 16px 0;
+      }
+
+      .callout p:last-child {
+        margin-bottom: 0;
+      }
+
+      .callout.tip {
+        background: var(--tip);
+        border-left-color: #5aa9ff;
+      }
+
+      .callout.warn {
+        background: var(--warn);
+        border-left-color: #f4b65f;
+      }
+
+      .callout.rule {
+        background: var(--rule);
+        border-left-color: #ef6673;
+      }
+
+      .principle {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-top: 14px;
+      }
+
+      .principle .box {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px;
+        background: #fbfcfe;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 14px;
+      }
+
+      .card {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px;
+        background: #fff;
+      }
+
+      .card p:last-child {
+        margin-bottom: 0;
+      }
+
+      .compare {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-top: 12px;
+      }
+
+      .compare .bad,
+      .compare .good {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px;
+      }
+
+      .compare .bad {
+        background: #fff8f8;
+      }
+
+      .compare .good {
+        background: #f6fcf7;
+      }
+
+      .label {
+        display: inline-block;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 8px;
+        color: #475569;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 14px 0;
+        font-size: 0.96rem;
+      }
+
+      th,
+      td {
+        border: 1px solid var(--border);
+        padding: 10px 12px;
+        vertical-align: top;
+        text-align: left;
+      }
+
+      th {
+        background: #f8fafc;
+        font-weight: 650;
+      }
+
+      ul,
+      ol {
+        margin: 0 0 16px;
+        padding-left: 1.15rem;
+      }
+
+      li + li {
+        margin-top: 6px;
+      }
+
+      pre {
+        margin: 10px 0 0;
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 14px;
+        overflow-x: auto;
+      }
+
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 0.92em;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      @media (max-width: 1080px) {
+        .shell {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .toc {
+          position: static;
+          order: -1;
+        }
+      }
+
+      @media (max-width: 760px) {
+        .shell {
+          width: min(100% - 24px, 780px);
+          padding-top: 28px;
+        }
+
+        .cards,
+        .principle,
+        .compare {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <article>
+        <header>
+          <h1>Why LLM Code Tools Burn Your Limits (and How to Fix It)</h1>
+          <p class="lead">
+            A practical playbook for engineers hitting usage limits in Claude, Codex, and GPT workflows.
+            The focus is simple: preserve output quality while reducing token waste.
+          </p>
+        </header>
+
+        <section id="the-problem">
+          <h2>The Problem</h2>
+          <p>You start in chat, ask a few questions, and everything feels cheap.</p>
+          <p>
+            Then you switch to Claude Code, Codex, or an agent workflow. Usage spikes, responses slow down,
+            and limits appear faster than expected.
+          </p>
+          <p>The work did not feel 10x bigger, but the token model changed.</p>
+          <div class="callout warn">
+            <p><strong>⚠️ Why coding burns tokens:</strong> code tasks load more context and run more loops than chat.</p>
+          </div>
+        </section>
+
+        <section id="the-real-reason-youre-hitting-limits">
+          <h2>The Real Reason You’re Hitting Limits</h2>
+          <p><strong>Token usage = Context Size x Iteration Count</strong></p>
+          <div class="principle">
+            <div class="box">
+              <h3>Context Size</h3>
+              <p class="muted">How much text the model processes per step: files, logs, instructions, and tool output.</p>
+            </div>
+            <div class="box">
+              <h3>Iteration Count</h3>
+              <p class="muted">How many times you rerun the same loop: analyze, edit, validate, retry.</p>
+            </div>
+          </div>
+          <div class="callout rule">
+            <p><strong>🔥 Core operating principle:</strong> token usage compounds when context and loops grow together.</p>
+          </div>
+        </section>
+
+        <section id="chat-vs-code">
+          <h2>Chat vs Code</h2>
+          <p>Chat is usually scoped and single-pass. Code tools are iterative and context-heavy.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Mode</th>
+                <th>Token Usage</th>
+                <th>Why</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Chat</td>
+                <td>Low</td>
+                <td>Scoped, single-pass</td>
+              </tr>
+              <tr>
+                <td>Code</td>
+                <td>High</td>
+                <td>Context + iteration</td>
+              </tr>
+              <tr>
+                <td>Agents</td>
+                <td>Extreme</td>
+                <td>Recursive workflows</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="callout tip">
+            <p><strong>💡 Takeaway:</strong> LLMs are cheap for thinking, but expensive for execution.</p>
+          </div>
+        </section>
+
+        <section id="whats-actually-burning-your-tokens">
+          <h2>What’s Actually Burning Your Tokens</h2>
+          <ul>
+            <li>loading large files or many files</li>
+            <li>repeated plan-edit-validate loops</li>
+            <li>hidden system/tool overhead</li>
+            <li>retries caused by ambiguous prompts</li>
+          </ul>
+          <p>A realistic coding step:</p>
+          <ul>
+            <li>context load: <code>15k-30k</code> tokens</li>
+            <li>reasoning/planning: <code>5k-10k</code> tokens</li>
+            <li>edit + validation: <code>5k-10k</code> tokens</li>
+          </ul>
+          <p>Total per step: <strong><code>25k-50k</code> tokens</strong>.</p>
+          <p>Run that loop 4-6 times and you are in <strong><code>100k-250k+</code></strong> quickly.</p>
+        </section>
+
+        <section id="the-biggest-mistakes-people-make">
+          <h2>The Biggest Mistakes People Make</h2>
+          <ul>
+            <li>dumping the full repo for a local change</li>
+            <li>using vague prompts</li>
+            <li>doing exploration inside code tools</li>
+            <li>rerunning full pipelines for one-stage edits</li>
+            <li>letting agents run without hard boundaries</li>
+          </ul>
+          <p>These are workflow issues, not model defects.</p>
+        </section>
+
+        <section id="the-fix-practical-playbook">
+          <h2>The Fix — Practical Playbook</h2>
+          <div class="cards">
+            <div class="card">
+              <h3>Separate thinking from execution</h3>
+              <p>Do decomposition and tradeoff decisions in chat. Move to code tools only when the task is concrete.</p>
+            </div>
+            <div class="card">
+              <h3>Control context aggressively</h3>
+              <p>Pass only required files, functions, and logs. Summarize everything else.</p>
+            </div>
+            <div class="card">
+              <h3>Reduce iterations</h3>
+              <p>Use precise prompts and clear acceptance criteria to avoid expensive retry loops.</p>
+            </div>
+            <div class="card">
+              <h3>Use the right tool</h3>
+              <p>Use chat for planning, code tools for targeted implementation, and scripts for repeatable runs.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="a-better-workflow">
+          <h2>A Better Workflow</h2>
+          <ol>
+            <li>Plan in chat</li>
+            <li>Execute in code tools</li>
+            <li>Avoid unnecessary loops</li>
+          </ol>
+          <ul>
+            <li>planning stays low-cost</li>
+            <li>execution stays scoped</li>
+            <li>fewer retries means less compounding token spend</li>
+          </ul>
+          <div class="callout tip">
+            <p><strong>💡 Impact:</strong> this separation alone can reduce usage by 5-10x.</p>
+          </div>
+        </section>
+
+        <section id="real-example-before-vs-after">
+          <h2>Real Example (Before vs After)</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Scenario</th>
+                <th>Tokens Used</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Naive approach</td>
+                <td>~200k</td>
+              </tr>
+              <tr>
+                <td>Optimized approach</td>
+                <td>~15k-40k</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="muted">Naive: full repo context + broad prompts + repeated reruns.</p>
+          <p class="muted">Optimized: targeted files + explicit boundaries + stage-level reruns.</p>
+        </section>
+
+        <section id="context-control-techniques">
+          <h2>Context Control Techniques</h2>
+          <ul>
+            <li>Pass only required files, functions, and logs.</li>
+            <li>Summarize non-critical context before handoff.</li>
+            <li>Avoid full repository ingestion for localized edits.</li>
+            <li>Keep instruction files concise to avoid overhead.</li>
+          </ul>
+        </section>
+
+        <section id="pipeline-optimization">
+          <h2>Pipeline Optimization</h2>
+          <ul>
+            <li>Break workflows into stages and rerun only changed stages.</li>
+            <li>Avoid end-to-end reruns for local fixes.</li>
+            <li>Cache stable intermediate artifacts.</li>
+          </ul>
+          <p>Example stage split: extraction, classification, field extraction, publishing.</p>
+          <div class="callout warn">
+            <p><strong>⚠️ Rule:</strong> if one stage changes, rerun from that stage forward only.</p>
+          </div>
+        </section>
+
+        <section id="prompt-efficiency-patterns">
+          <h2>Prompt Efficiency Patterns</h2>
+          <div class="compare">
+            <div class="bad">
+              <span class="label">Bad</span>
+              <pre><code>Improve this code.</code></pre>
+            </div>
+            <div class="good">
+              <span class="label">Good</span>
+              <pre><code>Update function X to handle edge case Y.
+Do not modify other parts.</code></pre>
+            </div>
+          </div>
+          <ul>
+            <li>tighter prompts reduce ambiguity</li>
+            <li>lower ambiguity reduces retries</li>
+            <li>fewer retries reduce token waste</li>
+          </ul>
+        </section>
+
+        <section id="signs-youre-about-to-hit-limits">
+          <h2>Signs You’re About to Hit Limits</h2>
+          <ul>
+            <li>responses slow down each turn</li>
+            <li>repeated retries on the same task</li>
+            <li>larger inputs on each step</li>
+            <li>repeated runs of near-identical workflows</li>
+          </ul>
+          <p>If two or more appear, tighten scope immediately.</p>
+        </section>
+
+        <section id="agent-token-explosion">
+          <h2>Agent Token Explosion</h2>
+          <p>Agents multiply token usage through recursion, orchestration, and memory growth.</p>
+          <div class="cards">
+            <div class="card">
+              <h3>Pressure Points</h3>
+              <ul>
+                <li>recursive calls stack context</li>
+                <li>multi-step flows add overhead per handoff</li>
+                <li>persistent memory inflates prompt size</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Controls</h3>
+              <ul>
+                <li>set hard step boundaries and stop conditions</li>
+                <li>cache intermediate outputs</li>
+                <li>cap recursion depth and retry count</li>
+                <li>summarize or reset memory between phases</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="claude-specific-optimization">
+          <h2>Claude-Specific Optimization</h2>
+          <h3>1. CLAUDE.md usage</h3>
+          <p><code>CLAUDE.md</code> centralizes stable instructions so you do not repeat long setup prompts every turn.</p>
+          <ul>
+            <li>cuts repeated instruction overhead</li>
+            <li>lowers per-turn payload in long sessions</li>
+            <li>improves consistency, reducing retries</li>
+          </ul>
+          <p>Keep it short. Bloated instruction files erase the benefit.</p>
+
+          <h3>2. Skills</h3>
+          <p>Skills package reusable capabilities into structured patterns.</p>
+          <ul>
+            <li>reduces prompt repetition</li>
+            <li>improves task precision and lowers retries</li>
+            <li>standardizes outputs for downstream steps</li>
+          </ul>
+
+          <h3>3. MCP (Model Context Protocol)</h3>
+          <p>MCP fetches precise context on demand instead of pasting large blocks into prompts.</p>
+          <ul>
+            <li>replaces broad context loading with targeted retrieval</li>
+            <li>reduces context window pressure</li>
+            <li>keeps prompts focused on decision-relevant data</li>
+          </ul>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Technique</th>
+                <th>What It Optimizes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>CLAUDE.md</td>
+                <td>Instruction overhead</td>
+              </tr>
+              <tr>
+                <td>Skills</td>
+                <td>Prompt repetition</td>
+              </tr>
+              <tr>
+                <td>MCP</td>
+                <td>Context size</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="operating-rules">
+          <h2>Operating Rules</h2>
+          <ol>
+            <li>Never send more context than needed.</li>
+            <li>Never rerun full workflows unnecessarily.</li>
+            <li>Separate planning from execution.</li>
+            <li>Scope prompts tightly.</li>
+            <li>Cache intermediate results.</li>
+          </ol>
+          <div class="callout rule">
+            <p><strong>🔥 Key rules:</strong> small context, tight scope, fewer loops, reusable outputs.</p>
+          </div>
+        </section>
+
+        <section id="final-principle">
+          <h2>Final Principle</h2>
+          <p>LLM usage isn’t about how much you use - it’s about how efficiently you structure the work.</p>
+        </section>
+
+        <section id="about-this-playbook">
+          <h2>About This Playbook</h2>
+          <p>
+            This guide is for practitioners hitting usage limits in real workflows. It focuses on operational
+            controls that reduce token burn without reducing output quality.
+          </p>
+        </section>
+      </article>
+
+      <nav class="toc" aria-label="Table of contents">
+        <h2>On This Page</h2>
+        <ul>
+          <li><a href="#the-problem">The Problem</a></li>
+          <li><a href="#the-real-reason-youre-hitting-limits">The Real Reason You’re Hitting Limits</a></li>
+          <li><a href="#chat-vs-code">Chat vs Code</a></li>
+          <li><a href="#whats-actually-burning-your-tokens">What’s Actually Burning Your Tokens</a></li>
+          <li><a href="#the-biggest-mistakes-people-make">The Biggest Mistakes People Make</a></li>
+          <li><a href="#the-fix-practical-playbook">The Fix — Practical Playbook</a></li>
+          <li><a href="#a-better-workflow">A Better Workflow</a></li>
+          <li><a href="#real-example-before-vs-after">Real Example</a></li>
+          <li><a href="#context-control-techniques">Context Control Techniques</a></li>
+          <li><a href="#pipeline-optimization">Pipeline Optimization</a></li>
+          <li><a href="#prompt-efficiency-patterns">Prompt Efficiency Patterns</a></li>
+          <li><a href="#signs-youre-about-to-hit-limits">Signs You’re About to Hit Limits</a></li>
+          <li><a href="#agent-token-explosion">Agent Token Explosion</a></li>
+          <li><a href="#claude-specific-optimization">Claude-Specific Optimization</a></li>
+          <li><a href="#operating-rules">Operating Rules</a></li>
+          <li><a href="#final-principle">Final Principle</a></li>
+        </ul>
+      </nav>
+    </main>
+  </body>
+</html>
