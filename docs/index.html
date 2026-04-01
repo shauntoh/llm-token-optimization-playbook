@@ -1,5 +1,4 @@
-﻿
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -7,11 +6,13 @@
     <title>Why LLM Code Tools Burn Your Limits (and How to Fix It)</title>
     <style>
       :root {
-        --bg: #f9fafb;
-        --card: #ffffff;
-        --border: #e5e7eb;
-        --text: #111827;
-        --muted: #6b7280;
+        --bg: #0b0f14;
+        --card: #111827;
+        --accent-green: #22c55e;
+        --accent-blue: #3b82f6;
+        --text: #e5e7eb;
+        --text-muted: #9ca3af;
+        --border: #1f2937;
       }
 
       * {
@@ -28,21 +29,29 @@
         color: var(--text);
         font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         font-size: 15px;
-        line-height: 1.7;
+        line-height: 1.75;
       }
 
       .page {
         max-width: 900px;
-        margin: 40px auto;
+        margin: 48px auto;
         padding: 0 16px;
       }
 
       .card {
-        background: white;
-        border: 1px solid #e5e7eb;
+        background: var(--card);
+        border: 1px solid #1f2937;
         border-radius: 12px;
         padding: 24px;
         margin-bottom: 32px;
+        transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        animation: fadeInUp 0.55s ease both;
+      }
+
+      .card:hover {
+        transform: translateY(-2px);
+        border-color: #273548;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
       }
 
       h1,
@@ -51,6 +60,7 @@
         margin: 0;
         line-height: 1.2;
         letter-spacing: -0.02em;
+        color: var(--text);
       }
 
       h1 {
@@ -73,12 +83,18 @@
 
       p {
         margin: 0 0 16px;
+        color: var(--text-muted);
       }
 
       ul,
       ol {
         margin: 0 0 16px;
         padding-left: 1.2rem;
+        color: var(--text-muted);
+      }
+
+      strong {
+        color: var(--text);
       }
 
       .caption {
@@ -88,47 +104,45 @@
         margin-bottom: 0;
       }
 
-      .muted {
-        color: #6b7280;
+      .subtitle {
+        color: var(--text-muted);
+        margin-bottom: 18px;
+      }
+
+      .divider {
+        height: 1px;
+        background: #1f2937;
+        margin: 24px 0;
       }
 
       .toc-links {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 6px 20px;
+        gap: 8px 20px;
       }
 
       .toc-links a {
-        color: #374151;
+        color: #cbd5e1;
         text-decoration: none;
       }
 
       .toc-links a:hover {
-        color: #111827;
+        color: #ffffff;
       }
 
       .start-box {
-        background: #f8fafc;
+        background: #0f172a;
         border: 1px solid var(--border);
         border-radius: 10px;
         padding: 16px;
       }
 
       .visual {
-        background: #f8fafc;
+        background: #0f172a;
         border: 1px solid var(--border);
         border-radius: 10px;
         padding: 16px;
         margin-top: 16px;
-      }
-
-      .visual-label {
-        font-size: 12px;
-        color: #374151;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        font-weight: 600;
-        margin-bottom: 8px;
       }
 
       .flow-row {
@@ -142,45 +156,22 @@
         padding-bottom: 2px;
       }
 
-      .flow-row + .flow-row,
       .flow-group + .flow-group {
         margin-top: 16px;
       }
 
       .node {
-        border: 1px solid #e5e7eb;
-        background: white;
+        border: 1px solid #334155;
+        background: #111827;
         border-radius: 8px;
         padding: 8px 12px;
         font-size: 14px;
+        color: #e5e7eb;
         white-space: nowrap;
       }
 
       .arrow {
-        color: #6b7280;
-      }
-
-      .compare-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-      }
-
-      .compare-col {
-        border: 1px solid #e5e7eb;
-        background: #f8fafc;
-        border-radius: 10px;
-        padding: 16px;
-      }
-
-      .tag {
-        display: inline-block;
-        margin-bottom: 8px;
-        font-size: 11px;
-        color: #4b5563;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        font-weight: 600;
+        color: #94a3b8;
       }
 
       .stack {
@@ -190,18 +181,80 @@
       }
 
       .stack-item {
-        width: min(340px, 100%);
-        border: 1px solid #e5e7eb;
-        background: white;
+        width: min(360px, 100%);
+        border: 1px solid #334155;
+        background: #111827;
         border-radius: 8px;
         padding: 10px 12px;
         text-align: center;
+        color: #e5e7eb;
       }
 
       .stack-sep {
-        width: 1px;
-        height: 20px;
-        background: #d1d5db;
+        width: 2px;
+        height: 18px;
+        background: #334155;
+      }
+
+      .compare-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .compare-col {
+        border: 1px solid #334155;
+        background: #0f172a;
+        border-radius: 10px;
+        padding: 16px;
+      }
+
+      .tag {
+        display: inline-block;
+        margin-bottom: 8px;
+        font-size: 11px;
+        color: #9ca3af;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-weight: 600;
+      }
+
+      .mode-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .mode-card {
+        border: 1px solid #334155;
+        background: #0f172a;
+        border-radius: 10px;
+        padding: 16px;
+      }
+
+      .mode-card.chat {
+        border-left: 4px solid var(--accent-blue);
+      }
+
+      .mode-card.code {
+        border-left: 4px solid var(--accent-green);
+      }
+
+      .insight {
+        border: 1px solid #334155;
+        border-radius: 8px;
+        padding: 12px;
+        margin-top: 12px;
+      }
+
+      .insight.chat {
+        background: rgba(59, 130, 246, 0.08);
+        border-color: rgba(59, 130, 246, 0.45);
+      }
+
+      .insight.code {
+        background: rgba(34, 197, 94, 0.08);
+        border-color: rgba(34, 197, 94, 0.45);
       }
 
       table {
@@ -212,15 +265,34 @@
 
       th,
       td {
-        border: 1px solid #e5e7eb;
+        border: 1px solid #1f2937;
         padding: 10px 12px;
         text-align: left;
         vertical-align: top;
       }
 
       th {
-        background: #f8fafc;
-        font-weight: 600;
+        background: #0f172a;
+        color: #e5e7eb;
+        font-weight: 700;
+      }
+
+      tbody tr:hover {
+        background: rgba(148, 163, 184, 0.08);
+      }
+
+      pre {
+        margin: 8px 0 0;
+        background: #020617;
+        border: 1px solid #1f2937;
+        border-radius: 8px;
+        padding: 12px;
+        overflow-x: auto;
+      }
+
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        color: #cbd5e1;
       }
 
       .claude-grid {
@@ -230,14 +302,49 @@
       }
 
       .claude-card {
-        border: 1px solid #e5e7eb;
+        border: 1px solid #334155;
         border-radius: 10px;
-        background: #f8fafc;
+        background: #0f172a;
         padding: 16px;
+      }
+
+      .callout {
+        border-left: 4px solid;
+        border-radius: 10px;
+        padding: 14px 16px;
+        margin-top: 16px;
+      }
+
+      .callout.info {
+        border-color: #3b82f6;
+        background: rgba(59, 130, 246, 0.1);
+      }
+
+      .callout.tip {
+        border-color: #22c55e;
+        background: rgba(34, 197, 94, 0.12);
+        box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.08);
+      }
+
+      .callout.warn {
+        border-color: #f59e0b;
+        background: rgba(245, 158, 11, 0.12);
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       @media (max-width: 860px) {
         .toc-links,
+        .mode-grid,
         .compare-grid,
         .claude-grid {
           grid-template-columns: 1fr;
@@ -249,7 +356,7 @@
     <main class="page">
       <section class="card">
         <h1>Why LLM Code Tools Burn Your Limits (and How to Fix It)</h1>
-        <p class="muted">A practical guide for teams that are just starting to hit LLM usage limits in real coding workflows.</p>
+        <p class="subtitle">A practical guide for teams that are just starting to hit LLM usage limits in real coding workflows.</p>
 
         <div class="start-box">
           <p><strong>If you are hitting limits, do these first:</strong></p>
@@ -274,33 +381,83 @@
           <a href="#skills-vs-mcp">Skills vs MCP</a>
         </div>
       </nav>
+
       <section id="the-problem" class="card">
         <h2>The Problem</h2>
         <p>Most teams start with chat and feel fine. Then coding sessions begin, context gets larger, retries accumulate, and usage limits appear unexpectedly fast.</p>
         <p>It is usually not a model issue. It is a workflow shape issue.</p>
+        <div class="callout.warn">
+          <strong>Warning:</strong> Repeated broad-context retries are the fastest path to token exhaustion.
+        </div>
       </section>
 
       <section id="chat-vs-code" class="card">
         <h2>Chat vs Code</h2>
+        <p class="subtitle">Use this to choose the right mode before you spend tokens.</p>
+
+        <div class="mode-grid">
+          <article class="mode-card chat">
+            <h3>💬 Chat (Exploration Mode)</h3>
+            <ul>
+              <li>clarify goals and constraints</li>
+              <li>compare options quickly</li>
+              <li>shape prompt strategy before execution</li>
+            </ul>
+            <div class="insight chat"><strong>Insight:</strong> Keep chat broad for thinking, then hand off a scoped plan.</div>
+          </article>
+
+          <article class="mode-card code">
+            <h3>⚡ Code (Execution Mode)</h3>
+            <ul>
+              <li>apply targeted changes</li>
+              <li>validate with tests or local runs</li>
+              <li>iterate only on defined failures</li>
+            </ul>
+            <div class="insight code"><strong>Insight:</strong> Code mode needs <strong>Precise instructions</strong> and <strong>Deterministic output</strong>.</div>
+          </article>
+        </div>
 
         <div class="visual">
-          <h3>Chat vs Code</h3>
           <div class="flow-group">
             <p class="visual-label">Chat (Fast Path)</p>
             <div class="flow-row">
               <span class="node">User</span><span class="arrow">→</span><span class="node">Model</span><span class="arrow">→</span><span class="node">Response</span>
             </div>
           </div>
-
           <div class="flow-group">
             <p class="visual-label">Coding (Full Execution Path)</p>
             <div class="flow-row">
               <span class="node">User</span><span class="arrow">→</span><span class="node">Model</span><span class="arrow">→</span><span class="node">Load Files</span><span class="arrow">→</span><span class="node">Analyze Code</span><span class="arrow">→</span><span class="node">Generate Patch</span><span class="arrow">→</span><span class="node">Run Tests</span><span class="arrow">→</span><span class="node">Process Logs</span><span class="arrow">→</span><span class="node">Response</span>
             </div>
           </div>
-
-          <p class="caption">Chat is short and scoped. Coding adds tool-driven steps and context overhead.</p>
         </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Dimension</th>
+              <th>Chat</th>
+              <th>Code</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Primary intent</td>
+              <td>Explore and plan</td>
+              <td>Execute changes</td>
+            </tr>
+            <tr>
+              <td>Typical token pattern</td>
+              <td>Lower, shorter turns</td>
+              <td><strong>High token usage</strong> with loops</td>
+            </tr>
+            <tr>
+              <td>Best input style</td>
+              <td>Open framing</td>
+              <td>Scoped, explicit constraints</td>
+            </tr>
+          </tbody>
+        </table>
       </section>
 
       <section id="the-fix" class="card">
@@ -311,30 +468,7 @@
           <li>Define done criteria to reduce retries.</li>
           <li>Use chat, code tools, and local validation in sequence.</li>
         </ol>
-
-        <div class="visual">
-          <h3>Bad vs Good Workflow</h3>
-          <div class="compare-grid">
-            <div class="compare-col">
-              <span class="tag">Bad workflow</span>
-              <ul>
-                <li>think in code</li>
-                <li>explore repo</li>
-                <li>retry loops</li>
-              </ul>
-              <p><strong>High token usage</strong></p>
-            </div>
-            <div class="compare-col">
-              <span class="tag">Good workflow</span>
-              <ul>
-                <li>plan in chat</li>
-                <li>scoped input</li>
-                <li>execute once</li>
-              </ul>
-              <p><strong>Low token usage</strong></p>
-            </div>
-          </div>
-        </div>
+        <div class="callout.tip"><strong>Tip:</strong> Aim for one focused execution pass per problem slice.</div>
       </section>
 
       <section id="think-vs-execute" class="card">
@@ -342,9 +476,9 @@
         <div class="visual">
           <div class="stack">
             <div class="stack-item"><strong>Chat</strong><br />Think / Plan</div>
-            <div class="stack-sep" aria-hidden="true"></div>
+            <div class="stack-sep"></div>
             <div class="stack-item"><strong>Code Tool</strong><br />Execute</div>
-            <div class="stack-sep" aria-hidden="true"></div>
+            <div class="stack-sep"></div>
             <div class="stack-item"><strong>Local</strong><br />Run + Validate</div>
           </div>
         </div>
@@ -380,39 +514,39 @@
           <div class="flow-row">
             <span class="node">Large Context</span><span class="arrow">→</span><span class="node">Model Call</span><span class="arrow">→</span><span class="node">Retry</span><span class="arrow">→</span><span class="node">More Context</span><span class="arrow">→</span><span class="node">More Calls</span>
           </div>
-          <p class="caption">Token usage compounds through context + retries.</p>
+          <p class="caption">Token usage compounds through context + retries</p>
         </div>
       </section>
+
       <section id="claude" class="card">
         <h2>Claude-Specific Optimization</h2>
         <div class="claude-grid">
           <article class="claude-card">
             <h3>CLAUDE.md</h3>
-            <p><strong>What it is:</strong> stable project-level instruction layer.</p>
-            <p><strong>When to use:</strong> repeated work in the same project.</p>
-            <p><strong>When NOT to use:</strong> one-off ticket-specific details.</p>
-            <p><strong>Token impact:</strong> reduces repeated instruction overhead.</p>
-            <p><strong>Example:</strong> define code style, boundaries, and validation standards once.</p>
+            <p><strong>What it is:</strong> stable project instruction layer.</p>
+            <p><strong>When to use:</strong> repeated work in one codebase.</p>
+            <p><strong>When NOT to use:</strong> volatile ticket-specific details.</p>
+            <p><strong>Token impact:</strong> reduces repeated setup instructions.</p>
+            <p><strong>Example:</strong> define standards and boundaries once.</p>
           </article>
-
           <article class="claude-card">
             <h3>Skills</h3>
-            <p><strong>What it is:</strong> reusable task logic for repeat patterns.</p>
-            <p><strong>When to use:</strong> extraction, review, refactor, summarization.</p>
-            <p><strong>When NOT to use:</strong> external data access or tool queries.</p>
-            <p><strong>Token impact:</strong> reduces prompt repetition and retry loops.</p>
-            <p><strong>Example:</strong> a standard review skill that always returns the same structure.</p>
+            <p><strong>What it is:</strong> reusable task logic.</p>
+            <p><strong>When to use:</strong> repeated extraction/review/refactor jobs.</p>
+            <p><strong>When NOT to use:</strong> external retrieval problems.</p>
+            <p><strong>Token impact:</strong> lowers repetition and retries.</p>
+            <p><strong>Example:</strong> structured review output skill.</p>
           </article>
-
           <article class="claude-card">
             <h3>MCP</h3>
-            <p><strong>What it is:</strong> external access layer for targeted retrieval.</p>
-            <p><strong>When to use:</strong> querying files, DBs, APIs, local tools.</p>
-            <p><strong>When NOT to use:</strong> reusable task behavior logic.</p>
-            <p><strong>Token impact:</strong> reduces context bloat from pasted data.</p>
-            <p><strong>Example:</strong> fetch only relevant logs instead of pasting full trace dumps.</p>
+            <p><strong>What it is:</strong> external access and tool layer.</p>
+            <p><strong>When to use:</strong> file/DB/API/tool queries.</p>
+            <p><strong>When NOT to use:</strong> behavior/prompt logic.</p>
+            <p><strong>Token impact:</strong> reduces pasted-context bloat.</p>
+            <p><strong>Example:</strong> fetch exact logs by time range.</p>
           </article>
         </div>
+        <div class="callout.info"><strong>Info:</strong> Use Skills to standardize behavior; use MCP to standardize access.</div>
       </section>
 
       <section id="skills-vs-mcp" class="card">
