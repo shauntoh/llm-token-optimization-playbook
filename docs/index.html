@@ -157,32 +157,6 @@
         color: #374151;
       }
 
-      .system-flow {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        overflow-x: auto;
-        padding-bottom: 4px;
-      }
-
-      .flow-card {
-        min-width: 210px;
-        padding: 16px;
-        border-radius: 12px;
-        background: #f9fafb;
-        border: 1px solid #e5e7eb;
-      }
-
-      .flow-card p {
-        margin-bottom: 8px;
-      }
-
-      .flow-arrow {
-        font-size: 20px;
-        color: #94a3b8;
-        flex: 0 0 auto;
-      }
-
       .back-to-top {
         position: fixed;
         right: 24px;
@@ -699,7 +673,6 @@
           <p class="sidebar-group-title">Optimization System</p>
           <nav class="sidebar-nav">
             <a class="sidebar-link" href="#real-example">Real Example</a>
-            <a class="sidebar-link" href="#token-explosion-loop">Token Explosion Loop</a>
             <a class="sidebar-link" href="#model-tiering">Model Tiering</a>
           </nav>
         </div>
@@ -1119,38 +1092,6 @@
         </div>
         <p><strong>What changed:</strong> context was narrowed, retries were reduced, and validation became stage-specific.</p>
         <p class="caption"><strong>Takeaway:</strong> most savings come from removing duplicate context-heavy loops, not from shorter wording.</p>
-      </section>
-
-      <section id="system-flow" class="card">
-        <div class="heading section-header section-blue">
-          <h2 id="system-flow-heading">🔁 How Token Optimization Actually Works</h2>
-        </div>
-        <div class="system-flow">
-          <article class="flow-card">
-            <p><strong>1. User Prompt</strong></p>
-            <p>Raw input</p>
-            <p>Task type</p>
-          </article>
-          <span class="flow-arrow">→</span>
-          <article class="flow-card">
-            <p><strong>2. Model Tier Selection</strong></p>
-            <p>Tier 1 / Tier 2 / Tier 3</p>
-            <p>Based on complexity + cost sensitivity</p>
-          </article>
-          <span class="flow-arrow">→</span>
-          <article class="flow-card">
-            <p><strong>3. Execution Layer</strong></p>
-            <p>Codex / Claude Code / MCP tools</p>
-            <p>Structured workflows</p>
-          </article>
-          <span class="flow-arrow">→</span>
-          <article class="flow-card">
-            <p><strong>4. Output</strong></p>
-            <p>Response</p>
-            <p>Cost incurred + latency</p>
-          </article>
-        </div>
-        <p class="caption">Token optimization is not a prompt trick — it is a routing system.</p>
       </section>
 
       <section id="quick-checklist" class="card">
