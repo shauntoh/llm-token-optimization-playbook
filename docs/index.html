@@ -32,8 +32,8 @@
 
       .docs-shell {
         display: grid;
-        grid-template-columns: 260px minmax(0, 1fr) 220px;
-        gap: 24px;
+        grid-template-columns: 260px minmax(0, 1fr);
+        gap: 32px;
         width: 100%;
         max-width: 1440px;
         margin: 0 auto;
@@ -45,9 +45,8 @@
       }
 
       .docs-content {
-        max-width: 860px;
+        max-width: 960px;
         width: 100%;
-        margin: 0 auto;
         padding: 32px 0 80px;
       }
 
@@ -73,7 +72,7 @@
         letter-spacing: 0.08em;
         text-transform: uppercase;
         color: #9ca3af;
-        margin: 0 0 8px 0;
+        margin: 18px 0 8px;
       }
 
       .sidebar-nav {
@@ -115,44 +114,6 @@
         width: 2px;
         border-radius: 999px;
         background: var(--accent);
-      }
-
-      .docs-toc {
-        position: sticky;
-        top: 72px;
-        align-self: start;
-        max-height: calc(100vh - 72px);
-        overflow-y: auto;
-        padding: 24px 0 24px 8px;
-      }
-
-      .docs-toc-title {
-        font-size: 12px;
-        font-weight: 700;
-        color: #9ca3af;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        margin-bottom: 10px;
-      }
-
-      .docs-toc-links a {
-        display: block;
-        font-size: 13px;
-        color: #6b7280;
-        text-decoration: none;
-        padding: 5px 0;
-      }
-
-      .docs-toc-links a:hover { color: #111827; }
-
-      .docs-toc-links a.active {
-        color: var(--accent);
-        font-weight: 600;
-      }
-
-      .docs-toc-links a.toc-h3 {
-        padding-left: 12px;
-        font-size: 12px;
       }
 
       .hero-actions {
@@ -264,7 +225,7 @@
       }
 
       section {
-        margin-bottom: 56px;
+        margin-bottom: 52px;
       }
 
       .docs-content .card + .card::before {
@@ -304,27 +265,27 @@
       }
 
       h2 {
-        font-size: 28px;
+        font-size: 26px;
         line-height: 1.2;
         letter-spacing: -0.02em;
         font-weight: 700;
-        margin-top: 56px;
-        margin-bottom: 16px;
+        margin-top: 48px;
+        margin-bottom: 14px;
       }
       h3 {
-        font-size: 20px;
-        line-height: 1.3;
+        font-size: 18px;
+        line-height: 1.35;
         font-weight: 650;
-        margin-top: 32px;
-        margin-bottom: 12px;
-        padding: 8px 10px;
-        border-left: 3px solid #e5e7eb;
-        background: #f8fafc;
-        border-radius: 6px;
+        margin-top: 28px;
+        margin-bottom: 10px;
+        padding: 0;
+        border-left: 0;
+        background: transparent;
+        border-radius: 0;
       }
 
-      p { margin: 0 0 14px; color: #374151; }
-      ul, ol { margin: 0 0 14px; padding-left: 1.2rem; color: #374151; }
+      p { margin: 0 0 14px; font-size: 16px; line-height: 1.7; color: #374151; }
+      ul, ol { margin: 0 0 14px; padding-left: 1.2rem; font-size: 16px; line-height: 1.7; color: #374151; }
       li + li { margin-top: 4px; }
       strong { color: var(--text-strong); }
 
@@ -340,12 +301,11 @@
       }
 
       .section-header {
-        border-radius: 10px;
-        padding: 12px 16px;
-        border-left: 4px solid;
-        margin: 32px 0 16px;
-        background: #f9fafb;
-        border-left-color: var(--accent);
+        border-radius: 0;
+        padding: 0;
+        border-left: 0;
+        margin: 0 0 10px;
+        background: transparent;
       }
 
       .section-red,
@@ -353,8 +313,8 @@
       .section-purple,
       .section-teal,
       .section-green {
-        background: #f9fafb;
-        border-left-color: var(--accent);
+        background: transparent;
+        border-left-color: transparent;
       }
 
       .section-label {
@@ -638,16 +598,6 @@
         to { opacity: 1; transform: translateY(0); }
       }
 
-      @media (max-width: 1200px) {
-        .docs-shell {
-          grid-template-columns: 240px minmax(0, 1fr);
-        }
-
-        .docs-toc {
-          display: none;
-        }
-      }
-
       @media (max-width: 900px) {
         .mode-grid,
         .compare-grid,
@@ -660,12 +610,7 @@
         }
 
         .docs-sidebar {
-          position: static;
-          top: auto;
-          height: auto;
-          border-right: 0;
-          border-bottom: 1px solid #e5e7eb;
-          padding: 16px 0;
+          display: none;
         }
 
         .docs-content {
@@ -706,7 +651,6 @@
         <div class="sidebar-group">
           <p class="sidebar-group-title">Optimization System</p>
           <nav class="sidebar-nav">
-            <a class="sidebar-link" href="#better-workflow">Better Workflow</a>
             <a class="sidebar-link" href="#real-example">Real Example</a>
             <a class="sidebar-link" href="#token-explosion-loop">Token Explosion Loop</a>
             <a class="sidebar-link" href="#model-tiering">Model Tiering</a>
@@ -900,16 +844,6 @@
           <li><strong>Sequence tools intentionally.</strong> Chat for decisions, code tool for edits, local systems for validation. This prevents repeated mixed-mode overhead.</li>
         </ol>
         <p><strong>Example:</strong> define target files and acceptance tests in chat, then run one scoped execution pass in the code tool.</p>
-        <div class="section-card" id="better-workflow">
-          <h3>Better Workflow</h3>
-          <div class="stack">
-            <div class="stack-item"><strong>Chat</strong><br />Think / Plan</div>
-            <div class="stack-sep"></div>
-            <div class="stack-item"><strong>Code Tool</strong><br />Execute</div>
-            <div class="stack-sep"></div>
-            <div class="stack-item"><strong>Local Validation</strong><br />Run + Verify</div>
-          </div>
-        </div>
         <div class="callout.tip"><strong>Tip:</strong> Aim for one focused execution pass per problem slice.</div>
       </section>
 
@@ -1206,41 +1140,12 @@
       </div>
       </main>
 
-      <aside class="docs-toc" aria-label="In-page contents">
-        <div class="docs-toc-title">On This Page</div>
-        <nav class="docs-toc-links" id="docsTocLinks"></nav>
-      </aside>
     </div>
 
     <button class="back-to-top" id="backToTop" type="button">Back to top</button>
     <script>
       (function () {
         var sidebarLinks = Array.from(document.querySelectorAll(".sidebar-nav a"));
-        var tocContainer = document.getElementById("docsTocLinks");
-        var headingTargets = Array.from(document.querySelectorAll(".docs-content h2, .docs-content h3"));
-        var tocLinks = [];
-
-        headingTargets.forEach(function (heading) {
-          var tag = heading.tagName.toLowerCase();
-          var id = heading.id;
-          if (!id && tag === "h2") {
-            id = heading.closest("section") && heading.closest("section").id;
-          }
-          if (!id) return;
-          if (!heading.id) {
-            heading.id = id;
-          }
-          var link = document.createElement("a");
-          link.href = "#" + id;
-          link.textContent = heading.textContent.replace("🔁 ", "").trim();
-          if (tag === "h3") {
-            link.classList.add("toc-h3");
-          }
-          tocContainer.appendChild(link);
-          tocLinks.push(link);
-        });
-
-        var allNavLinks = sidebarLinks.concat(tocLinks);
         var sections = sidebarLinks
           .map(function (link) {
             var id = link.getAttribute("href");
@@ -1254,7 +1159,7 @@
             entries.forEach(function (entry) {
               if (!entry.isIntersecting) return;
               var id = "#" + entry.target.id;
-              allNavLinks.forEach(function (link) {
+              sidebarLinks.forEach(function (link) {
                 link.classList.toggle("active", link.getAttribute("href") === id);
               });
             });
