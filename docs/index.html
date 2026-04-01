@@ -16,6 +16,24 @@
         --text-muted: #6b7280;
         --border: #e5e7eb;
         --border-soft: #f1f5f9;
+        --tone-radius: 12px;
+        --tone-padding: 16px;
+        --tone-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+        --tier-1-bg: #f4f8ff;
+        --tier-1-border: #dbe6ff;
+        --tier-1-accent: #1f4f97;
+        --tier-2-bg: #f7f4ff;
+        --tier-2-border: #e6ddff;
+        --tier-2-accent: #5b3e99;
+        --tier-3-bg: #fdf8ef;
+        --tier-3-border: #efe2c9;
+        --tier-3-accent: #8a6120;
+        --pattern-bad-bg: #fff4f5;
+        --pattern-bad-border: #f2d8dc;
+        --pattern-bad-accent: #a84a5a;
+        --pattern-good-bg: #f3faf5;
+        --pattern-good-border: #d3ead9;
+        --pattern-good-accent: #2d6c45;
       }
 
       * { box-sizing: border-box; }
@@ -562,14 +580,50 @@
 
       .tier-card {
         border: 1px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 16px;
+        border-radius: var(--tone-radius);
+        padding: var(--tone-padding);
+        box-shadow: var(--tone-shadow);
       }
 
       .tier-card h3 { margin-bottom: 8px; border-left-color: #e5e7eb; }
-      .tier-1 { background: #ffffff; border-color: #e5e7eb; }
-      .tier-2 { background: #ffffff; border-color: #e5e7eb; }
-      .tier-3 { background: #ffffff; border-color: #e5e7eb; }
+      .tier-card .caption { color: #4b5563; }
+      .tier-1 { background: var(--tier-1-bg); border-color: var(--tier-1-border); }
+      .tier-2 { background: var(--tier-2-bg); border-color: var(--tier-2-border); }
+      .tier-3 { background: var(--tier-3-bg); border-color: var(--tier-3-border); }
+      .tier-1 h3 { color: var(--tier-1-accent); }
+      .tier-2 h3 { color: var(--tier-2-accent); }
+      .tier-3 h3 { color: var(--tier-3-accent); }
+
+      .pattern-card {
+        border-radius: var(--tone-radius);
+        padding: var(--tone-padding);
+        box-shadow: var(--tone-shadow);
+      }
+
+      .pattern-card .tag {
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+
+      .pattern-bad {
+        background: var(--pattern-bad-bg);
+        border-color: var(--pattern-bad-border);
+      }
+
+      .pattern-good {
+        background: var(--pattern-good-bg);
+        border-color: var(--pattern-good-border);
+      }
+
+      .pattern-bad .tag,
+      .pattern-bad p strong {
+        color: var(--pattern-bad-accent);
+      }
+
+      .pattern-good .tag,
+      .pattern-good p strong {
+        color: var(--pattern-good-accent);
+      }
 
       .section-divider {
         height: 1px;
@@ -690,7 +744,6 @@
       <main class="docs-main">
       <div class="docs-content">
       <section id="introduction-section" class="card hero-section">
-        <p class="eyebrow">Documentation</p>
         <div class="hero-title-row">
           <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M5 5h14v14H5z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>
           <h1 id="introduction" class="hero-title">LLM Token Optimization Playbook</h1>
@@ -964,7 +1017,7 @@
         </div>
 
         <div class="compare-grid" style="margin-top: 16px;">
-          <div class="compare-col">
+          <div class="compare-col pattern-card pattern-bad">
             <span class="tag">Bad Pattern</span>
             <p><strong>Use Tier 1 for everything</strong></p>
             <ul>
@@ -973,7 +1026,7 @@
               <li>no cost-aware routing</li>
             </ul>
           </div>
-          <div class="compare-col">
+          <div class="compare-col pattern-card pattern-good">
             <span class="tag">Good Pattern</span>
             <p><strong>Use a tiered workflow</strong></p>
             <ul>
