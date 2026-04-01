@@ -31,9 +31,9 @@
       }
 
       .page {
-        max-width: 900px;
+        max-width: 1060px;
         margin: 64px auto;
-        padding: 0 16px;
+        padding: 0 20px;
       }
 
       .card {
@@ -53,19 +53,35 @@
         border-color: #d1d5db;
       }
 
-      h1, h2, h3 {
+      .hero-title-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .hero-title {
+        margin: 0;
+        white-space: nowrap;
+        font-size: 30px;
+        font-weight: 700;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        color: var(--text);
+      }
+
+      h2, h3 {
         margin: 0;
         line-height: 1.2;
         letter-spacing: -0.02em;
         color: var(--text);
       }
 
-      h1 { font-size: 32px; font-weight: 700; margin-bottom: 16px; }
-      h2 { font-size: 26px; font-weight: 700; margin-bottom: 14px; }
+      h2 { font-size: 26px; font-weight: 700; margin-bottom: 12px; }
       h3 { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
 
-      p { margin: 0 0 16px; color: var(--text-muted); }
-      ul, ol { margin: 0 0 16px; padding-left: 1.2rem; color: var(--text-muted); }
+      p { margin: 0 0 14px; color: var(--text-muted); }
+      ul, ol { margin: 0 0 14px; padding-left: 1.2rem; color: var(--text-muted); }
       li + li { margin-top: 4px; }
       strong { color: var(--text); }
 
@@ -77,7 +93,19 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        margin-bottom: 14px;
+        margin-bottom: 12px;
+      }
+
+      .section-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #64748b;
+        font-weight: 600;
+        margin-bottom: 12px;
       }
 
       .icon {
@@ -94,7 +122,7 @@
       .toc-links {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px 20px;
+        gap: 8px 24px;
       }
 
       .toc-links a {
@@ -105,7 +133,8 @@
       .toc-links a:hover { color: #111827; }
 
       .start-box,
-      .visual {
+      .visual,
+      .soft-panel {
         background: var(--section);
         border: 1px solid var(--border);
         border-radius: 10px;
@@ -172,15 +201,8 @@
         height: 100%;
       }
 
-      .mode-card.chat {
-        border-left: 4px solid var(--accent-blue);
-        background: rgba(59, 130, 246, 0.08);
-      }
-
-      .mode-card.code {
-        border-left: 4px solid var(--accent-green);
-        background: rgba(34, 197, 94, 0.08);
-      }
+      .mode-card.chat { border-left: 4px solid var(--accent-blue); background: rgba(59, 130, 246, 0.08); }
+      .mode-card.code { border-left: 4px solid var(--accent-green); background: rgba(34, 197, 94, 0.08); }
 
       .mode-title {
         display: flex;
@@ -204,29 +226,11 @@
         line-height: 1.55;
       }
 
-      .insight.chat {
-        border-color: rgba(59,130,246,.45);
-        background: rgba(59,130,246,.10);
-        color: #1f2937;
-      }
+      .insight.chat { border-color: rgba(59,130,246,.45); background: rgba(59,130,246,.10); color: #1f2937; }
+      .insight.code { border-color: rgba(34,197,94,.45); background: rgba(34,197,94,.10); color: #1f2937; }
 
-      .insight.code {
-        border-color: rgba(34,197,94,.45);
-        background: rgba(34,197,94,.10);
-        color: #1f2937;
-      }
-      .compare-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-      }
-
-      .compare-col {
-        border: 1px solid #e5e7eb;
-        border-radius: 10px;
-        background: #f9fafb;
-        padding: 16px;
-      }
+      .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .compare-col { border: 1px solid #e5e7eb; border-radius: 10px; background: #f9fafb; padding: 16px; }
 
       .tag {
         display: inline-block;
@@ -238,44 +242,12 @@
         font-weight: 600;
       }
 
-      .stack {
-        display: grid;
-        justify-items: center;
-        gap: 10px;
-      }
-
-      .stack-item {
-        width: min(380px, 100%);
-        border: 1px solid #e5e7eb;
-        background: #ffffff;
-        border-radius: 8px;
-        padding: 10px 12px;
-        text-align: center;
-      }
-
+      .stack { display: grid; justify-items: center; gap: 10px; }
+      .stack-item { width: min(380px, 100%); border: 1px solid #e5e7eb; background: #ffffff; border-radius: 8px; padding: 10px 12px; text-align: center; }
       .stack-sep { width: 2px; height: 18px; background: #d1d5db; }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 12px;
-      }
-
-      th,
-      td {
-        border: 1px solid #e5e7eb;
-        padding: 10px 12px;
-        text-align: left;
-        vertical-align: top;
-        color: #374151;
-      }
-
-      th {
-        background: #f3f4f6;
-        color: #111827;
-        font-weight: 700;
-      }
-
+      table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+      th, td { border: 1px solid #e5e7eb; padding: 10px 12px; text-align: left; vertical-align: top; color: #374151; }
+      th { background: #f3f4f6; color: #111827; font-weight: 700; }
       tbody tr:hover { background: #f9fafb; }
 
       pre {
@@ -292,18 +264,8 @@
         color: #cbd5e1;
       }
 
-      .claude-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 16px;
-      }
-
-      .claude-card {
-        border: 1px solid #e5e7eb;
-        border-radius: 10px;
-        background: #f9fafb;
-        padding: 16px;
-      }
+      .claude-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+      .claude-card { border: 1px solid #e5e7eb; border-radius: 10px; background: #f9fafb; padding: 16px; }
 
       .callout {
         border-left: 4px solid;
@@ -335,6 +297,10 @@
         .claude-grid { grid-template-columns: 1fr; }
       }
 
+      @media (max-width: 720px) {
+        .hero-title { white-space: normal; }
+      }
+
       @media (max-width: 560px) {
         .mode-title { white-space: normal; }
       }
@@ -343,7 +309,10 @@
   <body>
     <main class="page">
       <section class="card">
-        <h1>Why LLM Code Tools Burn Your Limits (and How to Fix It)</h1>
+        <div class="hero-title-row">
+          <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M5 5h14v14H5z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>
+          <h1 class="hero-title">Why LLM Code Tools Burn Your Limits (and How to Fix It)</h1>
+        </div>
         <p class="subtitle">A practical guide for teams that are just starting to hit LLM usage limits in real coding workflows.</p>
 
         <div class="start-box">
@@ -383,8 +352,9 @@
           <svg class="icon warn" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
           <h2>The Problem</h2>
         </div>
-        <p>Most teams start with chat and feel fine. Then coding sessions begin, context gets larger, retries accumulate, and usage limits appear unexpectedly fast.</p>
-        <p>It is usually not a model issue. It is a workflow shape issue.</p>
+        <p>Most users hit limits faster than expected because coding workflows quietly add context and repetition. It feels like normal work, but token cost compounds under the hood.</p>
+        <p>This is usually a workflow design problem, not simply "using the model too much."</p>
+        <p><strong>Practical example:</strong> a user opens a large repo, asks for a broad fix, retries three times, and unknowingly resends huge context each loop.</p>
         <div class="callout.warn"><strong>Warning:</strong> Repeated broad-context retries are the fastest path to token exhaustion.</div>
       </section>
 
@@ -468,6 +438,7 @@
             <tr><td>Best input style</td><td>Open framing</td><td>Scoped, explicit constraints</td></tr>
           </tbody>
         </table>
+        <p class="caption">Takeaway: Chat helps you choose the right path. Code mode should run that path with tight scope and fewer retries.</p>
       </section>
 
       <section id="whats-burning" class="card">
@@ -476,9 +447,9 @@
           <h2>What’s Burning Your Tokens</h2>
         </div>
         <ul>
-          <li><strong>Full file reloads</strong><br />Why: entire files are re-sent each iteration.<br />Impact: exponential token growth.</li>
-          <li><strong>Repeated loops</strong><br />Why: retrying full workflows instead of partial fixes.<br />Impact: duplicated context and wasted model calls.</li>
-          <li><strong>Tool and log payload bloat</strong><br />Why: large outputs are pasted back into prompts without filtering.<br />Impact: context windows fill with low-signal data.</li>
+          <li><strong>Full file reloads</strong><br />What: large file sets are resent every turn.<br />Why: default workflows reattach broad context automatically.<br />Impact: exponential token growth across iterations.</li>
+          <li><strong>Repeated loops</strong><br />What: full retry cycles after partial failures.<br />Why: teams rerun end-to-end flows instead of local fixes.<br />Impact: duplicated context and wasted model calls.</li>
+          <li><strong>Tool and log payload bloat</strong><br />What: oversized outputs are copied into prompts.<br />Why: outputs are not filtered to decision-relevant slices.<br />Impact: context windows fill with low-signal data.</li>
         </ul>
         <div class="callout.info"><strong>Info:</strong> The biggest lever is not output length; it is reducing repeated large-input turns.</div>
       </section>
@@ -489,9 +460,9 @@
           <h2>Biggest Mistakes</h2>
         </div>
         <ul>
-          <li>thinking in code mode instead of planning first</li>
-          <li>loading full repos for local edits</li>
-          <li>rerunning whole workflows after small changes</li>
+          <li><strong>Thinking in code mode first</strong><br />Why people do it: it feels faster to start patching.<br />Why it backfires: unclear scope triggers retries.<br />Better alternative: plan first in chat, then execute once.</li>
+          <li><strong>Loading full repos for local edits</strong><br />Why people do it: fear of missing dependencies.<br />Why it backfires: massive context cost for small fixes.<br />Better alternative: include only impacted files and interfaces.</li>
+          <li><strong>Rerunning full workflows after small changes</strong><br />Why people do it: convenience and habit.<br />Why it backfires: repeated duplicate context each cycle.<br />Better alternative: rerun only changed stages first.</li>
         </ul>
       </section>
       <section id="the-fix" class="card">
@@ -499,11 +470,12 @@
           <svg class="icon green" viewBox="0 0 24 24" fill="none"><path d="M4 8h16v10H4z"/><path d="M9 8V5h6v3M8 13h8"/></svg>
           <h2>The Fix — Practical Playbook</h2>
         </div>
+        <p>This is the recommended operating model for token-efficient delivery.</p>
         <ol>
-          <li>Separate thinking and execution.</li>
-          <li>Scope context tightly before each run.</li>
-          <li>Define done criteria to reduce retries.</li>
-          <li>Use chat, code tools, and local validation in sequence.</li>
+          <li><strong>Separate thinking and execution.</strong> Design the solution path first. This avoids expensive exploratory loops during implementation.</li>
+          <li><strong>Scope context tightly.</strong> Include only required files, logs, and constraints. This reduces base token cost per call.</li>
+          <li><strong>Define done criteria early.</strong> Clear success criteria reduce uncertainty and retry churn.</li>
+          <li><strong>Sequence tools intentionally.</strong> Chat for decisions, code tool for edits, local systems for validation. This prevents repeated mixed-mode overhead.</li>
         </ol>
         <div class="callout.tip"><strong>Tip:</strong> Aim for one focused execution pass per problem slice.</div>
       </section>
@@ -548,6 +520,8 @@
             <p><strong>Token usage:</strong> ~15k-40k per cycle</p>
           </div>
         </div>
+        <p><strong>What changed:</strong> scope was narrowed, retries were reduced, and validation became stage-specific.</p>
+        <p class="caption">Practical takeaway: fewer context-heavy loops create the largest token savings.</p>
       </section>
 
       <section id="token-explosion" class="card">
@@ -556,7 +530,7 @@
           <div class="flow-row">
             <span class="node">Large Context</span><span class="arrow">→</span><span class="node">Model Call</span><span class="arrow">→</span><span class="node">Retry</span><span class="arrow">→</span><span class="node">More Context</span><span class="arrow">→</span><span class="node">More Calls</span>
           </div>
-          <p class="caption">Token usage compounds through context + retries</p>
+          <p class="caption">Token usage compounds through context + retries.</p>
         </div>
       </section>
 
@@ -567,34 +541,35 @@
           <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M8 12h8M12 8v8"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
           <h2>Claude-Specific Optimization</h2>
         </div>
-
+        <p>This section is your practical toolkit for reducing repetitive prompt load in Claude workflows.</p>
         <div class="claude-grid">
           <article class="claude-card">
             <h3>CLAUDE.md</h3>
             <ul>
               <li><strong>What it is:</strong> persistent instruction file for stable project behavior.</li>
-              <li><strong>Why it matters:</strong> avoids repeating baseline prompt instructions each session.</li>
-              <li><strong>Best practice:</strong> structure it around rules, scope, and constraints.</li>
+              <li><strong>Why it reduces repetition:</strong> shared rules are not restated each session.</li>
+              <li><strong>How to structure:</strong> rules, scope boundaries, constraints, output expectations.</li>
+              <li><strong>What goes inside:</strong> coding standards, review format, validation expectations.</li>
             </ul>
-            <p><strong>Example:</strong> define review format, safety boundaries, and expected validation steps once.</p>
+            <p><strong>Example use case:</strong> compliance-heavy repo with strict output format and test gates.</p>
           </article>
           <article class="claude-card">
             <h3>Skills</h3>
             <ul>
               <li><strong>What they are:</strong> reusable capabilities for repeated workflows.</li>
               <li><strong>Why they matter:</strong> avoid re-explaining workflow logic in every prompt.</li>
-              <li><strong>Best use:</strong> stable repeated tasks like extraction, review, and refactor.</li>
+              <li><strong>When to use:</strong> extraction, review, refactor, summarization patterns.</li>
             </ul>
-            <p><strong>Example:</strong> skill that consistently returns issue list, severity, and patch guidance.</p>
+            <p><strong>Example use case:</strong> a review skill that always returns findings by severity with remediation steps.</p>
           </article>
           <article class="claude-card">
             <h3>MCP</h3>
             <ul>
               <li><strong>What it is:</strong> tool integration layer for external context access.</li>
-              <li><strong>Why it matters:</strong> reduces manual copy/paste of large context blocks.</li>
-              <li><strong>Best use:</strong> targeted file, database, API, or local-tool retrieval.</li>
+              <li><strong>How it reduces manual context passing:</strong> fetches targeted data directly from tools.</li>
+              <li><strong>Why it matters:</strong> prevents huge pasted context blocks in tool-based workflows.</li>
             </ul>
-            <p><strong>Example:</strong> pull only relevant error traces and schema rows for the current task.</p>
+            <p><strong>Example use case:</strong> pull only relevant error traces and schema rows for the current task.</p>
           </article>
         </div>
         <div class="callout.info"><strong>Info:</strong> Use Skills to standardize behavior; use MCP to standardize access.</div>
@@ -619,13 +594,13 @@
       <section id="quick-checklist" class="card">
         <h2>Quick Token Optimization Checklist</h2>
         <ul>
-          <li>Plan in chat first</li>
-          <li>Pass only required context</li>
-          <li>Avoid full repo loads for local edits</li>
-          <li>Use precise prompts</li>
-          <li>Rerun only changed stages</li>
-          <li>Cap retries and recursion</li>
-          <li>Use tools like CLAUDE.md, Skills, and MCP to reduce repetition</li>
+          <li><strong>Plan in chat first</strong>: reduce ambiguity before execution.</li>
+          <li><strong>Pass only required context</strong>: lower baseline token cost.</li>
+          <li><strong>Avoid full repo loads for local edits</strong>: scope context to affected files.</li>
+          <li><strong>Use precise prompts</strong>: reduce retries and output drift.</li>
+          <li><strong>Rerun only changed stages</strong>: avoid duplicate full-loop costs.</li>
+          <li><strong>Cap retries and recursion</strong>: prevent compounding overhead.</li>
+          <li><strong>Use CLAUDE.md, Skills, and MCP</strong>: reduce repetition and context bloat.</li>
         </ul>
       </section>
 
@@ -635,8 +610,8 @@
           <h2>Final Principle</h2>
         </div>
         <div class="final-callout">
-          <p><strong>LLM usage is not about how much you use.</strong></p>
-          <p>It is about how efficiently you structure the work and where you spend tokens in the loop.</p>
+          <p><strong>LLM efficiency is mostly workflow design, not wordsmithing.</strong></p>
+          <p>High-performing teams spend less time trimming single prompts and more time controlling context scope, iteration count, and execution sequencing.</p>
         </div>
       </section>
 
