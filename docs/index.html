@@ -8,16 +8,14 @@
     <style>
       :root {
         --bg: #ffffff;
-        --section: #f9fafb;
+        --section: #f8fafc;
         --card: #ffffff;
-        --accent-green: #22c55e;
-        --accent-blue: #3b82f6;
-        --accent-warn: #ff4d4f;
-        --accent-purple: #7b61ff;
-        --accent-teal: #13c2c2;
-        --text: #111827;
+        --accent: #635bff;
+        --text: #1f2937;
+        --text-strong: #111827;
         --text-muted: #6b7280;
         --border: #e5e7eb;
+        --border-soft: #f1f5f9;
       }
 
       * { box-sizing: border-box; }
@@ -28,53 +26,58 @@
         background: var(--bg);
         color: var(--text);
         font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        font-size: 15px;
-        line-height: 1.6;
+        font-size: 16px;
+        line-height: 1.65;
       }
 
-      .page {
-        display: flex;
+      .docs-shell {
+        display: grid;
+        grid-template-columns: 260px minmax(0, 1fr) 220px;
+        gap: 24px;
         width: 100%;
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 0 24px;
       }
 
-      .sidebar {
-        width: 240px;
-        position: fixed;
-        left: 0;
-        top: 80px;
-        height: calc(100vh - 80px);
-        font-size: 14px;
-        padding: 16px;
+      .docs-main {
+        min-width: 0;
+      }
+
+      .docs-content {
+        max-width: 860px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 32px 0 80px;
+      }
+
+      .docs-sidebar {
+        position: sticky;
+        top: 72px;
+        align-self: start;
+        height: calc(100vh - 72px);
+        overflow-y: auto;
+        padding: 24px 16px 32px 0;
         border-right: 1px solid #e5e7eb;
         background: #ffffff;
-        overflow-y: auto;
       }
 
-      .main-content {
-        margin-left: 240px;
-        width: 100%;
-        display: flex;
-        justify-content: center;
+      .sidebar-group {
+        margin-bottom: 20px;
       }
 
-      .content-container {
-        max-width: 900px;
-        width: 100%;
-        padding: 32px 24px;
-      }
-
-      .sidebar-title {
-        font-size: 12px;
-        letter-spacing: 0.06em;
+      .sidebar-group-title {
+        font-size: 11px;
+        line-height: 1.4;
+        font-weight: 700;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
-        color: #6b7280;
-        margin: 0 0 10px;
-        font-weight: 600;
+        color: #9ca3af;
+        margin: 0 0 8px 0;
       }
 
       .sidebar-nav {
-        display: grid;
-        gap: 8px;
+        display: block;
       }
 
       .sidebar-nav a {
@@ -85,6 +88,7 @@
         color: #4b5563;
         text-decoration: none;
         font-size: 14px;
+        line-height: 1.4;
         transition: color 0.2s ease, background 0.2s ease;
       }
 
@@ -94,11 +98,61 @@
       }
 
       .sidebar-nav a.active {
-        color: #1677ff;
+        color: var(--accent);
         font-weight: 600;
-        border-left: 3px solid #1677ff;
+        border-left: 3px solid var(--accent);
         padding-left: 9px;
-        background: #eff6ff;
+        background: #f4f3ff;
+        position: relative;
+      }
+
+      .sidebar-nav a.active::before {
+        content: "";
+        position: absolute;
+        left: -1px;
+        top: 8px;
+        bottom: 8px;
+        width: 2px;
+        border-radius: 999px;
+        background: var(--accent);
+      }
+
+      .docs-toc {
+        position: sticky;
+        top: 72px;
+        align-self: start;
+        max-height: calc(100vh - 72px);
+        overflow-y: auto;
+        padding: 24px 0 24px 8px;
+      }
+
+      .docs-toc-title {
+        font-size: 12px;
+        font-weight: 700;
+        color: #9ca3af;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 10px;
+      }
+
+      .docs-toc-links a {
+        display: block;
+        font-size: 13px;
+        color: #6b7280;
+        text-decoration: none;
+        padding: 5px 0;
+      }
+
+      .docs-toc-links a:hover { color: #111827; }
+
+      .docs-toc-links a.active {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      .docs-toc-links a.toc-h3 {
+        padding-left: 12px;
+        font-size: 12px;
       }
 
       .hero-actions {
@@ -106,6 +160,15 @@
         gap: 12px;
         flex-wrap: wrap;
         margin-top: 18px;
+      }
+
+      .eyebrow {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #9ca3af;
+        font-weight: 700;
+        margin-bottom: 10px;
       }
 
       .cta-btn {
@@ -121,9 +184,9 @@
       }
 
       .cta-primary {
-        background: #1677ff;
+        background: var(--accent);
         color: #ffffff;
-        border-color: #1677ff;
+        border-color: var(--accent);
       }
 
       .cta-secondary {
@@ -184,24 +247,32 @@
       .card {
         background: var(--card);
         border: 1px solid var(--border);
-        border-radius: 12px;
+        border-radius: 14px;
         padding: 24px;
         margin-bottom: 0;
-        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+        box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
         transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
         animation: fadeInUp 0.5s ease both;
       }
 
-      section {
-        margin-bottom: 48px;
+      .section-card {
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
       }
 
-      .content-container .card + .card::before {
+      section {
+        margin-bottom: 56px;
+      }
+
+      .docs-content .card + .card::before {
         content: "";
         display: block;
         height: 1px;
-        background: #e5e7eb;
-        margin: -8px 0 28px;
+        background: var(--border-soft);
+        margin: -8px 0 40px;
       }
 
       .card:hover {
@@ -220,35 +291,42 @@
       .hero-title {
         margin: 0;
         white-space: nowrap;
-        font-size: 30px;
+        font-size: 40px;
         font-weight: 700;
-        line-height: 1.2;
-        letter-spacing: -0.02em;
-        color: var(--text);
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        color: var(--text-strong);
       }
 
       h2, h3 {
         margin: 0;
-        line-height: 1.2;
-        letter-spacing: -0.02em;
-        color: var(--text);
+        color: var(--text-strong);
       }
 
-      h2 { font-size: 26px; font-weight: 700; margin-bottom: 12px; }
+      h2 {
+        font-size: 28px;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        font-weight: 700;
+        margin-top: 56px;
+        margin-bottom: 16px;
+      }
       h3 {
-        font-size: 18px;
-        font-weight: 600;
-        margin-bottom: 10px;
+        font-size: 20px;
+        line-height: 1.3;
+        font-weight: 650;
+        margin-top: 32px;
+        margin-bottom: 12px;
         padding: 8px 10px;
-        border-left: 3px solid #dbeafe;
+        border-left: 3px solid #e5e7eb;
         background: #f8fafc;
         border-radius: 6px;
       }
 
-      p { margin: 0 0 14px; color: var(--text-muted); }
-      ul, ol { margin: 0 0 14px; padding-left: 1.2rem; color: var(--text-muted); }
+      p { margin: 0 0 14px; color: #374151; }
+      ul, ol { margin: 0 0 14px; padding-left: 1.2rem; color: #374151; }
       li + li { margin-top: 4px; }
-      strong { color: var(--text); }
+      strong { color: var(--text-strong); }
 
       .subtitle { color: var(--text-muted); margin-bottom: 18px; }
       .caption { font-size: 13px; color: #6b7280; margin-top: 8px; margin-bottom: 0; }
@@ -266,13 +344,18 @@
         padding: 12px 16px;
         border-left: 4px solid;
         margin: 32px 0 16px;
+        background: #f9fafb;
+        border-left-color: var(--accent);
       }
 
-      .section-red { background: rgba(255, 77, 79, 0.08); border-left-color: #ff4d4f; }
-      .section-blue { background: rgba(22, 119, 255, 0.08); border-left-color: #1677ff; }
-      .section-purple { background: rgba(123, 97, 255, 0.08); border-left-color: #7b61ff; }
-      .section-teal { background: rgba(19, 194, 194, 0.08); border-left-color: #13c2c2; }
-      .section-green { background: rgba(82, 196, 26, 0.08); border-left-color: #52c41a; }
+      .section-red,
+      .section-blue,
+      .section-purple,
+      .section-teal,
+      .section-green {
+        background: #f9fafb;
+        border-left-color: var(--accent);
+      }
 
       .section-label {
         display: inline-flex;
@@ -293,22 +376,9 @@
         stroke-width: 1.9;
       }
 
-      .icon.blue { stroke: var(--accent-blue); }
-      .icon.green { stroke: var(--accent-green); }
-      .icon.warn { stroke: var(--accent-warn); }
-
-      .toc-links {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px 24px;
-      }
-
-      .toc-links a {
-        color: #374151;
-        text-decoration: none;
-      }
-
-      .toc-links a:hover { color: #111827; }
+      .icon.blue,
+      .icon.green,
+      .icon.warn { stroke: var(--accent); }
 
       .start-box,
       .visual,
@@ -379,8 +449,8 @@
         height: 100%;
       }
 
-      .mode-card.chat { border-left: 4px solid var(--accent-blue); background: rgba(59, 130, 246, 0.08); }
-      .mode-card.code { border-left: 4px solid var(--accent-green); background: rgba(34, 197, 94, 0.08); }
+      .mode-card.chat { border-left: 4px solid var(--accent); background: #f8f7ff; }
+      .mode-card.code { border-left: 4px solid #9ca3af; background: #f9fafb; }
 
       .mode-title {
         display: flex;
@@ -404,8 +474,8 @@
         line-height: 1.55;
       }
 
-      .insight.chat { border-color: rgba(59,130,246,.45); background: rgba(59,130,246,.10); color: #1f2937; }
-      .insight.code { border-color: rgba(34,197,94,.45); background: rgba(34,197,94,.10); color: #1f2937; }
+      .insight.chat { border-color: rgba(99, 91, 255, .35); background: #f4f3ff; color: #1f2937; }
+      .insight.code { border-color: #d1d5db; background: #f8fafc; color: #1f2937; }
 
       .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
       .compare-col { border: 1px solid #e5e7eb; border-radius: 10px; background: #f9fafb; padding: 16px; }
@@ -423,35 +493,38 @@
       .stack { display: grid; justify-items: center; gap: 10px; }
       .stack-item { width: min(380px, 100%); border: 1px solid #e5e7eb; background: #ffffff; border-radius: 8px; padding: 10px 12px; text-align: center; }
       .stack-sep { width: 2px; height: 18px; background: #d1d5db; }
+      .table-shell {
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        overflow: hidden;
+        margin: 20px 0;
+      }
+
       table {
         width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        margin: 20px 0;
-        border: 1px solid #e5e7eb;
-        border-radius: 10px;
-        overflow: hidden;
-        font-size: 14px;
+        border-collapse: collapse;
+        background: #fff;
       }
 
-      thead {
-        background: #111827;
-        color: #ffffff;
+      thead th {
+        background: #f9fafb;
+        color: #111827;
+        font-size: 13px;
+        font-weight: 700;
         text-align: left;
-      }
-
-      th, td {
         padding: 12px 14px;
         border-bottom: 1px solid #e5e7eb;
-        text-align: left;
-        vertical-align: top;
-        color: #374151;
       }
 
-      th { color: #ffffff; font-weight: 700; }
-      tbody tr:nth-child(even) { background: #f9fafb; }
-      tbody tr:hover { background: #eef2ff; }
-      tbody tr:last-child td { border-bottom: 0; }
+      tbody td {
+        padding: 12px 14px;
+        border-bottom: 1px solid #f1f5f9;
+        color: #374151;
+        vertical-align: top;
+      }
+
+      tbody tr:last-child td { border-bottom: none; }
+      tbody tr:nth-child(even) { background: #fcfcfd; }
 
       .col-skills { background: rgba(82, 196, 26, 0.08); }
       .col-mcp { background: rgba(123, 97, 255, 0.08); }
@@ -477,19 +550,25 @@
       .claude-card { border: 1px solid #e5e7eb; border-radius: 10px; background: #f9fafb; padding: 16px; }
 
       .callout {
-        border-left: 4px solid;
-        border-radius: 10px;
-        padding: 14px 16px;
-        margin-top: 16px;
+        border: 1px solid #e5e7eb;
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 16px 18px;
+        margin: 20px 0;
       }
 
-      .callout.info { border-color: var(--accent-blue); background: rgba(59,130,246,.09); }
-      .callout.tip { border-color: var(--accent-green); background: rgba(34,197,94,.10); box-shadow: 0 0 0 1px rgba(34,197,94,.06); }
-      .callout.warn { border-color: var(--accent-warn); background: rgba(245,158,11,.11); }
+      .callout-warning {
+        border-color: #fcd34d;
+        background: #fffbeb;
+      }
+
+      .callout.info { border-left: 3px solid var(--accent); }
+      .callout.tip { border-left: 3px solid var(--accent); }
+      .callout.warn { border-left: 3px solid #f59e0b; }
 
       .final-callout {
-        border: 1px solid rgba(34,197,94,.35);
-        background: rgba(34,197,94,.08);
+        border: 1px solid #e5e7eb;
+        background: #f8fafc;
         border-radius: 12px;
         padding: 18px;
       }
@@ -506,10 +585,22 @@
         padding: 16px;
       }
 
-      .tier-card h3 { margin-bottom: 8px; border-left-color: #c7d2fe; }
-      .tier-1 { background: rgba(99, 102, 241, 0.08); border-color: #dbe3ff; }
-      .tier-2 { background: rgba(34, 197, 94, 0.09); border-color: #cdeed9; }
-      .tier-3 { background: #f3f4f6; border-color: #e5e7eb; }
+      .tier-card h3 { margin-bottom: 8px; border-left-color: #e5e7eb; }
+      .tier-1 { background: #ffffff; border-color: #e5e7eb; }
+      .tier-2 { background: #ffffff; border-color: #e5e7eb; }
+      .tier-3 { background: #ffffff; border-color: #e5e7eb; }
+
+      .section-divider {
+        height: 1px;
+        background: #f1f5f9;
+        margin: 40px 0;
+      }
+
+      .hero-section {
+        border-bottom: 1px solid #f1f5f9;
+        padding-top: 8px;
+        padding-bottom: 28px;
+      }
 
       .tier-grid {
         display: grid;
@@ -547,29 +638,39 @@
         to { opacity: 1; transform: translateY(0); }
       }
 
-      @media (max-width: 860px) {
-        .toc-links,
+      @media (max-width: 1200px) {
+        .docs-shell {
+          grid-template-columns: 240px minmax(0, 1fr);
+        }
+
+        .docs-toc {
+          display: none;
+        }
+      }
+
+      @media (max-width: 900px) {
         .mode-grid,
         .compare-grid,
         .claude-grid,
         .tier-grid { grid-template-columns: 1fr; }
 
-        .sidebar {
+        .docs-shell {
+          grid-template-columns: 1fr;
+          padding: 0 16px;
+        }
+
+        .docs-sidebar {
           position: static;
-          top: 0;
-          width: 100%;
+          top: auto;
           height: auto;
           border-right: 0;
           border-bottom: 1px solid #e5e7eb;
+          padding: 16px 0;
         }
 
-        .main-content {
-          margin-left: 0;
-        }
-
-        .content-container {
+        .docs-content {
           max-width: 100%;
-          padding: 24px 16px;
+          padding: 24px 0 64px;
         }
       }
 
@@ -583,26 +684,52 @@
     </style>
   </head>
   <body>
-    <div class="page">
-      <aside class="sidebar" aria-label="Section navigation">
-        <p class="sidebar-title">On This Page</p>
-        <nav class="sidebar-nav">
-          <a href="#introduction">Introduction</a>
-          <a href="#problem">The Problem</a>
-          <a href="#model-tiering">Model Tiering Strategy</a>
-          <a href="#claude-optimization">Claude-Specific Optimization</a>
-          <a href="#skills-vs-mcp">Skills vs MCP</a>
-          <a href="#real-example">Real Example</a>
-          <a href="#system-flow">System Flow</a>
-          <a href="#final-principle">Final Principle</a>
-        </nav>
+    <div class="docs-shell">
+      <aside class="docs-sidebar" aria-label="Documentation navigation">
+        <div class="sidebar-group">
+          <p class="sidebar-group-title">Getting Started</p>
+          <nav class="sidebar-nav">
+            <a class="sidebar-link" href="#introduction">Introduction</a>
+            <a class="sidebar-link" href="#problem">The Problem</a>
+            <a class="sidebar-link" href="#the-real-reason">The Real Reason</a>
+          </nav>
+        </div>
+        <div class="sidebar-group">
+          <p class="sidebar-group-title">Workflow Design</p>
+          <nav class="sidebar-nav">
+            <a class="sidebar-link" href="#chat-vs-code">Chat vs Code</a>
+            <a class="sidebar-link" href="#whats-burning">What’s Burning Your Tokens</a>
+            <a class="sidebar-link" href="#biggest-mistakes">Biggest Mistakes</a>
+            <a class="sidebar-link" href="#the-fix">The Fix</a>
+          </nav>
+        </div>
+        <div class="sidebar-group">
+          <p class="sidebar-group-title">Optimization System</p>
+          <nav class="sidebar-nav">
+            <a class="sidebar-link" href="#better-workflow">Better Workflow</a>
+            <a class="sidebar-link" href="#real-example">Real Example</a>
+            <a class="sidebar-link" href="#token-explosion-loop">Token Explosion Loop</a>
+            <a class="sidebar-link" href="#model-tiering">Model Tiering</a>
+          </nav>
+        </div>
+        <div class="sidebar-group">
+          <p class="sidebar-group-title">Claude Workflows</p>
+          <nav class="sidebar-nav">
+            <a class="sidebar-link" href="#claude-optimization">Claude-Specific Optimization</a>
+            <a class="sidebar-link" href="#skills-vs-mcp">Skills vs MCP</a>
+            <a class="sidebar-link" href="#quick-checklist">Quick Checklist</a>
+            <a class="sidebar-link" href="#final-principle">Final Principle</a>
+          </nav>
+        </div>
       </aside>
-      <div class="main-content">
-      <main class="content-container">
-      <section id="introduction" class="card">
+
+      <main class="docs-main">
+      <div class="docs-content">
+      <section id="introduction-section" class="card hero-section">
+        <p class="eyebrow">Documentation</p>
         <div class="hero-title-row">
           <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M5 5h14v14H5z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>
-          <h1 class="hero-title">LLM Token Optimization Playbook</h1>
+          <h1 id="introduction" class="hero-title">LLM Token Optimization Playbook</h1>
         </div>
         <p class="subtitle"><strong>You don’t have a token problem. You have a model allocation problem.</strong></p>
         <p>Most teams try to reduce tokens with prompt tricks. But the real cost driver is which model you use for each task.</p>
@@ -621,22 +748,22 @@
         </div>
       </section>
 
-      <section id="problem" class="card">
+      <section id="problem-section" class="card">
         <div class="heading section-header section-red">
           <svg class="icon warn" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
-          <h2>The Problem</h2>
+          <h2 id="problem">The Problem</h2>
         </div>
         <p>Most teams start with chat and stay well within limits, then move to coding tools and hit limits unexpectedly fast.</p>
         <p><strong>Why it matters:</strong> this is usually a workflow design issue, not just "too much usage."</p>
         <p><strong>Example:</strong> load a large repo, ask for a broad fix, retry three times, and resend most of the same context each cycle.</p>
         <p><strong>Takeaway:</strong> token control starts with workflow control.</p>
-        <div class="callout.warn"><strong>Warning:</strong> Repeated broad-context retries are the fastest path to token exhaustion.</div>
+        <div class="callout warn callout-warning"><strong>Warning:</strong> Repeated broad-context retries are the fastest path to token exhaustion.</div>
       </section>
 
-      <section id="the-real-reason" class="card">
+      <section id="the-real-reason-section" class="card">
         <div class="heading section-header section-blue">
           <svg class="icon blue" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 8h8M8 12h5M8 16h8"/></svg>
-          <h2>The Real Reason You're Hitting Limits</h2>
+          <h2 id="the-real-reason">The Real Reason You're Hitting Limits</h2>
         </div>
         <p><strong>Token usage = Context Size x Iteration Count.</strong></p>
         <p>This formula is the operational model behind nearly every limit incident.</p>
@@ -645,7 +772,7 @@
           <li><strong>Iteration count</strong> = how many times you rerun the loop.</li>
         </ul>
         <div class="visual"><p><strong>Numerical example:</strong> Loading a full repo (200k tokens) and iterating 10 times burns ~2M tokens.</p></div>
-        <div class="visual">
+        <div class="visual" id="token-explosion-loop">
           <p class="flow-label">Token Explosion Loop</p>
           <div class="flow-row">
             <span class="node">Large Context</span><span class="arrow">→</span><span class="node">Model Call</span><span class="arrow">→</span><span class="node">Retry</span><span class="arrow">→</span><span class="node">More Context</span><span class="arrow">→</span><span class="node">More Calls</span>
@@ -655,11 +782,11 @@
         <div class="callout.info"><strong>Why this matters:</strong> Most users optimize wording. The bigger win is reducing context volume and loop count.</div>
       </section>
 
-      <section id="chat-vs-code" class="card">
+      <section id="chat-vs-code-section" class="card">
         <div class="heading section-header section-blue">
           <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M7 17 3 21v-4a8 8 0 1 1 4 0Z"/></svg>
           <svg class="icon green" viewBox="0 0 24 24" fill="none"><path d="m13 2-9 12h7l-1 8 9-12h-7z"/></svg>
-          <h2 style="font-size: 28px; font-weight: 700;">Chat vs Code</h2>
+          <h2 id="chat-vs-code" style="font-size: 28px; font-weight: 700;">Chat vs Code</h2>
         </div>
         <p class="subtitle">Choose the right mode before you spend tokens: use chat for thinking, code tools for execution.</p>
 
@@ -714,23 +841,25 @@
           </div>
         </div>
 
-        <table>
-          <thead>
-            <tr><th>Dimension</th><th>Chat</th><th>Code</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Primary intent</td><td>Explore and plan</td><td>Execute changes</td></tr>
-            <tr><td>Typical token pattern</td><td>Lower, shorter turns</td><td><strong>High token usage</strong> with loops</td></tr>
-            <tr><td>Best input style</td><td>Open framing</td><td>Scoped, explicit constraints</td></tr>
-          </tbody>
-        </table>
+        <div class="table-shell">
+          <table>
+            <thead>
+              <tr><th>Dimension</th><th>Chat</th><th>Code</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Primary intent</td><td>Explore and plan</td><td>Execute changes</td></tr>
+              <tr><td>Typical token pattern</td><td>Lower, shorter turns</td><td><strong>High token usage</strong> with loops</td></tr>
+              <tr><td>Best input style</td><td>Open framing</td><td>Scoped, explicit constraints</td></tr>
+            </tbody>
+          </table>
+        </div>
         <p class="caption">Takeaway: Chat helps you choose the right path. Code mode should run that path with tight scope and fewer retries.</p>
       </section>
 
       <section id="whats-burning" class="card">
         <div class="heading section-header section-red">
           <svg class="icon warn" viewBox="0 0 24 24" fill="none"><path d="M12 3s4 3.5 4 7a4 4 0 1 1-8 0c0-2.5 4-7 4-7Z"/><path d="M9 15a3 3 0 0 0 6 0"/></svg>
-          <h2>What’s Actually Burning Your Tokens</h2>
+          <h2 id="whats-burning-heading">What’s Actually Burning Your Tokens</h2>
         </div>
         <p>Token burn is usually caused by a few repeated workflow patterns, not one bad prompt.</p>
         <ul>
@@ -745,7 +874,7 @@
       <section id="biggest-mistakes" class="card">
         <div class="heading section-header section-red">
           <svg class="icon warn" viewBox="0 0 24 24" fill="none"><path d="M12 3 2.5 20h19L12 3Z"/><path d="M12 9v5M12 17h.01"/></svg>
-          <h2>Biggest Mistakes</h2>
+          <h2 id="biggest-mistakes-heading">Biggest Mistakes</h2>
         </div>
         <p>These mistakes are common because they feel productive in the moment.</p>
         <ul>
@@ -760,7 +889,7 @@
       <section id="the-fix" class="card">
         <div class="heading section-header section-green">
           <svg class="icon green" viewBox="0 0 24 24" fill="none"><path d="M4 8h16v10H4z"/><path d="M9 8V5h6v3M8 13h8"/></svg>
-          <h2>The Fix — Practical Playbook</h2>
+          <h2 id="the-fix-heading">The Fix — Practical Playbook</h2>
         </div>
         <p>This is the recommended operating model for teams that want predictable cost and speed.</p>
         <p><strong>Why it matters:</strong> each step directly cuts either baseline context cost or retry count.</p>
@@ -771,12 +900,22 @@
           <li><strong>Sequence tools intentionally.</strong> Chat for decisions, code tool for edits, local systems for validation. This prevents repeated mixed-mode overhead.</li>
         </ol>
         <p><strong>Example:</strong> define target files and acceptance tests in chat, then run one scoped execution pass in the code tool.</p>
+        <div class="section-card" id="better-workflow">
+          <h3>Better Workflow</h3>
+          <div class="stack">
+            <div class="stack-item"><strong>Chat</strong><br />Think / Plan</div>
+            <div class="stack-sep"></div>
+            <div class="stack-item"><strong>Code Tool</strong><br />Execute</div>
+            <div class="stack-sep"></div>
+            <div class="stack-item"><strong>Local Validation</strong><br />Run + Verify</div>
+          </div>
+        </div>
         <div class="callout.tip"><strong>Tip:</strong> Aim for one focused execution pass per problem slice.</div>
       </section>
 
-      <section id="model-tiering" class="card">
+      <section id="model-tiering-section" class="card">
         <div class="heading section-header section-purple">
-          <h2>Advanced Optimization: Model Tiering Strategy</h2>
+          <h2 id="model-tiering">Advanced Optimization: Model Tiering Strategy</h2>
         </div>
         <p>Most teams route every task through one powerful model. That feels simple, but it is expensive and inefficient at scale.</p>
         <p>High-performance workflows separate <strong>thinking</strong>, <strong>execution</strong>, and <strong>bulk processing</strong>. <strong>Use intelligence where it matters. Use cheaper models everywhere else.</strong></p>
@@ -893,12 +1032,12 @@
         <p class="caption"><strong>Final takeaway:</strong> Token optimization is not about using fewer tokens. It is about using the right model at the right stage.</p>
       </section>
 
-      <section id="claude-optimization" class="card">
+      <section id="claude-optimization-section" class="card">
         <div class="heading section-header section-purple">
           <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v3h3"/></svg>
           <svg class="icon green" viewBox="0 0 24 24" fill="none"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></svg>
           <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M8 12h8M12 8v8"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
-          <h2>Claude-Specific Optimization</h2>
+          <h2 id="claude-optimization">Claude-Specific Optimization</h2>
         </div>
         <p>This section is your practical toolkit for reducing repetitive prompt load in Claude workflows.</p>
         <p><strong>Why it matters:</strong> persistent instructions and targeted tool access reduce both prompt size and retries across sessions.</p>
@@ -938,27 +1077,29 @@
         <div class="callout.info"><strong>Info:</strong> Use Skills to standardize behavior; use MCP to standardize access.</div>
       </section>
 
-      <section id="skills-vs-mcp" class="card">
+      <section id="skills-vs-mcp-section" class="card">
         <div class="heading section-header section-teal">
-          <h2>Skills vs MCP</h2>
+          <h2 id="skills-vs-mcp">Skills vs MCP</h2>
         </div>
-        <table class="claude-table">
-          <thead>
-            <tr><th>Dimension</th><th>Skills</th><th>MCP</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Purpose</td><td class="col-skills">reusable task logic</td><td class="col-mcp">external access</td></tr>
-            <tr class="key-row"><td>Token impact</td><td class="col-skills">reduces repetition</td><td class="col-mcp">reduces context</td></tr>
-            <tr><td>Best for</td><td class="col-skills">repeated tasks</td><td class="col-mcp">large data</td></tr>
-            <tr><td>Not for</td><td class="col-skills">data retrieval</td><td class="col-mcp">task logic</td></tr>
-          </tbody>
-        </table>
+        <div class="table-shell">
+          <table class="claude-table">
+            <thead>
+              <tr><th>Dimension</th><th>Skills</th><th>MCP</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Purpose</td><td class="col-skills">reusable task logic</td><td class="col-mcp">external access</td></tr>
+              <tr class="key-row"><td>Token impact</td><td class="col-skills">reduces repetition</td><td class="col-mcp">reduces context</td></tr>
+              <tr><td>Best for</td><td class="col-skills">repeated tasks</td><td class="col-mcp">large data</td></tr>
+              <tr><td>Not for</td><td class="col-skills">data retrieval</td><td class="col-mcp">task logic</td></tr>
+            </tbody>
+          </table>
+        </div>
         <p class="caption">Skills define HOW Claude works. MCP defines WHAT Claude can access.</p>
       </section>
 
-      <section id="real-example" class="card">
+      <section id="real-example-section" class="card">
         <div class="heading section-header section-green">
-          <h2>Real Example: Before vs After</h2>
+          <h2 id="real-example">Real Example: Before vs After</h2>
         </div>
         <p>A structured before/after view makes the optimization practical and repeatable.</p>
         <div class="compare-grid">
@@ -983,23 +1124,25 @@
             <p><strong>Token usage:</strong> ~15k-40k per cycle</p>
           </div>
         </div>
-        <table>
-          <thead>
-            <tr><th>Phase</th><th class="before">Before</th><th class="after">After</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Context scope</td><td class="before">full repo loaded by default</td><td class="after">only impacted files + interfaces</td></tr>
-            <tr><td>Execution style</td><td class="before">explore + patch in one loop</td><td class="after">plan first, then scoped execution</td></tr>
-            <tr><td>Token usage</td><td class="before">~200k per cycle</td><td class="after">~15k-40k per cycle</td></tr>
-          </tbody>
-        </table>
+        <div class="table-shell">
+          <table>
+            <thead>
+              <tr><th>Phase</th><th class="before">Before</th><th class="after">After</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Context scope</td><td class="before">full repo loaded by default</td><td class="after">only impacted files + interfaces</td></tr>
+              <tr><td>Execution style</td><td class="before">explore + patch in one loop</td><td class="after">plan first, then scoped execution</td></tr>
+              <tr><td>Token usage</td><td class="before">~200k per cycle</td><td class="after">~15k-40k per cycle</td></tr>
+            </tbody>
+          </table>
+        </div>
         <p><strong>What changed:</strong> context was narrowed, retries were reduced, and validation became stage-specific.</p>
         <p class="caption"><strong>Takeaway:</strong> most savings come from removing duplicate context-heavy loops, not from shorter wording.</p>
       </section>
 
       <section id="system-flow" class="card">
         <div class="heading section-header section-blue">
-          <h2>🔁 How Token Optimization Actually Works</h2>
+          <h2 id="system-flow-heading">🔁 How Token Optimization Actually Works</h2>
         </div>
         <div class="system-flow">
           <article class="flow-card">
@@ -1031,7 +1174,7 @@
 
       <section id="quick-checklist" class="card">
         <div class="heading section-header section-green">
-          <h2>Final Checklist</h2>
+          <h2 id="quick-checklist-heading">Final Checklist</h2>
         </div>
         <p>Use this checklist before long sessions to keep token spend predictable.</p>
         <ul>
@@ -1045,10 +1188,10 @@
         </ul>
       </section>
 
-      <section id="final-principle" class="card">
+      <section id="final-principle-section" class="card">
         <div class="heading section-header section-blue">
           <svg class="icon green" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v2M22 12h-2M12 22v-2M2 12h2"/></svg>
-          <h2>Final Principle</h2>
+          <h2 id="final-principle">Final Principle</h2>
         </div>
         <div class="final-callout">
           <p><strong>LLM efficiency is mostly workflow design, not wordsmithing.</strong></p>
@@ -1060,15 +1203,45 @@
       <section class="card" style="padding-top: 18px; padding-bottom: 18px; margin-top: 56px;">
         <p class="footer-note">About This Playbook: A focused guide for practitioners hitting real usage limits in production workflows.</p>
       </section>
-      </main>
       </div>
+      </main>
+
+      <aside class="docs-toc" aria-label="In-page contents">
+        <div class="docs-toc-title">On This Page</div>
+        <nav class="docs-toc-links" id="docsTocLinks"></nav>
+      </aside>
     </div>
 
     <button class="back-to-top" id="backToTop" type="button">Back to top</button>
     <script>
       (function () {
-        var links = Array.from(document.querySelectorAll(".sidebar-nav a"));
-        var sections = links
+        var sidebarLinks = Array.from(document.querySelectorAll(".sidebar-nav a"));
+        var tocContainer = document.getElementById("docsTocLinks");
+        var headingTargets = Array.from(document.querySelectorAll(".docs-content h2, .docs-content h3"));
+        var tocLinks = [];
+
+        headingTargets.forEach(function (heading) {
+          var tag = heading.tagName.toLowerCase();
+          var id = heading.id;
+          if (!id && tag === "h2") {
+            id = heading.closest("section") && heading.closest("section").id;
+          }
+          if (!id) return;
+          if (!heading.id) {
+            heading.id = id;
+          }
+          var link = document.createElement("a");
+          link.href = "#" + id;
+          link.textContent = heading.textContent.replace("🔁 ", "").trim();
+          if (tag === "h3") {
+            link.classList.add("toc-h3");
+          }
+          tocContainer.appendChild(link);
+          tocLinks.push(link);
+        });
+
+        var allNavLinks = sidebarLinks.concat(tocLinks);
+        var sections = sidebarLinks
           .map(function (link) {
             var id = link.getAttribute("href");
             if (!id || id.charAt(0) !== "#") return null;
@@ -1081,7 +1254,7 @@
             entries.forEach(function (entry) {
               if (!entry.isIntersecting) return;
               var id = "#" + entry.target.id;
-              links.forEach(function (link) {
+              allNavLinks.forEach(function (link) {
                 link.classList.toggle("active", link.getAttribute("href") === id);
               });
             });
