@@ -582,20 +582,21 @@
         <div class="multi-model-wrap">
           <article class="tier-card tier-1">
             <h3>Tier 1 - Think / Plan / Architect</h3>
+            <p class="caption"><strong>High intelligence, use sparingly.</strong></p>
             <div class="tier-grid">
               <div>
                 <p><strong>Purpose:</strong> high-quality reasoning and decision framing.</p>
                 <p><strong>When to use:</strong> problem framing, architecture design, prompt design, complex reasoning, output review.</p>
-                <p><strong>Example:</strong> "Design a contract extraction pipeline with fallback logic and validation layers."</p>
+                <p><strong>Example:</strong> "Design a multi-stage contract intelligence pipeline with fallback extraction rules, confidence thresholds, and validation gates."</p>
               </div>
               <div>
                 <p><strong>Model examples:</strong></p>
                 <div class="pill-list">
-                  <span class="pill">Claude Opus</span>
-                  <span class="pill">Claude Sonnet</span>
-                  <span class="pill">GPT-5 class models</span>
-                  <span class="pill">GPT-5 Pro</span>
-                  <span class="pill">Codex-style reasoning models</span>
+                  <span class="pill">Claude Opus 4.6</span>
+                  <span class="pill">Claude Sonnet 4.6</span>
+                  <span class="pill">GPT-5.4</span>
+                  <span class="pill">GPT-5.4 Pro</span>
+                  <span class="pill">GPT-5.3 Codex</span>
                 </div>
                 <p class="caption"><strong>Note:</strong> used sparingly, but critically important.</p>
               </div>
@@ -604,20 +605,21 @@
 
           <article class="tier-card tier-2">
             <h3>Tier 2 - Execute / Transform / Implement</h3>
+            <p class="caption"><strong>Primary execution layer.</strong></p>
             <div class="tier-grid">
               <div>
                 <p><strong>Purpose:</strong> the main working layer for production tasks.</p>
                 <p><strong>When to use:</strong> applying changes, structured extraction, transformations, coding tasks, deterministic workflows.</p>
-                <p><strong>Example:</strong> "Extract pricing clauses from contracts and normalize output."</p>
+                <p><strong>Example:</strong> "Extract pricing clauses, normalize fee fields into a JSON schema, and generate deterministic patch updates for downstream services."</p>
               </div>
               <div>
                 <p><strong>Model examples:</strong></p>
                 <div class="pill-list">
-                  <span class="pill">Claude Sonnet</span>
-                  <span class="pill">Claude Haiku</span>
-                  <span class="pill">GPT-5 mini / standard</span>
-                  <span class="pill">Codex models</span>
-                  <span class="pill">Mid-tier APIs</span>
+                  <span class="pill">Claude Haiku 4.5</span>
+                  <span class="pill">GPT-5.4 Mini</span>
+                  <span class="pill">GPT-5.4 Standard</span>
+                  <span class="pill">GPT-5.3 Codex (execution)</span>
+                  <span class="pill">Gemini 1.5 Pro</span>
                 </div>
                 <p class="caption"><strong>Note:</strong> this is where most tokens should be spent.</p>
               </div>
@@ -626,20 +628,21 @@
 
           <article class="tier-card tier-3">
             <h3>Tier 3 - Bulk / Filter / Local / Agent Loops</h3>
+            <p class="caption"><strong>Low-cost scaling layer.</strong></p>
             <div class="tier-grid">
               <div>
                 <p><strong>Purpose:</strong> high-volume, low-risk throughput work.</p>
                 <p><strong>When to use:</strong> filtering documents, preprocessing, repetitive agent steps, retrieval prep, batch processing.</p>
-                <p><strong>Example:</strong> "Filter irrelevant contracts before extraction pipeline runs."</p>
+                <p><strong>Example:</strong> "Filter 50,000 incoming contracts, drop irrelevant records, and route only high-signal documents into the Tier 2 extraction workflow."</p>
               </div>
               <div>
                 <p><strong>Model examples:</strong></p>
                 <div class="pill-list">
-                  <span class="pill">GPT nano / small models</span>
-                  <span class="pill">Ollama local models</span>
-                  <span class="pill">Llama models</span>
-                  <span class="pill">Open-source models</span>
-                  <span class="pill">Lightweight inference models</span>
+                  <span class="pill">GPT-5.4 Nano</span>
+                  <span class="pill">Llama 3 8B</span>
+                  <span class="pill">Llama 3 70B</span>
+                  <span class="pill">Mistral 7B / Mixtral</span>
+                  <span class="pill">Gemma 2</span>
                 </div>
                 <p class="caption"><strong>Note:</strong> built for scale, not deep intelligence.</p>
               </div>
