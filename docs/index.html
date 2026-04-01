@@ -173,6 +173,15 @@
         line-height: 1.55;
       }
 
+      .mini-label {
+        font-size: 12px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #93a4b7;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+
       .insight.chat { border-color: rgba(59,130,246,.55); background: rgba(59,130,246,.12); }
       .insight.code { border-color: rgba(34,197,94,.55); background: rgba(34,197,94,.12); }
 
@@ -321,7 +330,15 @@
           <svg class="icon blue" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 8h8M8 12h5M8 16h8"/></svg>
           <h2>The Real Reason</h2>
         </div>
-        <p><strong>Token usage = Context Size x Iteration Count.</strong> Context sets base cost. Iteration multiplies it. When both rise together, usage spikes quickly.</p>
+        <p><strong>Token usage = Context Size x Iteration Count.</strong></p>
+        <ul>
+          <li><strong>Context size</strong> = how much data you pass per request.</li>
+          <li><strong>Iteration count</strong> = how many times you rerun the loop.</li>
+        </ul>
+        <div class="visual">
+          <p><strong>Concrete example:</strong> Loading a full repo (200k tokens) and iterating 10 times = 2M tokens burned.</p>
+        </div>
+        <div class="callout.info"><strong>Why this matters:</strong> Most users optimize wording. The bigger win is reducing context volume and loop count.</div>
       </section>
 
       <section id="chat-vs-code" class="card">
@@ -338,12 +355,15 @@
               <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M7 17 3 21v-4a8 8 0 1 1 4 0Z"/></svg>
               <span>Chat (Exploration Mode)</span>
             </div>
+            <p>Use chat to explore ambiguity, frame the problem, and design solution options before execution.</p>
+            <p class="mini-label">When to use</p>
             <ul>
-              <li>clarify goals and constraints</li>
-              <li>compare options quickly</li>
-              <li>shape prompt strategy before execution</li>
+              <li>unclear requirements</li>
+              <li>comparing multiple approaches</li>
+              <li>designing architecture or prompts</li>
             </ul>
-            <div class="insight chat"><strong>Insight:</strong> Keep chat broad for thinking, then hand off a scoped plan.</div>
+            <p><strong>Example:</strong> \"Design a contract extraction pipeline with fallback logic\"</p>
+            <div class="insight chat"><strong>Insight:</strong> Keep chat broad for thinking and tradeoffs. Then hand off a scoped plan to execution mode.</div>
           </article>
 
           <article class="mode-card code">
@@ -351,12 +371,15 @@
               <svg class="icon green" viewBox="0 0 24 24" fill="none"><path d="m13 2-9 12h7l-1 8 9-12h-7z"/></svg>
               <span>Code (Execution Mode)</span>
             </div>
+            <p>Use code mode for precise execution, targeted changes, and validating outcomes against clear criteria.</p>
+            <p class="mini-label">When to use</p>
             <ul>
-              <li>apply targeted changes</li>
-              <li>validate with tests or local runs</li>
-              <li>iterate only on defined failures</li>
+              <li>implementing specific changes</li>
+              <li>debugging known issues</li>
+              <li>running targeted updates</li>
             </ul>
-            <div class="insight code"><strong>Insight:</strong> Code mode needs <strong>Precise instructions</strong> and <strong>Deterministic output</strong>.</div>
+            <p><strong>Example:</strong> \"Update M2 classification logic to include FX fee detection\"</p>
+            <div class="insight code"><strong>Insight:</strong> Code mode needs <strong>Precise instructions</strong> up front. It should produce <strong>Deterministic output</strong> with minimal retries.</div>
           </article>
         </div>
 
@@ -393,9 +416,9 @@
           <h2>What’s Burning Your Tokens</h2>
         </div>
         <ul>
-          <li>large context windows</li>
-          <li>retry loops with incremental context growth</li>
-          <li>tool/log payload bloat</li>
+          <li><strong>Full file reloads</strong><br />Why: entire files are re-sent each iteration.<br />Impact: exponential token growth.</li>
+          <li><strong>Repeated loops</strong><br />Why: retrying full workflows instead of partial fixes.<br />Impact: duplicated context and wasted model calls.</li>
+          <li><strong>Tool and log payload bloat</strong><br />Why: large outputs are pasted back into prompts without filtering.<br />Impact: context windows fill with low-signal data.</li>
         </ul>
         <div class="callout.info"><strong>Info:</strong> The biggest lever is not output length; it is reducing repeated large-input turns.</div>
       </section>
@@ -442,25 +465,27 @@
       </section>
 
       <section id="real-example" class="card">
-        <h2>Real Example (Before vs After)</h2>
+        <h2>Real Example: Before vs After Optimization</h2>
         <div class="compare-grid">
           <div class="compare-col">
-            <span class="tag">Naive</span>
+            <span class="tag">Before</span>
+            <p><strong>Inefficient workflow</strong></p>
             <ul>
-              <li>full repo context</li>
-              <li>broad prompts</li>
-              <li>full reruns</li>
+              <li>load full repo context</li>
+              <li>explore and patch in the same loop</li>
+              <li>rerun full workflow after each change</li>
             </ul>
-            <p><strong>~200k tokens</strong></p>
+            <p><strong>Token usage:</strong> ~200k per cycle</p>
           </div>
           <div class="compare-col">
-            <span class="tag">Optimized</span>
+            <span class="tag">After</span>
+            <p><strong>Optimized workflow</strong></p>
             <ul>
-              <li>chat-first planning</li>
-              <li>scoped files only</li>
-              <li>targeted reruns</li>
+              <li>plan in chat first</li>
+              <li>pass scoped context only</li>
+              <li>rerun only affected stages</li>
             </ul>
-            <p><strong>~15k-40k tokens</strong></p>
+            <p><strong>Token usage:</strong> ~15k-40k per cycle</p>
           </div>
         </div>
       </section>
@@ -485,27 +510,30 @@
         <div class="claude-grid">
           <article class="claude-card">
             <h3>CLAUDE.md</h3>
-            <p><strong>What it is:</strong> stable project instruction layer.</p>
-            <p><strong>When to use:</strong> repeated work in one codebase.</p>
-            <p><strong>When NOT to use:</strong> volatile ticket-specific details.</p>
-            <p><strong>Token impact:</strong> reduces repeated setup instructions.</p>
-            <p><strong>Example:</strong> define standards and boundaries once.</p>
+            <ul>
+              <li><strong>What it is:</strong> persistent instruction file for stable project behavior.</li>
+              <li><strong>Why it matters:</strong> avoids repeating baseline prompt instructions each session.</li>
+              <li><strong>Best practice:</strong> structure it around rules, scope, and constraints.</li>
+            </ul>
+            <p><strong>Example:</strong> define review format, safety boundaries, and expected validation steps once.</p>
           </article>
           <article class="claude-card">
             <h3>Skills</h3>
-            <p><strong>What it is:</strong> reusable task logic.</p>
-            <p><strong>When to use:</strong> repeated extraction/review/refactor jobs.</p>
-            <p><strong>When NOT to use:</strong> external retrieval problems.</p>
-            <p><strong>Token impact:</strong> lowers repetition and retries.</p>
-            <p><strong>Example:</strong> structured review output skill.</p>
+            <ul>
+              <li><strong>What they are:</strong> reusable capabilities for repeated workflows.</li>
+              <li><strong>Why they matter:</strong> avoid re-explaining workflow logic in every prompt.</li>
+              <li><strong>Best use:</strong> stable repeated tasks like extraction, review, and refactor.</li>
+            </ul>
+            <p><strong>Example:</strong> skill that consistently returns issue list, severity, and patch guidance.</p>
           </article>
           <article class="claude-card">
             <h3>MCP</h3>
-            <p><strong>What it is:</strong> external access and tool layer.</p>
-            <p><strong>When to use:</strong> file/DB/API/tool queries.</p>
-            <p><strong>When NOT to use:</strong> behavior/prompt logic.</p>
-            <p><strong>Token impact:</strong> reduces pasted-context bloat.</p>
-            <p><strong>Example:</strong> fetch exact logs by time range.</p>
+            <ul>
+              <li><strong>What it is:</strong> tool integration layer for external context access.</li>
+              <li><strong>Why it matters:</strong> reduces manual copy/paste of large context blocks.</li>
+              <li><strong>Best use:</strong> targeted file, database, API, or local-tool retrieval.</li>
+            </ul>
+            <p><strong>Example:</strong> pull only relevant error traces and schema rows for the current task.</p>
           </article>
         </div>
         <div class="callout.info"><strong>Info:</strong> Use Skills to standardize behavior; use MCP to standardize access.</div>
