@@ -71,8 +71,10 @@
         font-weight: 700;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        color: #9ca3af;
+        color: #2563eb;
         margin: 18px 0 8px;
+        padding-left: 8px;
+        border-left: 2px solid #2563eb;
       }
 
       .sidebar-nav {
@@ -269,19 +271,24 @@
         line-height: 1.2;
         letter-spacing: -0.02em;
         font-weight: 700;
-        margin-top: 48px;
-        margin-bottom: 14px;
+        color: #111827;
+        margin-top: 32px;
+        margin-bottom: 12px;
       }
       h3 {
         font-size: 18px;
         line-height: 1.35;
-        font-weight: 650;
-        margin-top: 28px;
-        margin-bottom: 10px;
+        font-weight: 600;
+        margin-top: 20px;
+        margin-bottom: 8px;
         padding: 0;
         border-left: 0;
         background: transparent;
         border-radius: 0;
+      }
+
+      section > h2:first-child {
+        margin-top: 0;
       }
 
       p { margin: 0 0 14px; font-size: 16px; line-height: 1.7; color: #374151; }
@@ -483,14 +490,25 @@
         vertical-align: top;
       }
 
+      tbody tr {
+        background: #ffffff;
+      }
+      tbody tr:nth-child(even) { background: #f9fafb; }
       tbody tr:last-child td { border-bottom: none; }
-      tbody tr:nth-child(even) { background: #fcfcfd; }
+
+      .token-impact-row {
+        background: unset !important;
+      }
+
+      .highlight-row {
+        background: #eef2ff;
+        font-weight: 500;
+      }
 
       .col-skills { background: rgba(82, 196, 26, 0.08); }
       .col-mcp { background: rgba(123, 97, 255, 0.08); }
       .before { background: rgba(255, 77, 79, 0.08); }
       .after { background: rgba(82, 196, 26, 0.08); }
-      .claude-table tbody tr.key-row { background: rgba(123, 97, 255, 0.12); }
 
       pre {
         margin: 8px 0 0;
