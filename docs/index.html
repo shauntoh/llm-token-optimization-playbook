@@ -33,26 +33,34 @@
       }
 
       .page {
-        max-width: 900px;
-        margin: 64px auto;
-        padding: 0 8px 0 0;
-      }
-
-      .doc-layout {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-        display: grid;
-        grid-template-columns: 240px minmax(0, 1fr);
-        gap: 28px;
-        align-items: start;
+        display: flex;
+        width: 100%;
       }
 
       .sidebar {
-        position: sticky;
+        width: 240px;
+        position: fixed;
+        left: 0;
         top: 80px;
+        height: calc(100vh - 80px);
         font-size: 14px;
         padding: 16px;
+        border-right: 1px solid #e5e7eb;
+        background: #ffffff;
+        overflow-y: auto;
+      }
+
+      .main-content {
+        margin-left: 240px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+
+      .content-container {
+        max-width: 900px;
+        width: 100%;
+        padding: 32px 24px;
       }
 
       .sidebar-title {
@@ -70,22 +78,27 @@
       }
 
       .sidebar-nav a {
+        display: block;
+        padding: 8px 12px;
+        margin-bottom: 4px;
+        border-radius: 6px;
+        color: #4b5563;
         text-decoration: none;
-        color: #6b7280;
-        padding: 8px 10px;
-        border-radius: 8px;
+        font-size: 14px;
         transition: color 0.2s ease, background 0.2s ease;
       }
 
       .sidebar-nav a:hover {
+        background: #f5f7fa;
         color: #111827;
-        background: #f3f4f6;
       }
 
       .sidebar-nav a.active {
         color: #1677ff;
-        font-weight: 700;
-        background: rgba(22, 119, 255, 0.08);
+        font-weight: 600;
+        border-left: 3px solid #1677ff;
+        padding-left: 9px;
+        background: #eff6ff;
       }
 
       .hero-actions {
@@ -173,15 +186,17 @@
         border: 1px solid var(--border);
         border-radius: 12px;
         padding: 24px;
-        margin-bottom: 40px;
+        margin-bottom: 0;
         box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
         transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
         animation: fadeInUp 0.5s ease both;
       }
 
-      .card + .card::before,
-      .card + nav.card::before,
-      nav.card + .card::before {
+      section {
+        margin-bottom: 48px;
+      }
+
+      .content-container .card + .card::before {
         content: "";
         display: block;
         height: 1px;
@@ -539,18 +554,22 @@
         .claude-grid,
         .tier-grid { grid-template-columns: 1fr; }
 
-        .doc-layout {
-          grid-template-columns: 1fr;
-        }
-
         .sidebar {
           position: static;
-          top: auto;
+          top: 0;
+          width: 100%;
+          height: auto;
+          border-right: 0;
+          border-bottom: 1px solid #e5e7eb;
         }
 
-        .page {
+        .main-content {
+          margin-left: 0;
+        }
+
+        .content-container {
           max-width: 100%;
-          padding: 0;
+          padding: 24px 16px;
         }
       }
 
@@ -564,22 +583,22 @@
     </style>
   </head>
   <body>
-    <div class="doc-layout">
-      <aside class="card sidebar" aria-label="Section navigation">
+    <div class="page">
+      <aside class="sidebar" aria-label="Section navigation">
         <p class="sidebar-title">On This Page</p>
         <nav class="sidebar-nav">
           <a href="#introduction">Introduction</a>
-          <a href="#the-problem">The Problem</a>
+          <a href="#problem">The Problem</a>
           <a href="#model-tiering">Model Tiering Strategy</a>
-          <a href="#claude">Claude-Specific Optimization</a>
+          <a href="#claude-optimization">Claude-Specific Optimization</a>
           <a href="#skills-vs-mcp">Skills vs MCP</a>
           <a href="#real-example">Real Example</a>
           <a href="#system-flow">System Flow</a>
           <a href="#final-principle">Final Principle</a>
         </nav>
       </aside>
-
-      <main class="page">
+      <div class="main-content">
+      <main class="content-container">
       <section id="introduction" class="card">
         <div class="hero-title-row">
           <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M5 5h14v14H5z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>
@@ -597,12 +616,12 @@
           </ul>
         </div>
         <div class="hero-actions">
-          <a class="cta-btn cta-primary" href="#the-problem">Start with the Problem</a>
+          <a class="cta-btn cta-primary" href="#problem">Start with the Problem</a>
           <a class="cta-btn cta-secondary" href="#model-tiering">View Model Tiers</a>
         </div>
       </section>
 
-      <section id="the-problem" class="card">
+      <section id="problem" class="card">
         <div class="heading section-header section-red">
           <svg class="icon warn" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
           <h2>The Problem</h2>
@@ -874,7 +893,7 @@
         <p class="caption"><strong>Final takeaway:</strong> Token optimization is not about using fewer tokens. It is about using the right model at the right stage.</p>
       </section>
 
-      <section id="claude" class="card">
+      <section id="claude-optimization" class="card">
         <div class="heading section-header section-purple">
           <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v3h3"/></svg>
           <svg class="icon green" viewBox="0 0 24 24" fill="none"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></svg>
@@ -1042,6 +1061,7 @@
         <p class="footer-note">About This Playbook: A focused guide for practitioners hitting real usage limits in production workflows.</p>
       </section>
       </main>
+      </div>
     </div>
 
     <button class="back-to-top" id="backToTop" type="button">Back to top</button>
