@@ -1,4 +1,5 @@
-﻿<!doctype html>
+﻿
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -6,14 +7,15 @@
     <title>Why LLM Code Tools Burn Your Limits (and How to Fix It)</title>
     <style>
       :root {
-        --bg: #0b0f14;
-        --card: #111827;
+        --bg: #ffffff;
+        --section: #f9fafb;
+        --card: #ffffff;
         --accent-green: #22c55e;
         --accent-blue: #3b82f6;
         --accent-warn: #f59e0b;
-        --text: #e5e7eb;
-        --text-muted: #9ca3af;
-        --border: #1f2937;
+        --text: #111827;
+        --text-muted: #6b7280;
+        --border: #e5e7eb;
       }
 
       * { box-sizing: border-box; }
@@ -25,12 +27,12 @@
         color: var(--text);
         font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         font-size: 15px;
-        line-height: 1.75;
+        line-height: 1.8;
       }
 
       .page {
         max-width: 900px;
-        margin: 56px auto;
+        margin: 64px auto;
         padding: 0 16px;
       }
 
@@ -39,18 +41,25 @@
         border: 1px solid var(--border);
         border-radius: 12px;
         padding: 24px;
-        margin-bottom: 32px;
-        transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+        margin-bottom: 40px;
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+        transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
         animation: fadeInUp 0.5s ease both;
       }
 
       .card:hover {
         transform: translateY(-2px);
-        border-color: #2a3a50;
-        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+        box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+        border-color: #d1d5db;
       }
 
-      h1, h2, h3 { margin: 0; letter-spacing: -0.02em; line-height: 1.2; color: var(--text); }
+      h1, h2, h3 {
+        margin: 0;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        color: var(--text);
+      }
+
       h1 { font-size: 32px; font-weight: 700; margin-bottom: 16px; }
       h2 { font-size: 26px; font-weight: 700; margin-bottom: 14px; }
       h3 { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
@@ -60,7 +69,7 @@
       li + li { margin-top: 4px; }
       strong { color: var(--text); }
 
-      .subtitle { color: #94a3b8; margin-bottom: 18px; }
+      .subtitle { color: var(--text-muted); margin-bottom: 18px; }
       .caption { font-size: 13px; color: #6b7280; margin-top: 8px; margin-bottom: 0; }
       .footer-note { font-size: 13px; color: #6b7280; margin: 0; }
 
@@ -82,12 +91,6 @@
       .icon.green { stroke: var(--accent-green); }
       .icon.warn { stroke: var(--accent-warn); }
 
-      .divider {
-        height: 1px;
-        background: var(--border);
-        margin: 24px 0;
-      }
-
       .toc-links {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -95,14 +98,15 @@
       }
 
       .toc-links a {
-        color: #cbd5e1;
+        color: #374151;
         text-decoration: none;
       }
 
-      .toc-links a:hover { color: #ffffff; }
+      .toc-links a:hover { color: #111827; }
 
-      .start-box, .visual {
-        background: #0f172a;
+      .start-box,
+      .visual {
+        background: var(--section);
         border: 1px solid var(--border);
         border-radius: 10px;
         padding: 16px;
@@ -111,7 +115,14 @@
       .visual { margin-top: 16px; }
 
       .flow-group + .flow-group { margin-top: 18px; }
-      .flow-label { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: #93a4b7; font-weight: 600; margin-bottom: 8px; }
+      .flow-label {
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #6b7280;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
 
       .flow-row {
         display: flex;
@@ -124,23 +135,36 @@
       }
 
       .node {
-        background: #111827;
-        border: 1px solid #334155;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
         border-radius: 8px;
         padding: 8px 12px;
         font-size: 14px;
-        color: #e5e7eb;
+        color: #111827;
         white-space: nowrap;
       }
 
       .arrow { color: #94a3b8; }
 
-      .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: stretch; }
+      .mini-label {
+        font-size: 12px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #6b7280;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+
+      .mode-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        align-items: stretch;
+      }
 
       .mode-card {
-        border: 1px solid #334155;
+        border: 1px solid #dbe3ee;
         border-radius: 10px;
-        background: #0f172a;
         padding: 18px;
         display: flex;
         flex-direction: column;
@@ -148,8 +172,15 @@
         height: 100%;
       }
 
-      .mode-card.chat { border-left: 4px solid var(--accent-blue); }
-      .mode-card.code { border-left: 4px solid var(--accent-green); }
+      .mode-card.chat {
+        border-left: 4px solid var(--accent-blue);
+        background: rgba(59, 130, 246, 0.08);
+      }
+
+      .mode-card.code {
+        border-left: 4px solid var(--accent-green);
+        background: rgba(34, 197, 94, 0.08);
+      }
 
       .mode-title {
         display: flex;
@@ -173,24 +204,27 @@
         line-height: 1.55;
       }
 
-      .mini-label {
-        font-size: 12px;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        color: #93a4b7;
-        font-weight: 600;
-        margin-bottom: 6px;
+      .insight.chat {
+        border-color: rgba(59,130,246,.45);
+        background: rgba(59,130,246,.10);
+        color: #1f2937;
       }
 
-      .insight.chat { border-color: rgba(59,130,246,.55); background: rgba(59,130,246,.12); }
-      .insight.code { border-color: rgba(34,197,94,.55); background: rgba(34,197,94,.12); }
-
-      .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .insight.code {
+        border-color: rgba(34,197,94,.45);
+        background: rgba(34,197,94,.10);
+        color: #1f2937;
+      }
+      .compare-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
 
       .compare-col {
-        border: 1px solid #334155;
+        border: 1px solid #e5e7eb;
         border-radius: 10px;
-        background: #0f172a;
+        background: #f9fafb;
         padding: 16px;
       }
 
@@ -198,7 +232,7 @@
         display: inline-block;
         margin-bottom: 8px;
         font-size: 11px;
-        color: #9ca3af;
+        color: #6b7280;
         text-transform: uppercase;
         letter-spacing: 0.06em;
         font-weight: 600;
@@ -212,24 +246,42 @@
 
       .stack-item {
         width: min(380px, 100%);
-        border: 1px solid #334155;
-        background: #111827;
+        border: 1px solid #e5e7eb;
+        background: #ffffff;
         border-radius: 8px;
         padding: 10px 12px;
         text-align: center;
       }
 
-      .stack-sep { width: 2px; height: 18px; background: #334155; }
+      .stack-sep { width: 2px; height: 18px; background: #d1d5db; }
 
-      table { width: 100%; border-collapse: collapse; margin-top: 12px; }
-      th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; vertical-align: top; }
-      th { background: #0f172a; color: #e5e7eb; font-weight: 700; }
-      tbody tr:hover { background: rgba(148,163,184,.08); }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 12px;
+      }
+
+      th,
+      td {
+        border: 1px solid #e5e7eb;
+        padding: 10px 12px;
+        text-align: left;
+        vertical-align: top;
+        color: #374151;
+      }
+
+      th {
+        background: #f3f4f6;
+        color: #111827;
+        font-weight: 700;
+      }
+
+      tbody tr:hover { background: #f9fafb; }
 
       pre {
         margin: 8px 0 0;
         background: #020617;
-        border: 1px solid var(--border);
+        border: 1px solid #1f2937;
         border-radius: 8px;
         padding: 12px;
         overflow-x: auto;
@@ -240,8 +292,18 @@
         color: #cbd5e1;
       }
 
-      .claude-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-      .claude-card { border: 1px solid #334155; border-radius: 10px; background: #0f172a; padding: 16px; }
+      .claude-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .claude-card {
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        background: #f9fafb;
+        padding: 16px;
+      }
 
       .callout {
         border-left: 4px solid;
@@ -250,13 +312,13 @@
         margin-top: 16px;
       }
 
-      .callout.info { border-color: var(--accent-blue); background: rgba(59,130,246,.11); }
-      .callout.tip { border-color: var(--accent-green); background: rgba(34,197,94,.13); box-shadow: 0 0 0 1px rgba(34,197,94,.08); }
-      .callout.warn { border-color: var(--accent-warn); background: rgba(245,158,11,.12); }
+      .callout.info { border-color: var(--accent-blue); background: rgba(59,130,246,.09); }
+      .callout.tip { border-color: var(--accent-green); background: rgba(34,197,94,.10); box-shadow: 0 0 0 1px rgba(34,197,94,.06); }
+      .callout.warn { border-color: var(--accent-warn); background: rgba(245,158,11,.11); }
 
       .final-callout {
-        border: 1px solid rgba(34,197,94,.45);
-        background: rgba(34,197,94,.09);
+        border: 1px solid rgba(34,197,94,.35);
+        background: rgba(34,197,94,.08);
         border-radius: 12px;
         padding: 18px;
       }
@@ -315,6 +377,7 @@
           <a href="#final-principle">Final Principle</a>
         </div>
       </nav>
+
       <section id="the-problem" class="card">
         <div class="heading">
           <svg class="icon warn" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
@@ -335,12 +398,9 @@
           <li><strong>Context size</strong> = how much data you pass per request.</li>
           <li><strong>Iteration count</strong> = how many times you rerun the loop.</li>
         </ul>
-        <div class="visual">
-          <p><strong>Concrete example:</strong> Loading a full repo (200k tokens) and iterating 10 times = 2M tokens burned.</p>
-        </div>
+        <div class="visual"><p><strong>Concrete example:</strong> Loading a full repo (200k tokens) and iterating 10 times = 2M tokens burned.</p></div>
         <div class="callout.info"><strong>Why this matters:</strong> Most users optimize wording. The bigger win is reducing context volume and loop count.</div>
       </section>
-
       <section id="chat-vs-code" class="card">
         <div class="heading">
           <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M7 17 3 21v-4a8 8 0 1 1 4 0Z"/></svg>
@@ -362,7 +422,7 @@
               <li>comparing multiple approaches</li>
               <li>designing architecture or prompts</li>
             </ul>
-            <p><strong>Example:</strong> \"Design a contract extraction pipeline with fallback logic\"</p>
+            <p><strong>Example:</strong> "Design a contract extraction pipeline with fallback logic"</p>
             <div class="insight chat"><strong>Insight:</strong> Keep chat broad for thinking and tradeoffs. Then hand off a scoped plan to execution mode.</div>
           </article>
 
@@ -378,7 +438,7 @@
               <li>debugging known issues</li>
               <li>running targeted updates</li>
             </ul>
-            <p><strong>Example:</strong> \"Update M2 classification logic to include FX fee detection\"</p>
+            <p><strong>Example:</strong> "Update M2 classification logic to include FX fee detection"</p>
             <div class="insight code"><strong>Insight:</strong> Code mode needs <strong>Precise instructions</strong> up front. It should produce <strong>Deterministic output</strong> with minimal retries.</div>
           </article>
         </div>
@@ -434,7 +494,6 @@
           <li>rerunning whole workflows after small changes</li>
         </ul>
       </section>
-
       <section id="the-fix" class="card">
         <div class="heading">
           <svg class="icon green" viewBox="0 0 24 24" fill="none"><path d="M4 8h16v10H4z"/><path d="M9 8V5h6v3M8 13h8"/></svg>
@@ -448,6 +507,7 @@
         </ol>
         <div class="callout.tip"><strong>Tip:</strong> Aim for one focused execution pass per problem slice.</div>
       </section>
+
       <section id="think-vs-execute" class="card">
         <div class="heading">
           <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M4 6h6v4H4zM14 14h6v4h-6z"/><path d="M10 8h4m0 0-2-2m2 2-2 2M14 16h-4m0 0 2-2m-2 2 2 2"/></svg>
@@ -507,6 +567,7 @@
           <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M8 12h8M12 8v8"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
           <h2>Claude-Specific Optimization</h2>
         </div>
+
         <div class="claude-grid">
           <article class="claude-card">
             <h3>CLAUDE.md</h3>
@@ -579,7 +640,7 @@
         </div>
       </section>
 
-      <section class="card" style="padding-top: 18px; padding-bottom: 18px;">
+      <section class="card" style="padding-top: 18px; padding-bottom: 18px; margin-top: 56px;">
         <p class="footer-note">About This Playbook: A focused guide for practitioners hitting real usage limits in production workflows.</p>
       </section>
     </main>
