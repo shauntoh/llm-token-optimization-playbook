@@ -227,7 +227,9 @@
       }
 
       section {
+        margin-top: 0;
         margin-bottom: 52px;
+        padding-top: 0;
       }
 
       .docs-content .card + .card::before {
@@ -254,9 +256,9 @@
       .hero-title {
         margin: 0;
         white-space: nowrap;
-        font-size: 40px;
+        font-size: 38px;
         font-weight: 700;
-        line-height: 1.1;
+        line-height: 1.08;
         letter-spacing: -0.03em;
         color: var(--text-strong);
       }
@@ -278,8 +280,8 @@
       h3 {
         font-size: 18px;
         line-height: 1.35;
-        font-weight: 600;
-        margin-top: 20px;
+        font-weight: 650;
+        margin-top: 22px;
         margin-bottom: 8px;
         padding: 0;
         border-left: 0;
@@ -288,7 +290,13 @@
       }
 
       section > h2:first-child {
-        margin-top: 0;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+      }
+
+      section > h3:first-child {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
       }
 
       p { margin: 0 0 14px; font-size: 16px; line-height: 1.7; color: #374151; }
@@ -307,12 +315,33 @@
         margin-bottom: 12px;
       }
 
+      .heading h2,
+      .heading h3 {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        padding-top: 0 !important;
+      }
+
       .section-header {
         border-radius: 0;
         padding: 0;
         border-left: 0;
         margin: 0 0 10px;
         background: transparent;
+      }
+
+      .prose h2,
+      .prose h3 {
+        scroll-margin-top: 90px;
+      }
+
+      .prose h2:first-child,
+      .prose h3:first-child {
+        margin-top: 0 !important;
+      }
+
+      .prose section > :first-child {
+        margin-top: 0 !important;
       }
 
       .section-red,
@@ -1040,7 +1069,7 @@
             </thead>
             <tbody>
               <tr><td>Purpose</td><td class="col-skills">reusable task logic</td><td class="col-mcp">external access</td></tr>
-              <tr class="key-row"><td>Token impact</td><td class="col-skills">reduces repetition</td><td class="col-mcp">reduces context</td></tr>
+              <tr><td>Token impact</td><td class="col-skills">reduces repetition</td><td class="col-mcp">reduces context</td></tr>
               <tr><td>Best for</td><td class="col-skills">repeated tasks</td><td class="col-mcp">large data</td></tr>
               <tr><td>Not for</td><td class="col-skills">data retrieval</td><td class="col-mcp">task logic</td></tr>
             </tbody>
