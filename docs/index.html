@@ -285,6 +285,54 @@
         padding: 18px;
       }
 
+      .multi-model-wrap {
+        display: grid;
+        gap: 16px;
+        margin-top: 14px;
+      }
+
+      .tier-card {
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 16px;
+      }
+
+      .tier-card h3 { margin-bottom: 8px; }
+      .tier-1 { background: rgba(99, 102, 241, 0.08); border-color: #dbe3ff; }
+      .tier-2 { background: rgba(34, 197, 94, 0.09); border-color: #cdeed9; }
+      .tier-3 { background: #f3f4f6; border-color: #e5e7eb; }
+
+      .tier-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px 20px;
+      }
+
+      .pill-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .pill {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 999px;
+        border: 1px solid #d1d5db;
+        background: #fff;
+        color: #374151;
+        font-size: 12px;
+      }
+
+      .multi-flow {
+        margin-top: 14px;
+      }
+
+      .multi-flow .flow-row {
+        justify-content: flex-start;
+      }
+
       @keyframes fadeInUp {
         from { opacity: 0; transform: translateY(10px); }
         to { opacity: 1; transform: translateY(0); }
@@ -294,7 +342,8 @@
         .toc-links,
         .mode-grid,
         .compare-grid,
-        .claude-grid { grid-template-columns: 1fr; }
+        .claude-grid,
+        .tier-grid { grid-template-columns: 1fr; }
       }
 
       @media (max-width: 720px) {
@@ -339,6 +388,7 @@
           <a href="#the-fix">The Fix — Practical Playbook</a>
           <a href="#think-vs-execute">Better Workflow</a>
           <a href="#real-example">Real Example</a>
+          <a href="#advanced-multi-model">Advanced Multi-Model Strategy</a>
           <a href="#token-explosion">Token Explosion Loop</a>
           <a href="#claude">Claude-Specific Optimization</a>
           <a href="#skills-vs-mcp">Skills vs MCP</a>
@@ -522,6 +572,120 @@
         </div>
         <p><strong>What changed:</strong> scope was narrowed, retries were reduced, and validation became stage-specific.</p>
         <p class="caption">Practical takeaway: fewer context-heavy loops create the largest token savings.</p>
+      </section>
+
+      <section id="advanced-multi-model" class="card">
+        <h2>Advanced Optimization: Multi-Model Strategy</h2>
+        <p>Most teams route every task through one powerful model. That feels simple, but it is expensive and inefficient at scale.</p>
+        <p>High-performance workflows separate <strong>thinking</strong>, <strong>execution</strong>, and <strong>bulk processing</strong>. <strong>Use intelligence where it matters. Use cheaper models everywhere else.</strong></p>
+
+        <div class="multi-model-wrap">
+          <article class="tier-card tier-1">
+            <h3>Tier 1 - Think / Plan / Architect</h3>
+            <div class="tier-grid">
+              <div>
+                <p><strong>Purpose:</strong> high-quality reasoning and decision framing.</p>
+                <p><strong>When to use:</strong> problem framing, architecture design, prompt design, complex reasoning, output review.</p>
+                <p><strong>Example:</strong> "Design a contract extraction pipeline with fallback logic and validation layers."</p>
+              </div>
+              <div>
+                <p><strong>Model examples:</strong></p>
+                <div class="pill-list">
+                  <span class="pill">Claude Opus</span>
+                  <span class="pill">Claude Sonnet</span>
+                  <span class="pill">GPT-5 class models</span>
+                  <span class="pill">GPT-5 Pro</span>
+                  <span class="pill">Codex-style reasoning models</span>
+                </div>
+                <p class="caption"><strong>Note:</strong> used sparingly, but critically important.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="tier-card tier-2">
+            <h3>Tier 2 - Execute / Transform / Implement</h3>
+            <div class="tier-grid">
+              <div>
+                <p><strong>Purpose:</strong> the main working layer for production tasks.</p>
+                <p><strong>When to use:</strong> applying changes, structured extraction, transformations, coding tasks, deterministic workflows.</p>
+                <p><strong>Example:</strong> "Extract pricing clauses from contracts and normalize output."</p>
+              </div>
+              <div>
+                <p><strong>Model examples:</strong></p>
+                <div class="pill-list">
+                  <span class="pill">Claude Sonnet</span>
+                  <span class="pill">Claude Haiku</span>
+                  <span class="pill">GPT-5 mini / standard</span>
+                  <span class="pill">Codex models</span>
+                  <span class="pill">Mid-tier APIs</span>
+                </div>
+                <p class="caption"><strong>Note:</strong> this is where most tokens should be spent.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="tier-card tier-3">
+            <h3>Tier 3 - Bulk / Filter / Local / Agent Loops</h3>
+            <div class="tier-grid">
+              <div>
+                <p><strong>Purpose:</strong> high-volume, low-risk throughput work.</p>
+                <p><strong>When to use:</strong> filtering documents, preprocessing, repetitive agent steps, retrieval prep, batch processing.</p>
+                <p><strong>Example:</strong> "Filter irrelevant contracts before extraction pipeline runs."</p>
+              </div>
+              <div>
+                <p><strong>Model examples:</strong></p>
+                <div class="pill-list">
+                  <span class="pill">GPT nano / small models</span>
+                  <span class="pill">Ollama local models</span>
+                  <span class="pill">Llama models</span>
+                  <span class="pill">Open-source models</span>
+                  <span class="pill">Lightweight inference models</span>
+                </div>
+                <p class="caption"><strong>Note:</strong> built for scale, not deep intelligence.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="visual multi-flow">
+          <p class="flow-label">Tiered Workflow Flow</p>
+          <div class="flow-row">
+            <span class="node">Tier 1: Design Workflow</span><span class="arrow">→</span><span class="node">Tier 2: Execute Tasks</span><span class="arrow">→</span><span class="node">Tier 3: Scale Bulk Steps</span>
+          </div>
+          <p class="caption">Step 1: design with Tier 1. Step 2: execute with Tier 2. Step 3: scale repetitive work with Tier 3.</p>
+        </div>
+
+        <div class="callout.tip">
+          <strong>Why this reduces tokens:</strong>
+          <ul>
+            <li>expensive models are used less frequently</li>
+            <li>execution is handled by cheaper, balanced models</li>
+            <li>bulk work is offloaded to low-cost or local layers</li>
+            <li>high-cost iteration loops are reduced</li>
+          </ul>
+        </div>
+
+        <div class="compare-grid" style="margin-top: 16px;">
+          <div class="compare-col">
+            <span class="tag">Bad Pattern</span>
+            <p><strong>Use Tier 1 for everything</strong></p>
+            <ul>
+              <li>planning, execution, and bulk all on one expensive model</li>
+              <li>high-cost retries across every step</li>
+              <li>no cost-aware routing</li>
+            </ul>
+          </div>
+          <div class="compare-col">
+            <span class="tag">Good Pattern</span>
+            <p><strong>Use a tiered workflow</strong></p>
+            <ul>
+              <li>Tier 1 for planning</li>
+              <li>Tier 2 for implementation</li>
+              <li>Tier 3 for scale and repetition</li>
+            </ul>
+          </div>
+        </div>
+        <p class="caption"><strong>Final takeaway:</strong> Token optimization is not about using fewer tokens. It is about using the right model at the right stage.</p>
       </section>
 
       <section id="token-explosion" class="card">
