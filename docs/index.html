@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Why LLM Code Tools Burn Your Limits (and How to Fix It)</title>
+    <title>LLM Token Optimization Playbook</title>
     <style>
       :root {
         --bg: #ffffff;
@@ -35,7 +35,137 @@
       .page {
         max-width: 900px;
         margin: 64px auto;
+        padding: 0 8px 0 0;
+      }
+
+      .doc-layout {
+        max-width: 1200px;
+        margin: 0 auto;
         padding: 0 20px;
+        display: grid;
+        grid-template-columns: 240px minmax(0, 1fr);
+        gap: 28px;
+        align-items: start;
+      }
+
+      .sidebar {
+        position: sticky;
+        top: 80px;
+        font-size: 14px;
+        padding: 16px;
+      }
+
+      .sidebar-title {
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #6b7280;
+        margin: 0 0 10px;
+        font-weight: 600;
+      }
+
+      .sidebar-nav {
+        display: grid;
+        gap: 8px;
+      }
+
+      .sidebar-nav a {
+        text-decoration: none;
+        color: #6b7280;
+        padding: 8px 10px;
+        border-radius: 8px;
+        transition: color 0.2s ease, background 0.2s ease;
+      }
+
+      .sidebar-nav a:hover {
+        color: #111827;
+        background: #f3f4f6;
+      }
+
+      .sidebar-nav a.active {
+        color: #1677ff;
+        font-weight: 700;
+        background: rgba(22, 119, 255, 0.08);
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+      }
+
+      .cta-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: 1px solid #d1d5db;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .cta-primary {
+        background: #1677ff;
+        color: #ffffff;
+        border-color: #1677ff;
+      }
+
+      .cta-secondary {
+        background: #ffffff;
+        color: #374151;
+      }
+
+      .system-flow {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+
+      .flow-card {
+        min-width: 210px;
+        padding: 16px;
+        border-radius: 12px;
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+      }
+
+      .flow-card p {
+        margin-bottom: 8px;
+      }
+
+      .flow-arrow {
+        font-size: 20px;
+        color: #94a3b8;
+        flex: 0 0 auto;
+      }
+
+      .back-to-top {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        background: #111827;
+        color: #ffffff;
+        border: 0;
+        border-radius: 999px;
+        padding: 10px 14px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        transform: translateY(8px);
+      }
+
+      .back-to-top.show {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
       }
 
       .card {
@@ -408,6 +538,20 @@
         .compare-grid,
         .claude-grid,
         .tier-grid { grid-template-columns: 1fr; }
+
+        .doc-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          position: static;
+          top: auto;
+        }
+
+        .page {
+          max-width: 100%;
+          padding: 0;
+        }
       }
 
       @media (max-width: 720px) {
@@ -420,44 +564,43 @@
     </style>
   </head>
   <body>
-    <main class="page">
-      <section class="card">
-        <div class="hero-title-row">
-          <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M5 5h14v14H5z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>
-          <h1 class="hero-title">Why LLM Code Tools Burn Your Limits (and How to Fix It)</h1>
-        </div>
-        <p class="subtitle">A practical guide for teams that are just starting to hit LLM usage limits in real coding workflows.</p>
-
-        <div class="start-box">
-          <p><strong>If you are hitting limits, do these first:</strong></p>
-          <ul>
-            <li>plan in chat</li>
-            <li>reduce context</li>
-            <li>stop rerunning workflows</li>
-          </ul>
-        </div>
-      </section>
-
-      <nav class="card" aria-label="Table of contents">
-        <div class="heading section-header section-blue">
-          <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
-          <h2>Table of Contents</h2>
-        </div>
-        <div class="toc-links">
+    <div class="doc-layout">
+      <aside class="card sidebar" aria-label="Section navigation">
+        <p class="sidebar-title">On This Page</p>
+        <nav class="sidebar-nav">
+          <a href="#introduction">Introduction</a>
           <a href="#the-problem">The Problem</a>
-          <a href="#the-real-reason">The Real Reason You're Hitting Limits</a>
-          <a href="#chat-vs-code">Chat vs Code</a>
-          <a href="#whats-burning">What’s Actually Burning Your Tokens</a>
-          <a href="#biggest-mistakes">Biggest Mistakes</a>
-          <a href="#the-fix">The Fix — Practical Playbook</a>
-          <a href="#advanced-multi-model">Model Tiering Strategy</a>
+          <a href="#model-tiering">Model Tiering Strategy</a>
           <a href="#claude">Claude-Specific Optimization</a>
           <a href="#skills-vs-mcp">Skills vs MCP</a>
-          <a href="#real-example">Real Example: Before vs After</a>
-          <a href="#quick-checklist">Quick Checklist</a>
+          <a href="#real-example">Real Example</a>
+          <a href="#system-flow">System Flow</a>
           <a href="#final-principle">Final Principle</a>
+        </nav>
+      </aside>
+
+      <main class="page">
+      <section id="introduction" class="card">
+        <div class="hero-title-row">
+          <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M5 5h14v14H5z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>
+          <h1 class="hero-title">LLM Token Optimization Playbook</h1>
         </div>
-      </nav>
+        <p class="subtitle"><strong>You don’t have a token problem. You have a model allocation problem.</strong></p>
+        <p>Most teams try to reduce tokens with prompt tricks. But the real cost driver is which model you use for each task.</p>
+        <p>The same workflow can cost 10-100x more depending on model selection.</p>
+        <div class="start-box">
+          <p><strong>This playbook shows you how to:</strong></p>
+          <ul>
+            <li>route tasks across model tiers</li>
+            <li>reduce token waste at the system level</li>
+            <li>scale AI usage without exploding cost</li>
+          </ul>
+        </div>
+        <div class="hero-actions">
+          <a class="cta-btn cta-primary" href="#the-problem">Start with the Problem</a>
+          <a class="cta-btn cta-secondary" href="#model-tiering">View Model Tiers</a>
+        </div>
+      </section>
 
       <section id="the-problem" class="card">
         <div class="heading section-header section-red">
@@ -612,7 +755,7 @@
         <div class="callout.tip"><strong>Tip:</strong> Aim for one focused execution pass per problem slice.</div>
       </section>
 
-      <section id="advanced-multi-model" class="card">
+      <section id="model-tiering" class="card">
         <div class="heading section-header section-purple">
           <h2>Advanced Optimization: Model Tiering Strategy</h2>
         </div>
@@ -835,6 +978,38 @@
         <p class="caption"><strong>Takeaway:</strong> most savings come from removing duplicate context-heavy loops, not from shorter wording.</p>
       </section>
 
+      <section id="system-flow" class="card">
+        <div class="heading section-header section-blue">
+          <h2>🔁 How Token Optimization Actually Works</h2>
+        </div>
+        <div class="system-flow">
+          <article class="flow-card">
+            <p><strong>1. User Prompt</strong></p>
+            <p>Raw input</p>
+            <p>Task type</p>
+          </article>
+          <span class="flow-arrow">→</span>
+          <article class="flow-card">
+            <p><strong>2. Model Tier Selection</strong></p>
+            <p>Tier 1 / Tier 2 / Tier 3</p>
+            <p>Based on complexity + cost sensitivity</p>
+          </article>
+          <span class="flow-arrow">→</span>
+          <article class="flow-card">
+            <p><strong>3. Execution Layer</strong></p>
+            <p>Codex / Claude Code / MCP tools</p>
+            <p>Structured workflows</p>
+          </article>
+          <span class="flow-arrow">→</span>
+          <article class="flow-card">
+            <p><strong>4. Output</strong></p>
+            <p>Response</p>
+            <p>Cost incurred + latency</p>
+          </article>
+        </div>
+        <p class="caption">Token optimization is not a prompt trick — it is a routing system.</p>
+      </section>
+
       <section id="quick-checklist" class="card">
         <div class="heading section-header section-green">
           <h2>Final Checklist</h2>
@@ -866,6 +1041,51 @@
       <section class="card" style="padding-top: 18px; padding-bottom: 18px; margin-top: 56px;">
         <p class="footer-note">About This Playbook: A focused guide for practitioners hitting real usage limits in production workflows.</p>
       </section>
-    </main>
+      </main>
+    </div>
+
+    <button class="back-to-top" id="backToTop" type="button">Back to top</button>
+    <script>
+      (function () {
+        var links = Array.from(document.querySelectorAll(".sidebar-nav a"));
+        var sections = links
+          .map(function (link) {
+            var id = link.getAttribute("href");
+            if (!id || id.charAt(0) !== "#") return null;
+            return document.querySelector(id);
+          })
+          .filter(Boolean);
+
+        var observer = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (!entry.isIntersecting) return;
+              var id = "#" + entry.target.id;
+              links.forEach(function (link) {
+                link.classList.toggle("active", link.getAttribute("href") === id);
+              });
+            });
+          },
+          { rootMargin: "-35% 0px -55% 0px", threshold: 0 }
+        );
+
+        sections.forEach(function (section) {
+          observer.observe(section);
+        });
+
+        var backToTop = document.getElementById("backToTop");
+        window.addEventListener("scroll", function () {
+          if (window.scrollY > 480) {
+            backToTop.classList.add("show");
+          } else {
+            backToTop.classList.remove("show");
+          }
+        });
+
+        backToTop.addEventListener("click", function () {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      })();
+    </script>
   </body>
 </html>
