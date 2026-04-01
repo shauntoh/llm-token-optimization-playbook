@@ -10,18 +10,14 @@
         --card: #111827;
         --accent-green: #22c55e;
         --accent-blue: #3b82f6;
+        --accent-warn: #f59e0b;
         --text: #e5e7eb;
         --text-muted: #9ca3af;
         --border: #1f2937;
       }
 
-      * {
-        box-sizing: border-box;
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
 
       body {
         margin: 0;
@@ -34,84 +30,61 @@
 
       .page {
         max-width: 900px;
-        margin: 48px auto;
+        margin: 56px auto;
         padding: 0 16px;
       }
 
       .card {
         background: var(--card);
-        border: 1px solid #1f2937;
+        border: 1px solid var(--border);
         border-radius: 12px;
         padding: 24px;
         margin-bottom: 32px;
-        transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-        animation: fadeInUp 0.55s ease both;
+        transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+        animation: fadeInUp 0.5s ease both;
       }
 
       .card:hover {
         transform: translateY(-2px);
-        border-color: #273548;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        border-color: #2a3a50;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
       }
 
-      h1,
-      h2,
-      h3 {
-        margin: 0;
-        line-height: 1.2;
-        letter-spacing: -0.02em;
-        color: var(--text);
+      h1, h2, h3 { margin: 0; letter-spacing: -0.02em; line-height: 1.2; color: var(--text); }
+      h1 { font-size: 32px; font-weight: 700; margin-bottom: 16px; }
+      h2 { font-size: 26px; font-weight: 700; margin-bottom: 14px; }
+      h3 { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
+
+      p { margin: 0 0 16px; color: var(--text-muted); }
+      ul, ol { margin: 0 0 16px; padding-left: 1.2rem; color: var(--text-muted); }
+      li + li { margin-top: 4px; }
+      strong { color: var(--text); }
+
+      .subtitle { color: #94a3b8; margin-bottom: 18px; }
+      .caption { font-size: 13px; color: #6b7280; margin-top: 8px; margin-bottom: 0; }
+      .footer-note { font-size: 13px; color: #6b7280; margin: 0; }
+
+      .heading {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
       }
 
-      h1 {
-        font-size: 32px;
-        font-weight: 700;
-        margin-bottom: 16px;
+      .icon {
+        width: 18px;
+        height: 18px;
+        flex: 0 0 auto;
+        stroke-width: 1.9;
       }
 
-      h2 {
-        font-size: 24px;
-        font-weight: 600;
-        margin-bottom: 16px;
-      }
-
-      h3 {
-        font-size: 18px;
-        font-weight: 600;
-        margin-bottom: 10px;
-      }
-
-      p {
-        margin: 0 0 16px;
-        color: var(--text-muted);
-      }
-
-      ul,
-      ol {
-        margin: 0 0 16px;
-        padding-left: 1.2rem;
-        color: var(--text-muted);
-      }
-
-      strong {
-        color: var(--text);
-      }
-
-      .caption {
-        font-size: 13px;
-        color: #6b7280;
-        margin-top: 8px;
-        margin-bottom: 0;
-      }
-
-      .subtitle {
-        color: var(--text-muted);
-        margin-bottom: 18px;
-      }
+      .icon.blue { stroke: var(--accent-blue); }
+      .icon.green { stroke: var(--accent-green); }
+      .icon.warn { stroke: var(--accent-warn); }
 
       .divider {
         height: 1px;
-        background: #1f2937;
+        background: var(--border);
         margin: 24px 0;
       }
 
@@ -126,43 +99,33 @@
         text-decoration: none;
       }
 
-      .toc-links a:hover {
-        color: #ffffff;
-      }
+      .toc-links a:hover { color: #ffffff; }
 
-      .start-box {
+      .start-box, .visual {
         background: #0f172a;
         border: 1px solid var(--border);
         border-radius: 10px;
         padding: 16px;
       }
 
-      .visual {
-        background: #0f172a;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 16px;
-        margin-top: 16px;
-      }
+      .visual { margin-top: 16px; }
+
+      .flow-group + .flow-group { margin-top: 18px; }
+      .flow-label { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: #93a4b7; font-weight: 600; margin-bottom: 8px; }
 
       .flow-row {
         display: flex;
-        flex-direction: row;
         align-items: center;
-        gap: 10px;
         flex-wrap: nowrap;
         overflow-x: auto;
+        gap: 10px;
         white-space: nowrap;
-        padding-bottom: 2px;
-      }
-
-      .flow-group + .flow-group {
-        margin-top: 16px;
+        padding-bottom: 3px;
       }
 
       .node {
-        border: 1px solid #334155;
         background: #111827;
+        border: 1px solid #334155;
         border-radius: 8px;
         padding: 8px 12px;
         font-size: 14px;
@@ -170,42 +133,55 @@
         white-space: nowrap;
       }
 
-      .arrow {
-        color: #94a3b8;
-      }
+      .arrow { color: #94a3b8; }
 
-      .stack {
-        display: grid;
-        justify-items: center;
-        gap: 10px;
-      }
+      .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: stretch; }
 
-      .stack-item {
-        width: min(360px, 100%);
+      .mode-card {
         border: 1px solid #334155;
-        background: #111827;
+        border-radius: 10px;
+        background: #0f172a;
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        height: 100%;
+      }
+
+      .mode-card.chat { border-left: 4px solid var(--accent-blue); }
+      .mode-card.code { border-left: 4px solid var(--accent-green); }
+
+      .mode-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 17px;
+        font-weight: 600;
+        color: var(--text);
+        white-space: nowrap;
+        line-height: 1.25;
+      }
+
+      .mode-title .icon { width: 16px; height: 16px; }
+
+      .insight {
+        border: 1px solid;
         border-radius: 8px;
         padding: 10px 12px;
-        text-align: center;
-        color: #e5e7eb;
+        margin-top: auto;
+        font-size: 14px;
+        line-height: 1.55;
       }
 
-      .stack-sep {
-        width: 2px;
-        height: 18px;
-        background: #334155;
-      }
+      .insight.chat { border-color: rgba(59,130,246,.55); background: rgba(59,130,246,.12); }
+      .insight.code { border-color: rgba(34,197,94,.55); background: rgba(34,197,94,.12); }
 
-      .compare-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-      }
+      .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
       .compare-col {
         border: 1px solid #334155;
-        background: #0f172a;
         border-radius: 10px;
+        background: #0f172a;
         padding: 16px;
       }
 
@@ -219,72 +195,32 @@
         font-weight: 600;
       }
 
-      .mode-grid {
+      .stack {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
+        justify-items: center;
+        gap: 10px;
       }
 
-      .mode-card {
+      .stack-item {
+        width: min(380px, 100%);
         border: 1px solid #334155;
-        background: #0f172a;
-        border-radius: 10px;
-        padding: 16px;
-      }
-
-      .mode-card.chat {
-        border-left: 4px solid var(--accent-blue);
-      }
-
-      .mode-card.code {
-        border-left: 4px solid var(--accent-green);
-      }
-
-      .insight {
-        border: 1px solid #334155;
+        background: #111827;
         border-radius: 8px;
-        padding: 12px;
-        margin-top: 12px;
-      }
-
-      .insight.chat {
-        background: rgba(59, 130, 246, 0.08);
-        border-color: rgba(59, 130, 246, 0.45);
-      }
-
-      .insight.code {
-        background: rgba(34, 197, 94, 0.08);
-        border-color: rgba(34, 197, 94, 0.45);
-      }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 12px;
-      }
-
-      th,
-      td {
-        border: 1px solid #1f2937;
         padding: 10px 12px;
-        text-align: left;
-        vertical-align: top;
+        text-align: center;
       }
 
-      th {
-        background: #0f172a;
-        color: #e5e7eb;
-        font-weight: 700;
-      }
+      .stack-sep { width: 2px; height: 18px; background: #334155; }
 
-      tbody tr:hover {
-        background: rgba(148, 163, 184, 0.08);
-      }
+      table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+      th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; vertical-align: top; }
+      th { background: #0f172a; color: #e5e7eb; font-weight: 700; }
+      tbody tr:hover { background: rgba(148,163,184,.08); }
 
       pre {
         margin: 8px 0 0;
         background: #020617;
-        border: 1px solid #1f2937;
+        border: 1px solid var(--border);
         border-radius: 8px;
         padding: 12px;
         overflow-x: auto;
@@ -295,18 +231,8 @@
         color: #cbd5e1;
       }
 
-      .claude-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 16px;
-      }
-
-      .claude-card {
-        border: 1px solid #334155;
-        border-radius: 10px;
-        background: #0f172a;
-        padding: 16px;
-      }
+      .claude-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+      .claude-card { border: 1px solid #334155; border-radius: 10px; background: #0f172a; padding: 16px; }
 
       .callout {
         border-left: 4px solid;
@@ -315,40 +241,31 @@
         margin-top: 16px;
       }
 
-      .callout.info {
-        border-color: #3b82f6;
-        background: rgba(59, 130, 246, 0.1);
-      }
+      .callout.info { border-color: var(--accent-blue); background: rgba(59,130,246,.11); }
+      .callout.tip { border-color: var(--accent-green); background: rgba(34,197,94,.13); box-shadow: 0 0 0 1px rgba(34,197,94,.08); }
+      .callout.warn { border-color: var(--accent-warn); background: rgba(245,158,11,.12); }
 
-      .callout.tip {
-        border-color: #22c55e;
-        background: rgba(34, 197, 94, 0.12);
-        box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.08);
-      }
-
-      .callout.warn {
-        border-color: #f59e0b;
-        background: rgba(245, 158, 11, 0.12);
+      .final-callout {
+        border: 1px solid rgba(34,197,94,.45);
+        background: rgba(34,197,94,.09);
+        border-radius: 12px;
+        padding: 18px;
       }
 
       @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
       }
 
       @media (max-width: 860px) {
         .toc-links,
         .mode-grid,
         .compare-grid,
-        .claude-grid {
-          grid-template-columns: 1fr;
-        }
+        .claude-grid { grid-template-columns: 1fr; }
+      }
+
+      @media (max-width: 560px) {
+        .mode-title { white-space: normal; }
       }
     </style>
   </head>
@@ -369,35 +286,58 @@
       </section>
 
       <nav class="card" aria-label="Table of contents">
-        <h2>Table of Contents</h2>
+        <div class="heading">
+          <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+          <h2>Table of Contents</h2>
+        </div>
         <div class="toc-links">
           <a href="#the-problem">The Problem</a>
+          <a href="#the-real-reason">The Real Reason</a>
           <a href="#chat-vs-code">Chat vs Code</a>
+          <a href="#whats-burning">What’s Burning Your Tokens</a>
+          <a href="#biggest-mistakes">Biggest Mistakes</a>
           <a href="#the-fix">The Fix — Practical Playbook</a>
-          <a href="#think-vs-execute">Think vs Execute</a>
-          <a href="#real-example">Real Example (Before vs After)</a>
+          <a href="#think-vs-execute">Better Workflow</a>
+          <a href="#real-example">Real Example</a>
           <a href="#token-explosion">Token Explosion Loop</a>
           <a href="#claude">Claude-Specific Optimization</a>
           <a href="#skills-vs-mcp">Skills vs MCP</a>
+          <a href="#quick-checklist">Quick Checklist</a>
+          <a href="#final-principle">Final Principle</a>
         </div>
       </nav>
-
       <section id="the-problem" class="card">
-        <h2>The Problem</h2>
+        <div class="heading">
+          <svg class="icon warn" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+          <h2>The Problem</h2>
+        </div>
         <p>Most teams start with chat and feel fine. Then coding sessions begin, context gets larger, retries accumulate, and usage limits appear unexpectedly fast.</p>
         <p>It is usually not a model issue. It is a workflow shape issue.</p>
-        <div class="callout.warn">
-          <strong>Warning:</strong> Repeated broad-context retries are the fastest path to token exhaustion.
+        <div class="callout.warn"><strong>Warning:</strong> Repeated broad-context retries are the fastest path to token exhaustion.</div>
+      </section>
+
+      <section id="the-real-reason" class="card">
+        <div class="heading">
+          <svg class="icon blue" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 8h8M8 12h5M8 16h8"/></svg>
+          <h2>The Real Reason</h2>
         </div>
+        <p><strong>Token usage = Context Size x Iteration Count.</strong> Context sets base cost. Iteration multiplies it. When both rise together, usage spikes quickly.</p>
       </section>
 
       <section id="chat-vs-code" class="card">
-        <h2>Chat vs Code</h2>
-        <p class="subtitle">Use this to choose the right mode before you spend tokens.</p>
+        <div class="heading">
+          <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M7 17 3 21v-4a8 8 0 1 1 4 0Z"/></svg>
+          <svg class="icon green" viewBox="0 0 24 24" fill="none"><path d="m13 2-9 12h7l-1 8 9-12h-7z"/></svg>
+          <h2 style="font-size: 28px; font-weight: 700;">Chat vs Code</h2>
+        </div>
+        <p class="subtitle">Choose the right mode before you spend tokens: use chat for thinking, code tools for execution.</p>
 
         <div class="mode-grid">
           <article class="mode-card chat">
-            <h3>💬 Chat (Exploration Mode)</h3>
+            <div class="mode-title">
+              <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M7 17 3 21v-4a8 8 0 1 1 4 0Z"/></svg>
+              <span>Chat (Exploration Mode)</span>
+            </div>
             <ul>
               <li>clarify goals and constraints</li>
               <li>compare options quickly</li>
@@ -407,7 +347,10 @@
           </article>
 
           <article class="mode-card code">
-            <h3>⚡ Code (Execution Mode)</h3>
+            <div class="mode-title">
+              <svg class="icon green" viewBox="0 0 24 24" fill="none"><path d="m13 2-9 12h7l-1 8 9-12h-7z"/></svg>
+              <span>Code (Execution Mode)</span>
+            </div>
             <ul>
               <li>apply targeted changes</li>
               <li>validate with tests or local runs</li>
@@ -419,13 +362,13 @@
 
         <div class="visual">
           <div class="flow-group">
-            <p class="visual-label">Chat (Fast Path)</p>
+            <p class="flow-label">Chat (Fast Path)</p>
             <div class="flow-row">
               <span class="node">User</span><span class="arrow">→</span><span class="node">Model</span><span class="arrow">→</span><span class="node">Response</span>
             </div>
           </div>
           <div class="flow-group">
-            <p class="visual-label">Coding (Full Execution Path)</p>
+            <p class="flow-label">Coding (Full Execution Path)</p>
             <div class="flow-row">
               <span class="node">User</span><span class="arrow">→</span><span class="node">Model</span><span class="arrow">→</span><span class="node">Load Files</span><span class="arrow">→</span><span class="node">Analyze Code</span><span class="arrow">→</span><span class="node">Generate Patch</span><span class="arrow">→</span><span class="node">Run Tests</span><span class="arrow">→</span><span class="node">Process Logs</span><span class="arrow">→</span><span class="node">Response</span>
             </div>
@@ -434,34 +377,46 @@
 
         <table>
           <thead>
-            <tr>
-              <th>Dimension</th>
-              <th>Chat</th>
-              <th>Code</th>
-            </tr>
+            <tr><th>Dimension</th><th>Chat</th><th>Code</th></tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Primary intent</td>
-              <td>Explore and plan</td>
-              <td>Execute changes</td>
-            </tr>
-            <tr>
-              <td>Typical token pattern</td>
-              <td>Lower, shorter turns</td>
-              <td><strong>High token usage</strong> with loops</td>
-            </tr>
-            <tr>
-              <td>Best input style</td>
-              <td>Open framing</td>
-              <td>Scoped, explicit constraints</td>
-            </tr>
+            <tr><td>Primary intent</td><td>Explore and plan</td><td>Execute changes</td></tr>
+            <tr><td>Typical token pattern</td><td>Lower, shorter turns</td><td><strong>High token usage</strong> with loops</td></tr>
+            <tr><td>Best input style</td><td>Open framing</td><td>Scoped, explicit constraints</td></tr>
           </tbody>
         </table>
       </section>
 
+      <section id="whats-burning" class="card">
+        <div class="heading">
+          <svg class="icon warn" viewBox="0 0 24 24" fill="none"><path d="M12 3s4 3.5 4 7a4 4 0 1 1-8 0c0-2.5 4-7 4-7Z"/><path d="M9 15a3 3 0 0 0 6 0"/></svg>
+          <h2>What’s Burning Your Tokens</h2>
+        </div>
+        <ul>
+          <li>large context windows</li>
+          <li>retry loops with incremental context growth</li>
+          <li>tool/log payload bloat</li>
+        </ul>
+        <div class="callout.info"><strong>Info:</strong> The biggest lever is not output length; it is reducing repeated large-input turns.</div>
+      </section>
+
+      <section id="biggest-mistakes" class="card">
+        <div class="heading">
+          <svg class="icon warn" viewBox="0 0 24 24" fill="none"><path d="M12 3 2.5 20h19L12 3Z"/><path d="M12 9v5M12 17h.01"/></svg>
+          <h2>Biggest Mistakes</h2>
+        </div>
+        <ul>
+          <li>thinking in code mode instead of planning first</li>
+          <li>loading full repos for local edits</li>
+          <li>rerunning whole workflows after small changes</li>
+        </ul>
+      </section>
+
       <section id="the-fix" class="card">
-        <h2>The Fix — Practical Playbook</h2>
+        <div class="heading">
+          <svg class="icon green" viewBox="0 0 24 24" fill="none"><path d="M4 8h16v10H4z"/><path d="M9 8V5h6v3M8 13h8"/></svg>
+          <h2>The Fix — Practical Playbook</h2>
+        </div>
         <ol>
           <li>Separate thinking and execution.</li>
           <li>Scope context tightly before each run.</li>
@@ -470,9 +425,11 @@
         </ol>
         <div class="callout.tip"><strong>Tip:</strong> Aim for one focused execution pass per problem slice.</div>
       </section>
-
       <section id="think-vs-execute" class="card">
-        <h2>Think vs Execute</h2>
+        <div class="heading">
+          <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M4 6h6v4H4zM14 14h6v4h-6z"/><path d="M10 8h4m0 0-2-2m2 2-2 2M14 16h-4m0 0 2-2m-2 2 2 2"/></svg>
+          <h2>Better Workflow</h2>
+        </div>
         <div class="visual">
           <div class="stack">
             <div class="stack-item"><strong>Chat</strong><br />Think / Plan</div>
@@ -519,7 +476,12 @@
       </section>
 
       <section id="claude" class="card">
-        <h2>Claude-Specific Optimization</h2>
+        <div class="heading">
+          <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v3h3"/></svg>
+          <svg class="icon green" viewBox="0 0 24 24" fill="none"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></svg>
+          <svg class="icon blue" viewBox="0 0 24 24" fill="none"><path d="M8 12h8M12 8v8"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
+          <h2>Claude-Specific Optimization</h2>
+        </div>
         <div class="claude-grid">
           <article class="claude-card">
             <h3>CLAUDE.md</h3>
@@ -553,36 +515,44 @@
         <h2>Skills vs MCP</h2>
         <table>
           <thead>
-            <tr>
-              <th>Dimension</th>
-              <th>Skills</th>
-              <th>MCP</th>
-            </tr>
+            <tr><th>Dimension</th><th>Skills</th><th>MCP</th></tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Purpose</td>
-              <td>reusable task logic</td>
-              <td>external access</td>
-            </tr>
-            <tr>
-              <td>Token impact</td>
-              <td>reduces repetition</td>
-              <td>reduces context</td>
-            </tr>
-            <tr>
-              <td>Best for</td>
-              <td>repeated tasks</td>
-              <td>large data</td>
-            </tr>
-            <tr>
-              <td>Not for</td>
-              <td>data retrieval</td>
-              <td>task logic</td>
-            </tr>
+            <tr><td>Purpose</td><td>reusable task logic</td><td>external access</td></tr>
+            <tr><td>Token impact</td><td>reduces repetition</td><td>reduces context</td></tr>
+            <tr><td>Best for</td><td>repeated tasks</td><td>large data</td></tr>
+            <tr><td>Not for</td><td>data retrieval</td><td>task logic</td></tr>
           </tbody>
         </table>
         <p class="caption">Skills define HOW Claude works. MCP defines WHAT Claude can access.</p>
+      </section>
+
+      <section id="quick-checklist" class="card">
+        <h2>Quick Token Optimization Checklist</h2>
+        <ul>
+          <li>Plan in chat first</li>
+          <li>Pass only required context</li>
+          <li>Avoid full repo loads for local edits</li>
+          <li>Use precise prompts</li>
+          <li>Rerun only changed stages</li>
+          <li>Cap retries and recursion</li>
+          <li>Use tools like CLAUDE.md, Skills, and MCP to reduce repetition</li>
+        </ul>
+      </section>
+
+      <section id="final-principle" class="card">
+        <div class="heading">
+          <svg class="icon green" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v2M22 12h-2M12 22v-2M2 12h2"/></svg>
+          <h2>Final Principle</h2>
+        </div>
+        <div class="final-callout">
+          <p><strong>LLM usage is not about how much you use.</strong></p>
+          <p>It is about how efficiently you structure the work and where you spend tokens in the loop.</p>
+        </div>
+      </section>
+
+      <section class="card" style="padding-top: 18px; padding-bottom: 18px;">
+        <p class="footer-note">About This Playbook: A focused guide for practitioners hitting real usage limits in production workflows.</p>
       </section>
     </main>
   </body>
