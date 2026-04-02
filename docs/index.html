@@ -224,12 +224,12 @@
         padding-top: 0;
       }
 
-      .docs-content .card + .card::before {
-        content: "";
-        display: block;
-        height: 1px;
-        background: var(--border-soft);
-        margin: -8px 0 40px;
+      .card > :first-child {
+        margin-top: 0 !important;
+      }
+
+      .card > .heading:first-child {
+        margin-top: 0;
       }
 
       .card:hover {
@@ -570,26 +570,6 @@
         background: #f8fafc;
         border-radius: 12px;
         padding: 18px;
-      }
-
-      #quick-checklist .heading h2,
-      #final-principle-section .heading h2 {
-        font-weight: 700;
-      }
-
-      #final-principle-section {
-        margin-top: 28px;
-        position: relative;
-      }
-
-      #final-principle-section::before {
-        content: "";
-        position: absolute;
-        left: 24px;
-        right: 24px;
-        top: -14px;
-        height: 1px;
-        background: var(--border-soft);
       }
 
       .multi-model-wrap {
@@ -1194,9 +1174,6 @@
         </div>
       </section>
 
-      <section class="card" style="padding-top: 18px; padding-bottom: 18px; margin-top: 56px;">
-        <p class="footer-note">About This Playbook: A focused guide for practitioners hitting real usage limits in production workflows.</p>
-      </section>
       </div>
       </main>
 
