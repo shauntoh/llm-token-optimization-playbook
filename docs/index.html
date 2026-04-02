@@ -713,15 +713,15 @@
         <div class="sidebar-group">
           <p class="sidebar-group-title">Getting Started</p>
           <nav class="sidebar-nav">
-            <a class="sidebar-link" href="#introduction">Introduction</a>
-            <a class="sidebar-link" href="#problem">The Problem</a>
-            <a class="sidebar-link" href="#the-real-reason">The Real Reason</a>
+            <a class="sidebar-link" href="#introduction-section">Introduction</a>
+            <a class="sidebar-link" href="#problem-section">The Problem</a>
+            <a class="sidebar-link" href="#the-real-reason-section">The Real Reason</a>
           </nav>
         </div>
         <div class="sidebar-group">
           <p class="sidebar-group-title">Workflow Design</p>
           <nav class="sidebar-nav">
-            <a class="sidebar-link" href="#chat-vs-code">Chat vs Code</a>
+            <a class="sidebar-link" href="#chat-vs-code-section">Chat vs Code</a>
             <a class="sidebar-link" href="#whats-burning">What’s Burning Your Tokens</a>
             <a class="sidebar-link" href="#biggest-mistakes">Biggest Mistakes</a>
             <a class="sidebar-link" href="#the-fix">The Fix</a>
@@ -730,17 +730,17 @@
         <div class="sidebar-group">
           <p class="sidebar-group-title">Optimization System</p>
           <nav class="sidebar-nav">
-            <a class="sidebar-link" href="#real-example">Real Example</a>
-            <a class="sidebar-link" href="#model-tiering">Model Tiering</a>
+            <a class="sidebar-link" href="#real-example-section">Real Example</a>
+            <a class="sidebar-link" href="#model-tiering-section">Model Tiering</a>
           </nav>
         </div>
         <div class="sidebar-group">
           <p class="sidebar-group-title">Claude Workflows</p>
           <nav class="sidebar-nav">
-            <a class="sidebar-link" href="#claude-optimization">Claude-Specific Optimization</a>
-            <a class="sidebar-link" href="#skills-vs-mcp">Skills vs MCP</a>
+            <a class="sidebar-link" href="#claude-optimization-section">Claude-Specific Optimization</a>
+            <a class="sidebar-link" href="#skills-vs-mcp-section">Skills vs MCP</a>
             <a class="sidebar-link" href="#quick-checklist">Quick Checklist</a>
-            <a class="sidebar-link" href="#final-principle">Final Principle</a>
+            <a class="sidebar-link" href="#final-principle-section">Final Principle</a>
           </nav>
         </div>
       </aside>
@@ -922,6 +922,49 @@
         </ol>
         <p><strong>Example:</strong> define target files and acceptance tests in chat, then run one scoped execution pass in the code tool.</p>
         <div class="callout.tip"><strong>Tip:</strong> Aim for one focused execution pass per problem slice.</div>
+      </section>
+
+      <section id="real-example-section" class="card">
+        <div class="heading section-header section-green">
+          <h2 id="real-example">Real Example: Before vs After</h2>
+        </div>
+        <p>A structured before/after view makes the optimization practical and repeatable.</p>
+        <div class="compare-grid">
+          <div class="compare-col">
+            <span class="tag">Before</span>
+            <p><strong>Inefficient workflow</strong></p>
+            <ul>
+              <li>load full repo context before scoping</li>
+              <li>explore and patch in the same execution loop</li>
+              <li>rerun full workflow after each partial fix</li>
+            </ul>
+            <p><strong>Token usage:</strong> ~200k per cycle</p>
+          </div>
+          <div class="compare-col">
+            <span class="tag">After</span>
+            <p><strong>Optimized workflow</strong></p>
+            <ul>
+              <li>plan scope in chat first</li>
+              <li>send only target files and interfaces</li>
+              <li>rerun only changed stages and validations</li>
+            </ul>
+            <p><strong>Token usage:</strong> ~15k-40k per cycle</p>
+          </div>
+        </div>
+        <div class="table-shell">
+          <table>
+            <thead>
+              <tr><th>Phase</th><th class="before">Before</th><th class="after">After</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Context scope</td><td class="before">full repo loaded by default</td><td class="after">only impacted files + interfaces</td></tr>
+              <tr><td>Execution style</td><td class="before">explore + patch in one loop</td><td class="after">plan first, then scoped execution</td></tr>
+              <tr><td>Token usage</td><td class="before">~200k per cycle</td><td class="after">~15k-40k per cycle</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>What changed:</strong> context was narrowed, retries were reduced, and validation became stage-specific.</p>
+        <p class="caption"><strong>Takeaway:</strong> most savings come from removing duplicate context-heavy loops, not from shorter wording.</p>
       </section>
 
       <section id="model-tiering-section" class="card">
@@ -1106,49 +1149,6 @@
           </table>
         </div>
         <p class="caption">Skills define HOW Claude works. MCP defines WHAT Claude can access.</p>
-      </section>
-
-      <section id="real-example-section" class="card">
-        <div class="heading section-header section-green">
-          <h2 id="real-example">Real Example: Before vs After</h2>
-        </div>
-        <p>A structured before/after view makes the optimization practical and repeatable.</p>
-        <div class="compare-grid">
-          <div class="compare-col">
-            <span class="tag">Before</span>
-            <p><strong>Inefficient workflow</strong></p>
-            <ul>
-              <li>load full repo context before scoping</li>
-              <li>explore and patch in the same execution loop</li>
-              <li>rerun full workflow after each partial fix</li>
-            </ul>
-            <p><strong>Token usage:</strong> ~200k per cycle</p>
-          </div>
-          <div class="compare-col">
-            <span class="tag">After</span>
-            <p><strong>Optimized workflow</strong></p>
-            <ul>
-              <li>plan scope in chat first</li>
-              <li>send only target files and interfaces</li>
-              <li>rerun only changed stages and validations</li>
-            </ul>
-            <p><strong>Token usage:</strong> ~15k-40k per cycle</p>
-          </div>
-        </div>
-        <div class="table-shell">
-          <table>
-            <thead>
-              <tr><th>Phase</th><th class="before">Before</th><th class="after">After</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>Context scope</td><td class="before">full repo loaded by default</td><td class="after">only impacted files + interfaces</td></tr>
-              <tr><td>Execution style</td><td class="before">explore + patch in one loop</td><td class="after">plan first, then scoped execution</td></tr>
-              <tr><td>Token usage</td><td class="before">~200k per cycle</td><td class="after">~15k-40k per cycle</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p><strong>What changed:</strong> context was narrowed, retries were reduced, and validation became stage-specific.</p>
-        <p class="caption"><strong>Takeaway:</strong> most savings come from removing duplicate context-heavy loops, not from shorter wording.</p>
       </section>
 
       <section id="quick-checklist" class="card">
