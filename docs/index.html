@@ -572,6 +572,26 @@
         padding: 18px;
       }
 
+      #quick-checklist .heading h2,
+      #final-principle-section .heading h2 {
+        font-weight: 700;
+      }
+
+      #final-principle-section {
+        margin-top: 28px;
+        position: relative;
+      }
+
+      #final-principle-section::before {
+        content: "";
+        position: absolute;
+        left: 24px;
+        right: 24px;
+        top: -14px;
+        height: 1px;
+        background: var(--border-soft);
+      }
+
       .multi-model-wrap {
         display: grid;
         gap: 16px;
@@ -1149,9 +1169,9 @@
 
       <section id="quick-checklist" class="card">
         <div class="heading section-header section-green">
-          <h2 id="quick-checklist-heading">Final Checklist</h2>
+          <h2 id="quick-checklist-heading">Execution Checklist</h2>
         </div>
-        <p>Use this checklist before long sessions to keep token spend predictable.</p>
+        <p>Use this before long sessions to keep token spend predictable.</p>
         <ul>
           <li><strong>Plan in chat first</strong>: reduce ambiguity before execution.</li>
           <li><strong>Pass only required context</strong>: lower baseline token cost.</li>
@@ -1166,13 +1186,12 @@
       <section id="final-principle-section" class="card">
         <div class="heading section-header section-blue">
           <svg class="icon green" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v2M22 12h-2M12 22v-2M2 12h2"/></svg>
-          <h2 id="final-principle">Final Principle</h2>
+          <h2 id="final-principle">Core Principle</h2>
         </div>
         <div class="final-callout">
           <p><strong>LLM efficiency is mostly workflow design, not wordsmithing.</strong></p>
-          <p>High-performing teams spend less time trimming single prompts and more time controlling context scope, iteration count, and execution sequencing.</p>
+          <p>High-performing teams spend less time trimming prompts and more time controlling context scope, iteration count, and execution sequencing.</p>
         </div>
-        <p class="caption">Final takeaway: optimize the system of work, not just the sentence in the prompt.</p>
       </section>
 
       <section class="card" style="padding-top: 18px; padding-bottom: 18px; margin-top: 56px;">
