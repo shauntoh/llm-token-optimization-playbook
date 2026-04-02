@@ -731,7 +731,7 @@
           <p class="sidebar-group-title">Optimization System</p>
           <nav class="sidebar-nav">
             <a class="sidebar-link" href="#real-example-section">Real Example</a>
-            <a class="sidebar-link" href="#model-tiering-section">Model Tiering</a>
+            <a class="sidebar-link" href="#model-tiering-section">Advanced Optimization: Model Tiering Strategy</a>
           </nav>
         </div>
         <div class="sidebar-group">
@@ -739,8 +739,8 @@
           <nav class="sidebar-nav">
             <a class="sidebar-link" href="#claude-optimization-section">Claude-Specific Optimization</a>
             <a class="sidebar-link" href="#skills-vs-mcp-section">Skills vs MCP</a>
-            <a class="sidebar-link" href="#quick-checklist">Quick Checklist</a>
-            <a class="sidebar-link" href="#final-principle-section">Final Principle</a>
+            <a class="sidebar-link" href="#quick-checklist">Execution Checklist</a>
+            <a class="sidebar-link" href="#final-principle-section">Core Principle</a>
           </nav>
         </div>
       </aside>
@@ -1195,22 +1195,46 @@
           })
           .filter(Boolean);
 
-        var observer = new IntersectionObserver(
-          function (entries) {
-            entries.forEach(function (entry) {
-              if (!entry.isIntersecting) return;
-              var id = "#" + entry.target.id;
-              sidebarLinks.forEach(function (link) {
-                link.classList.toggle("active", link.getAttribute("href") === id);
-              });
-            });
-          },
-          { rootMargin: "-35% 0px -55% 0px", threshold: 0 }
-        );
+        function setActiveLink(sectionId) {
+          sidebarLinks.forEach(function (link) {
+            link.classList.toggle("active", link.getAttribute("href") === sectionId);
+          });
+        }
 
-        sections.forEach(function (section) {
-          observer.observe(section);
+        function updateActiveSection() {
+          if (!sections.length) return;
+          var activationOffset = 120;
+          var currentSection = sections[0];
+
+          sections.forEach(function (section) {
+            if (window.scrollY + activationOffset >= section.offsetTop) {
+              currentSection = section;
+            }
+          });
+
+          setActiveLink("#" + currentSection.id);
+        }
+
+        var ticking = false;
+        function requestActiveUpdate() {
+          if (ticking) return;
+          ticking = true;
+          window.requestAnimationFrame(function () {
+            updateActiveSection();
+            ticking = false;
+          });
+        }
+
+        sidebarLinks.forEach(function (link) {
+          link.addEventListener("click", function () {
+            setActiveLink(link.getAttribute("href"));
+          });
         });
+
+        window.addEventListener("scroll", requestActiveUpdate, { passive: true });
+        window.addEventListener("resize", requestActiveUpdate);
+        window.addEventListener("hashchange", requestActiveUpdate);
+        requestActiveUpdate();
 
         var backToTop = document.getElementById("backToTop");
         window.addEventListener("scroll", function () {
